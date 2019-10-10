@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.yzchnb.twitter.dao.TableMapper.UserPrivateInfoMapper" >
+  <resultMap id="BaseResultMap" type="com.yzchnb.twitter.entity.TableEntity.UserPrivateInfo" >
+    <id column="USER_ID" property="userId" jdbcType="DECIMAL" />
+    <result column="USER_PASSWORD" property="userPassword" jdbcType="VARCHAR" />
+    <result column="USER_GENDER" property="userGender" jdbcType="VARCHAR" />
+    <result column="USER_REAL_NAME" property="userRealName" jdbcType="VARCHAR" />
+    <result column="USER_EMAIL" property="userEmail" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    USER_ID, USER_PASSWORD, USER_GENDER, USER_REAL_NAME, USER_EMAIL
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Short" >
+    select 
+    <include refid="Base_Column_List" />
+    from USER_PRIVATE_INFO
+    where USER_ID = #{userId,jdbcType=DECIMAL}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Short" >
+    delete from USER_PRIVATE_INFO
+    where USER_ID = #{userId,jdbcType=DECIMAL}
+  </delete>
+  <insert id="insert" parameterType="com.yzchnb.twitter.entity.TableEntity.UserPrivateInfo" >
+    insert into USER_PRIVATE_INFO (USER_ID, USER_PASSWORD, USER_GENDER, 
+      USER_REAL_NAME, USER_EMAIL)
+    values (#{userId,jdbcType=DECIMAL}, #{userPassword,jdbcType=VARCHAR}, #{userGender,jdbcType=VARCHAR}, 
+      #{userRealName,jdbcType=VARCHAR}, #{userEmail,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.yzchnb.twitter.entity.TableEntity.UserPrivateInfo" >
+    insert into USER_PRIVATE_INFO
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="userId != null" >
+        USER_ID,
+      </if>
+      <if test="userPassword != null" >
+        USER_PASSWORD,
+      </if>
+      <if test="userGender != null" >
+        USER_GENDER,
+      </if>
+      <if test="userRealName != null" >
+        USER_REAL_NAME,
+      </if>
+      <if test="userEmail != null" >
+        USER_EMAIL,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="userId != null" >
+        #{userId,jdbcType=DECIMAL},
+      </if>
+      <if test="userPassword != null" >
+        #{userPassword,jdbcType=VARCHAR},
+      </if>
+      <if test="userGender != null" >
+        #{userGender,jdbcType=VARCHAR},
+      </if>
+      <if test="userRealName != null" >
+        #{userRealName,jdbcType=VARCHAR},
+      </if>
+      <if test="userEmail != null" >
+        #{userEmail,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.yzchnb.twitter.entity.TableEntity.UserPrivateInfo" >
+    update USER_PRIVATE_INFO
+    <set >
+      <if test="userPassword != null" >
+        USER_PASSWORD = #{userPassword,jdbcType=VARCHAR},
+      </if>
+      <if test="userGender != null" >
+        USER_GENDER = #{userGender,jdbcType=VARCHAR},
+      </if>
+      <if test="userRealName != null" >
+        USER_REAL_NAME = #{userRealName,jdbcType=VARCHAR},
+      </if>
+      <if test="userEmail != null" >
+        USER_EMAIL = #{userEmail,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where USER_ID = #{userId,jdbcType=DECIMAL}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.yzchnb.twitter.entity.TableEntity.UserPrivateInfo" >
+    update USER_PRIVATE_INFO
+    set USER_PASSWORD = #{userPassword,jdbcType=VARCHAR},
+      USER_GENDER = #{userGender,jdbcType=VARCHAR},
+      USER_REAL_NAME = #{userRealName,jdbcType=VARCHAR},
+      USER_EMAIL = #{userEmail,jdbcType=VARCHAR}
+    where USER_ID = #{userId,jdbcType=DECIMAL}
+  </update>
+</mapper>

@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.yzchnb.twitter.dao.TableMapper.PrivateLetterMapper" >
+  <resultMap id="BaseResultMap" type="com.yzchnb.twitter.entity.TableEntity.PrivateLetter" >
+    <id column="PRIVATE_LETTER_ID" property="privateLetterId" jdbcType="DECIMAL" />
+    <result column="PRIVATE_LETTER_CONTENT" property="privateLetterContent" jdbcType="VARCHAR" />
+    <result column="PRIVATE_LETTER_IS_READ" property="privateLetterIsRead" jdbcType="DECIMAL" />
+    <result column="PRIVATE_LETTER_CREATE_TIME" property="privateLetterCreateTime" jdbcType="VARCHAR" />
+    <result column="PRIVATE_LETTER_SENDER_ID" property="privateLetterSenderId" jdbcType="DECIMAL" />
+    <result column="PRIVATE_LETTER_RECEIVER_ID" property="privateLetterReceiverId" jdbcType="DECIMAL" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    PRIVATE_LETTER_ID, PRIVATE_LETTER_CONTENT, PRIVATE_LETTER_IS_READ, PRIVATE_LETTER_CREATE_TIME, 
+    PRIVATE_LETTER_SENDER_ID, PRIVATE_LETTER_RECEIVER_ID
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Short" >
+    select 
+    <include refid="Base_Column_List" />
+    from PRIVATE_LETTER
+    where PRIVATE_LETTER_ID = #{privateLetterId,jdbcType=DECIMAL}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Short" >
+    delete from PRIVATE_LETTER
+    where PRIVATE_LETTER_ID = #{privateLetterId,jdbcType=DECIMAL}
+  </delete>
+  <insert id="insert" parameterType="com.yzchnb.twitter.entity.TableEntity.PrivateLetter" >
+    insert into PRIVATE_LETTER (PRIVATE_LETTER_ID, PRIVATE_LETTER_CONTENT, 
+      PRIVATE_LETTER_IS_READ, PRIVATE_LETTER_CREATE_TIME, 
+      PRIVATE_LETTER_SENDER_ID, PRIVATE_LETTER_RECEIVER_ID
+      )
+    values (#{privateLetterId,jdbcType=DECIMAL}, #{privateLetterContent,jdbcType=VARCHAR}, 
+      #{privateLetterIsRead,jdbcType=DECIMAL}, #{privateLetterCreateTime,jdbcType=VARCHAR}, 
+      #{privateLetterSenderId,jdbcType=DECIMAL}, #{privateLetterReceiverId,jdbcType=DECIMAL}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.yzchnb.twitter.entity.TableEntity.PrivateLetter" >
+    insert into PRIVATE_LETTER
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="privateLetterId != null" >
+        PRIVATE_LETTER_ID,
+      </if>
+      <if test="privateLetterContent != null" >
+        PRIVATE_LETTER_CONTENT,
+      </if>
+      <if test="privateLetterIsRead != null" >
+        PRIVATE_LETTER_IS_READ,
+      </if>
+      <if test="privateLetterCreateTime != null" >
+        PRIVATE_LETTER_CREATE_TIME,
+      </if>
+      <if test="privateLetterSenderId != null" >
+        PRIVATE_LETTER_SENDER_ID,
+      </if>
+      <if test="privateLetterReceiverId != null" >
+        PRIVATE_LETTER_RECEIVER_ID,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="privateLetterId != null" >
+        #{privateLetterId,jdbcType=DECIMAL},
+      </if>
+      <if test="privateLetterContent != null" >
+        #{privateLetterContent,jdbcType=VARCHAR},
+      </if>
+      <if test="privateLetterIsRead != null" >
+        #{privateLetterIsRead,jdbcType=DECIMAL},
+      </if>
+      <if test="privateLetterCreateTime != null" >
+        #{privateLetterCreateTime,jdbcType=VARCHAR},
+      </if>
+      <if test="privateLetterSenderId != null" >
+        #{privateLetterSenderId,jdbcType=DECIMAL},
+      </if>
+      <if test="privateLetterReceiverId != null" >
+        #{privateLetterReceiverId,jdbcType=DECIMAL},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.yzchnb.twitter.entity.TableEntity.PrivateLetter" >
+    update PRIVATE_LETTER
+    <set >
+      <if test="privateLetterContent != null" >
+        PRIVATE_LETTER_CONTENT = #{privateLetterContent,jdbcType=VARCHAR},
+      </if>
+      <if test="privateLetterIsRead != null" >
+        PRIVATE_LETTER_IS_READ = #{privateLetterIsRead,jdbcType=DECIMAL},
+      </if>
+      <if test="privateLetterCreateTime != null" >
+        PRIVATE_LETTER_CREATE_TIME = #{privateLetterCreateTime,jdbcType=VARCHAR},
+      </if>
+      <if test="privateLetterSenderId != null" >
+        PRIVATE_LETTER_SENDER_ID = #{privateLetterSenderId,jdbcType=DECIMAL},
+      </if>
+      <if test="privateLetterReceiverId != null" >
+        PRIVATE_LETTER_RECEIVER_ID = #{privateLetterReceiverId,jdbcType=DECIMAL},
+      </if>
+    </set>
+    where PRIVATE_LETTER_ID = #{privateLetterId,jdbcType=DECIMAL}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.yzchnb.twitter.entity.TableEntity.PrivateLetter" >
+    update PRIVATE_LETTER
+    set PRIVATE_LETTER_CONTENT = #{privateLetterContent,jdbcType=VARCHAR},
+      PRIVATE_LETTER_IS_READ = #{privateLetterIsRead,jdbcType=DECIMAL},
+      PRIVATE_LETTER_CREATE_TIME = #{privateLetterCreateTime,jdbcType=VARCHAR},
+      PRIVATE_LETTER_SENDER_ID = #{privateLetterSenderId,jdbcType=DECIMAL},
+      PRIVATE_LETTER_RECEIVER_ID = #{privateLetterReceiverId,jdbcType=DECIMAL}
+    where PRIVATE_LETTER_ID = #{privateLetterId,jdbcType=DECIMAL}
+  </update>
+</mapper>

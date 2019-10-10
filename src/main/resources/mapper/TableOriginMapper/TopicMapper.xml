@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.yzchnb.twitter.dao.TableMapper.TopicMapper" >
+  <resultMap id="BaseResultMap" type="com.yzchnb.twitter.entity.TableEntity.Topic" >
+    <id column="TOPIC_ID" property="topicId" jdbcType="DECIMAL" />
+    <result column="TOPIC_HEAT" property="topicHeat" jdbcType="DECIMAL" />
+    <result column="TOPIC_CONTENT" property="topicContent" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    TOPIC_ID, TOPIC_HEAT, TOPIC_CONTENT
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Short" >
+    select 
+    <include refid="Base_Column_List" />
+    from TOPIC
+    where TOPIC_ID = #{topicId,jdbcType=DECIMAL}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Short" >
+    delete from TOPIC
+    where TOPIC_ID = #{topicId,jdbcType=DECIMAL}
+  </delete>
+  <insert id="insert" parameterType="com.yzchnb.twitter.entity.TableEntity.Topic" >
+    insert into TOPIC (TOPIC_ID, TOPIC_HEAT, TOPIC_CONTENT
+      )
+    values (#{topicId,jdbcType=DECIMAL}, #{topicHeat,jdbcType=DECIMAL}, #{topicContent,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.yzchnb.twitter.entity.TableEntity.Topic" >
+    insert into TOPIC
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="topicId != null" >
+        TOPIC_ID,
+      </if>
+      <if test="topicHeat != null" >
+        TOPIC_HEAT,
+      </if>
+      <if test="topicContent != null" >
+        TOPIC_CONTENT,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="topicId != null" >
+        #{topicId,jdbcType=DECIMAL},
+      </if>
+      <if test="topicHeat != null" >
+        #{topicHeat,jdbcType=DECIMAL},
+      </if>
+      <if test="topicContent != null" >
+        #{topicContent,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.yzchnb.twitter.entity.TableEntity.Topic" >
+    update TOPIC
+    <set >
+      <if test="topicHeat != null" >
+        TOPIC_HEAT = #{topicHeat,jdbcType=DECIMAL},
+      </if>
+      <if test="topicContent != null" >
+        TOPIC_CONTENT = #{topicContent,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where TOPIC_ID = #{topicId,jdbcType=DECIMAL}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.yzchnb.twitter.entity.TableEntity.Topic" >
+    update TOPIC
+    set TOPIC_HEAT = #{topicHeat,jdbcType=DECIMAL},
+      TOPIC_CONTENT = #{topicContent,jdbcType=VARCHAR}
+    where TOPIC_ID = #{topicId,jdbcType=DECIMAL}
+  </update>
+</mapper>

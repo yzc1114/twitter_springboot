@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.yzchnb.twitter.dao.TableMapper.MessageCollectionMapper" >
+  <resultMap id="BaseResultMap" type="com.yzchnb.twitter.entity.TableEntity.MessageCollectionKey" >
+    <id column="USER_ID" property="userId" jdbcType="DECIMAL" />
+    <id column="MESSAGE_ID" property="messageId" jdbcType="DECIMAL" />
+  </resultMap>
+  <delete id="deleteByPrimaryKey" parameterType="com.yzchnb.twitter.entity.TableEntity.MessageCollectionKey" >
+    delete from MESSAGE_COLLECTION
+    where USER_ID = #{userId,jdbcType=DECIMAL}
+      and MESSAGE_ID = #{messageId,jdbcType=DECIMAL}
+  </delete>
+  <insert id="insert" parameterType="com.yzchnb.twitter.entity.TableEntity.MessageCollectionKey" >
+    insert into MESSAGE_COLLECTION (USER_ID, MESSAGE_ID)
+    values (#{userId,jdbcType=DECIMAL}, #{messageId,jdbcType=DECIMAL})
+  </insert>
+  <insert id="insertSelective" parameterType="com.yzchnb.twitter.entity.TableEntity.MessageCollectionKey" >
+    insert into MESSAGE_COLLECTION
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="userId != null" >
+        USER_ID,
+      </if>
+      <if test="messageId != null" >
+        MESSAGE_ID,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="userId != null" >
+        #{userId,jdbcType=DECIMAL},
+      </if>
+      <if test="messageId != null" >
+        #{messageId,jdbcType=DECIMAL},
+      </if>
+    </trim>
+  </insert>
+</mapper>

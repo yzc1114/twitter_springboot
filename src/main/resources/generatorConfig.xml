@@ -1,0 +1,157 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE generatorConfiguration PUBLIC "-//mybatis.org//DTD MyBatis Generator Configuration 1.0//EN" "http://mybatis.org/dtd/mybatis-generator-config_1_0.dtd" >
+<generatorConfiguration>
+    <!-- 引入配置文件 -->
+
+
+
+    <!-- 指定数据连接驱动jar地址 -->
+    <classPathEntry location="/Users/purchaser/IdeaProjects/twitter/ojdbc6-11.2.0.3.jar" />
+
+
+    <!-- 一个数据库一个context -->
+    <context id="infoGuardian">
+        <!-- 注释 -->
+        <commentGenerator>
+            <property name="suppressAllComments" value="true" /><!-- 是否取消注释 -->
+            <property name="suppressDate" value="true" /> <!-- 是否生成注释代时间戳 -->
+        </commentGenerator>
+
+
+        <!-- jdbc连接 -->
+        <jdbcConnection driverClass="oracle.jdbc.OracleDriver"
+                        connectionURL="jdbc:oracle:thin:@106.13.82.84:1521:helowin" userId="yzcdba"
+                        password="123456" />
+
+
+        <!-- 类型转换 -->
+        <javaTypeResolver>
+            <!-- 是否使用bigDecimal， false可自动转化以下类型（Long, Integer, Short, etc.） -->
+            <property name="forceBigDecimals" value="false" />
+        </javaTypeResolver>
+
+
+        <!-- 生成实体类地址 -->
+        <javaModelGenerator
+                targetPackage="com.yzchnb.twitter.entity.TableEntity" targetProject="src/main/java">
+            <!-- 是否在当前路径下新加一层schema,eg：fase路径com.oop.eksp.user.model， true:com.oop.eksp.user.model.[schemaName] -->
+            <property name="enableSubPackages" value="false" />
+            <!-- 是否针对string类型的字段在set的时候进行trim调用 -->
+            <property name="trimStrings" value="true" />
+        </javaModelGenerator>
+
+
+        <!-- 生成mapxml文件 -->
+        <sqlMapGenerator
+                targetPackage="mapper.TableOriginMapper" targetProject="src/main/resources">
+            <!-- 是否在当前路径下新加一层schema,eg：fase路径com.oop.eksp.user.model， true:com.oop.eksp.user.model.[schemaName] -->
+            <property name="enableSubPackages" value="false" />
+        </sqlMapGenerator>
+
+
+        <!-- 生成mapxml对应client，也就是接口dao -->
+        <javaClientGenerator
+                targetPackage="com.yzchnb.twitter.dao.TableMapper" targetProject="src/main/java"
+                type="XMLMAPPER">
+            <!-- 是否在当前路径下新加一层schema,eg：fase路径com.oop.eksp.user.model， true:com.oop.eksp.user.model.[schemaName] -->
+            <property name="enableSubPackages" value="false" />
+        </javaClientGenerator>
+
+
+        <!-- 配置表信息 -->
+        <!-- schema="testuser" -->
+        <table tableName="User_Public_Info"
+        domainObjectName="UserPublicInfo" enableCountByExample="false"
+        enableDeleteByExample="false" enableSelectByExample="false"
+        enableUpdateByExample="false">
+        <!-- schema即为数据库名 tableName为对应的数据库表 domainObjectName是要生成的实体类 enable*ByExample 
+        是否生成 example类 -->
+        </table>
+
+        <table tableName="AT_USER"
+               domainObjectName="AtUser" enableCountByExample="false"
+               enableDeleteByExample="false" enableSelectByExample="false"
+               enableUpdateByExample="false">
+            <!-- schema即为数据库名 tableName为对应的数据库表 domainObjectName是要生成的实体类 enable*ByExample 
+            是否生成 example类 -->
+        </table>
+
+        <table tableName="AVATAR_IMAGE"
+               domainObjectName="AvatarImage" enableCountByExample="false"
+               enableDeleteByExample="false" enableSelectByExample="false"
+               enableUpdateByExample="false">
+        </table>
+
+        <table tableName="COMMENT_ON_MESSAGE"
+               domainObjectName="CommentOnMessage" enableCountByExample="false"
+               enableDeleteByExample="false" enableSelectByExample="false"
+               enableUpdateByExample="false">
+        </table>
+
+
+        <table tableName="LIKES"
+               domainObjectName="Likes" enableCountByExample="false"
+               enableDeleteByExample="false" enableSelectByExample="false"
+               enableUpdateByExample="false">
+        </table>
+
+        <table tableName="MESSAGE"
+               domainObjectName="Message" enableCountByExample="false"
+               enableDeleteByExample="false" enableSelectByExample="false"
+               enableUpdateByExample="false">
+        </table>
+
+
+        <table tableName="MESSAGE_COLLECTION"
+               domainObjectName="MessageCollection" enableCountByExample="false"
+               enableDeleteByExample="false" enableSelectByExample="false"
+               enableUpdateByExample="false">
+        </table>
+
+        <table tableName="MESSAGE_IMAGE"
+               domainObjectName="MessageImage" enableCountByExample="false"
+               enableDeleteByExample="false" enableSelectByExample="false"
+               enableUpdateByExample="false">
+        </table>
+
+        <table tableName="MESSAGE_OWNS_TOPIC"
+               domainObjectName="MessageOwnsTopic" enableCountByExample="false"
+               enableDeleteByExample="false" enableSelectByExample="false"
+               enableUpdateByExample="false">
+        </table>
+
+        <table tableName="PRIVATE_LETTER"
+               domainObjectName="PrivateLetter" enableCountByExample="false"
+               enableDeleteByExample="false" enableSelectByExample="false"
+               enableUpdateByExample="false">
+        </table>
+
+        <table tableName="RELATION"
+               domainObjectName="Relation" enableCountByExample="false"
+               enableDeleteByExample="false" enableSelectByExample="false"
+               enableUpdateByExample="false">
+        </table>
+
+        <table tableName="TOPIC"
+               domainObjectName="Topic" enableCountByExample="false"
+               enableDeleteByExample="false" enableSelectByExample="false"
+               enableUpdateByExample="false">
+        </table>
+
+        <table tableName="TRANSPOND"
+               domainObjectName="Transpond" enableCountByExample="false"
+               enableDeleteByExample="false" enableSelectByExample="false"
+               enableUpdateByExample="false">
+        </table>
+
+        <table tableName="USER_PRIVATE_INFO"
+               domainObjectName="UserPrivateInfo" enableCountByExample="false"
+               enableDeleteByExample="false" enableSelectByExample="false"
+               enableUpdateByExample="false">
+        </table>
+
+
+
+
+</context>
+</generatorConfiguration>

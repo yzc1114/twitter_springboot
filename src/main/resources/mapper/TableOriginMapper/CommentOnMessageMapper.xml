@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.yzchnb.twitter.dao.TableMapper.CommentOnMessageMapper" >
+  <resultMap id="BaseResultMap" type="com.yzchnb.twitter.entity.TableEntity.CommentOnMessage" >
+    <id column="COMMENT_ID" property="commentId" jdbcType="DECIMAL" />
+    <result column="COMMENT_CONTENT" property="commentContent" jdbcType="VARCHAR" />
+    <result column="COMMENT_IS_READ" property="commentIsRead" jdbcType="DECIMAL" />
+    <result column="COMMENT_SENDER_ID" property="commentSenderId" jdbcType="DECIMAL" />
+    <result column="COMMENT_MESSAGE_ID" property="commentMessageId" jdbcType="DECIMAL" />
+    <result column="COMMENT_CREATE_TIME" property="commentCreateTime" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    COMMENT_ID, COMMENT_CONTENT, COMMENT_IS_READ, COMMENT_SENDER_ID, COMMENT_MESSAGE_ID, 
+    COMMENT_CREATE_TIME
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Short" >
+    select 
+    <include refid="Base_Column_List" />
+    from COMMENT_ON_MESSAGE
+    where COMMENT_ID = #{commentId,jdbcType=DECIMAL}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Short" >
+    delete from COMMENT_ON_MESSAGE
+    where COMMENT_ID = #{commentId,jdbcType=DECIMAL}
+  </delete>
+  <insert id="insert" parameterType="com.yzchnb.twitter.entity.TableEntity.CommentOnMessage" >
+    insert into COMMENT_ON_MESSAGE (COMMENT_ID, COMMENT_CONTENT, COMMENT_IS_READ, 
+      COMMENT_SENDER_ID, COMMENT_MESSAGE_ID, COMMENT_CREATE_TIME
+      )
+    values (#{commentId,jdbcType=DECIMAL}, #{commentContent,jdbcType=VARCHAR}, #{commentIsRead,jdbcType=DECIMAL}, 
+      #{commentSenderId,jdbcType=DECIMAL}, #{commentMessageId,jdbcType=DECIMAL}, #{commentCreateTime,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.yzchnb.twitter.entity.TableEntity.CommentOnMessage" >
+    insert into COMMENT_ON_MESSAGE
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="commentId != null" >
+        COMMENT_ID,
+      </if>
+      <if test="commentContent != null" >
+        COMMENT_CONTENT,
+      </if>
+      <if test="commentIsRead != null" >
+        COMMENT_IS_READ,
+      </if>
+      <if test="commentSenderId != null" >
+        COMMENT_SENDER_ID,
+      </if>
+      <if test="commentMessageId != null" >
+        COMMENT_MESSAGE_ID,
+      </if>
+      <if test="commentCreateTime != null" >
+        COMMENT_CREATE_TIME,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="commentId != null" >
+        #{commentId,jdbcType=DECIMAL},
+      </if>
+      <if test="commentContent != null" >
+        #{commentContent,jdbcType=VARCHAR},
+      </if>
+      <if test="commentIsRead != null" >
+        #{commentIsRead,jdbcType=DECIMAL},
+      </if>
+      <if test="commentSenderId != null" >
+        #{commentSenderId,jdbcType=DECIMAL},
+      </if>
+      <if test="commentMessageId != null" >
+        #{commentMessageId,jdbcType=DECIMAL},
+      </if>
+      <if test="commentCreateTime != null" >
+        #{commentCreateTime,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.yzchnb.twitter.entity.TableEntity.CommentOnMessage" >
+    update COMMENT_ON_MESSAGE
+    <set >
+      <if test="commentContent != null" >
+        COMMENT_CONTENT = #{commentContent,jdbcType=VARCHAR},
+      </if>
+      <if test="commentIsRead != null" >
+        COMMENT_IS_READ = #{commentIsRead,jdbcType=DECIMAL},
+      </if>
+      <if test="commentSenderId != null" >
+        COMMENT_SENDER_ID = #{commentSenderId,jdbcType=DECIMAL},
+      </if>
+      <if test="commentMessageId != null" >
+        COMMENT_MESSAGE_ID = #{commentMessageId,jdbcType=DECIMAL},
+      </if>
+      <if test="commentCreateTime != null" >
+        COMMENT_CREATE_TIME = #{commentCreateTime,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where COMMENT_ID = #{commentId,jdbcType=DECIMAL}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.yzchnb.twitter.entity.TableEntity.CommentOnMessage" >
+    update COMMENT_ON_MESSAGE
+    set COMMENT_CONTENT = #{commentContent,jdbcType=VARCHAR},
+      COMMENT_IS_READ = #{commentIsRead,jdbcType=DECIMAL},
+      COMMENT_SENDER_ID = #{commentSenderId,jdbcType=DECIMAL},
+      COMMENT_MESSAGE_ID = #{commentMessageId,jdbcType=DECIMAL},
+      COMMENT_CREATE_TIME = #{commentCreateTime,jdbcType=VARCHAR}
+    where COMMENT_ID = #{commentId,jdbcType=DECIMAL}
+  </update>
+</mapper>

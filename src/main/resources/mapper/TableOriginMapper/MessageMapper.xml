@@ -1,0 +1,154 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.yzchnb.twitter.dao.TableMapper.MessageMapper" >
+  <resultMap id="BaseResultMap" type="com.yzchnb.twitter.entity.TableEntity.Message" >
+    <id column="MESSAGE_ID" property="messageId" jdbcType="DECIMAL" />
+    <result column="MESSAGE_CONTENT" property="messageContent" jdbcType="VARCHAR" />
+    <result column="MESSAGE_CREATE_TIME" property="messageCreateTime" jdbcType="VARCHAR" />
+    <result column="MESSAGE_AGREE_NUM" property="messageAgreeNum" jdbcType="DECIMAL" />
+    <result column="MESSAGE_TRANSPONDED_NUM" property="messageTranspondedNum" jdbcType="DECIMAL" />
+    <result column="MESSAGE_COMMENT_NUM" property="messageCommentNum" jdbcType="DECIMAL" />
+    <result column="MESSAGE_VIEW_NUM" property="messageViewNum" jdbcType="DECIMAL" />
+    <result column="MESSAGE_HAS_IMAGE" property="messageHasImage" jdbcType="DECIMAL" />
+    <result column="MESSAGE_SENDER_USER_ID" property="messageSenderUserId" jdbcType="DECIMAL" />
+    <result column="MESSAGE_HEAT" property="messageHeat" jdbcType="DECIMAL" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    MESSAGE_ID, MESSAGE_CONTENT, MESSAGE_CREATE_TIME, MESSAGE_AGREE_NUM, MESSAGE_TRANSPONDED_NUM, 
+    MESSAGE_COMMENT_NUM, MESSAGE_VIEW_NUM, MESSAGE_HAS_IMAGE, MESSAGE_SENDER_USER_ID, 
+    MESSAGE_HEAT
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Short" >
+    select 
+    <include refid="Base_Column_List" />
+    from MESSAGE
+    where MESSAGE_ID = #{messageId,jdbcType=DECIMAL}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Short" >
+    delete from MESSAGE
+    where MESSAGE_ID = #{messageId,jdbcType=DECIMAL}
+  </delete>
+  <insert id="insert" parameterType="com.yzchnb.twitter.entity.TableEntity.Message" >
+    insert into MESSAGE (MESSAGE_ID, MESSAGE_CONTENT, MESSAGE_CREATE_TIME, 
+      MESSAGE_AGREE_NUM, MESSAGE_TRANSPONDED_NUM, 
+      MESSAGE_COMMENT_NUM, MESSAGE_VIEW_NUM, MESSAGE_HAS_IMAGE, 
+      MESSAGE_SENDER_USER_ID, MESSAGE_HEAT)
+    values (#{messageId,jdbcType=DECIMAL}, #{messageContent,jdbcType=VARCHAR}, #{messageCreateTime,jdbcType=VARCHAR}, 
+      #{messageAgreeNum,jdbcType=DECIMAL}, #{messageTranspondedNum,jdbcType=DECIMAL}, 
+      #{messageCommentNum,jdbcType=DECIMAL}, #{messageViewNum,jdbcType=DECIMAL}, #{messageHasImage,jdbcType=DECIMAL}, 
+      #{messageSenderUserId,jdbcType=DECIMAL}, #{messageHeat,jdbcType=DECIMAL})
+  </insert>
+  <insert id="insertSelective" parameterType="com.yzchnb.twitter.entity.TableEntity.Message" >
+    insert into MESSAGE
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="messageId != null" >
+        MESSAGE_ID,
+      </if>
+      <if test="messageContent != null" >
+        MESSAGE_CONTENT,
+      </if>
+      <if test="messageCreateTime != null" >
+        MESSAGE_CREATE_TIME,
+      </if>
+      <if test="messageAgreeNum != null" >
+        MESSAGE_AGREE_NUM,
+      </if>
+      <if test="messageTranspondedNum != null" >
+        MESSAGE_TRANSPONDED_NUM,
+      </if>
+      <if test="messageCommentNum != null" >
+        MESSAGE_COMMENT_NUM,
+      </if>
+      <if test="messageViewNum != null" >
+        MESSAGE_VIEW_NUM,
+      </if>
+      <if test="messageHasImage != null" >
+        MESSAGE_HAS_IMAGE,
+      </if>
+      <if test="messageSenderUserId != null" >
+        MESSAGE_SENDER_USER_ID,
+      </if>
+      <if test="messageHeat != null" >
+        MESSAGE_HEAT,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="messageId != null" >
+        #{messageId,jdbcType=DECIMAL},
+      </if>
+      <if test="messageContent != null" >
+        #{messageContent,jdbcType=VARCHAR},
+      </if>
+      <if test="messageCreateTime != null" >
+        #{messageCreateTime,jdbcType=VARCHAR},
+      </if>
+      <if test="messageAgreeNum != null" >
+        #{messageAgreeNum,jdbcType=DECIMAL},
+      </if>
+      <if test="messageTranspondedNum != null" >
+        #{messageTranspondedNum,jdbcType=DECIMAL},
+      </if>
+      <if test="messageCommentNum != null" >
+        #{messageCommentNum,jdbcType=DECIMAL},
+      </if>
+      <if test="messageViewNum != null" >
+        #{messageViewNum,jdbcType=DECIMAL},
+      </if>
+      <if test="messageHasImage != null" >
+        #{messageHasImage,jdbcType=DECIMAL},
+      </if>
+      <if test="messageSenderUserId != null" >
+        #{messageSenderUserId,jdbcType=DECIMAL},
+      </if>
+      <if test="messageHeat != null" >
+        #{messageHeat,jdbcType=DECIMAL},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.yzchnb.twitter.entity.TableEntity.Message" >
+    update MESSAGE
+    <set >
+      <if test="messageContent != null" >
+        MESSAGE_CONTENT = #{messageContent,jdbcType=VARCHAR},
+      </if>
+      <if test="messageCreateTime != null" >
+        MESSAGE_CREATE_TIME = #{messageCreateTime,jdbcType=VARCHAR},
+      </if>
+      <if test="messageAgreeNum != null" >
+        MESSAGE_AGREE_NUM = #{messageAgreeNum,jdbcType=DECIMAL},
+      </if>
+      <if test="messageTranspondedNum != null" >
+        MESSAGE_TRANSPONDED_NUM = #{messageTranspondedNum,jdbcType=DECIMAL},
+      </if>
+      <if test="messageCommentNum != null" >
+        MESSAGE_COMMENT_NUM = #{messageCommentNum,jdbcType=DECIMAL},
+      </if>
+      <if test="messageViewNum != null" >
+        MESSAGE_VIEW_NUM = #{messageViewNum,jdbcType=DECIMAL},
+      </if>
+      <if test="messageHasImage != null" >
+        MESSAGE_HAS_IMAGE = #{messageHasImage,jdbcType=DECIMAL},
+      </if>
+      <if test="messageSenderUserId != null" >
+        MESSAGE_SENDER_USER_ID = #{messageSenderUserId,jdbcType=DECIMAL},
+      </if>
+      <if test="messageHeat != null" >
+        MESSAGE_HEAT = #{messageHeat,jdbcType=DECIMAL},
+      </if>
+    </set>
+    where MESSAGE_ID = #{messageId,jdbcType=DECIMAL}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.yzchnb.twitter.entity.TableEntity.Message" >
+    update MESSAGE
+    set MESSAGE_CONTENT = #{messageContent,jdbcType=VARCHAR},
+      MESSAGE_CREATE_TIME = #{messageCreateTime,jdbcType=VARCHAR},
+      MESSAGE_AGREE_NUM = #{messageAgreeNum,jdbcType=DECIMAL},
+      MESSAGE_TRANSPONDED_NUM = #{messageTranspondedNum,jdbcType=DECIMAL},
+      MESSAGE_COMMENT_NUM = #{messageCommentNum,jdbcType=DECIMAL},
+      MESSAGE_VIEW_NUM = #{messageViewNum,jdbcType=DECIMAL},
+      MESSAGE_HAS_IMAGE = #{messageHasImage,jdbcType=DECIMAL},
+      MESSAGE_SENDER_USER_ID = #{messageSenderUserId,jdbcType=DECIMAL},
+      MESSAGE_HEAT = #{messageHeat,jdbcType=DECIMAL}
+    where MESSAGE_ID = #{messageId,jdbcType=DECIMAL}
+  </update>
+</mapper>

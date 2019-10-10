@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.yzchnb.twitter.dao.TableMapper.MessageOwnsTopicMapper" >
+  <resultMap id="BaseResultMap" type="com.yzchnb.twitter.entity.TableEntity.MessageOwnsTopicKey" >
+    <id column="MESSAGE_ID" property="messageId" jdbcType="DECIMAL" />
+    <id column="TOPIC_ID" property="topicId" jdbcType="DECIMAL" />
+  </resultMap>
+  <delete id="deleteByPrimaryKey" parameterType="com.yzchnb.twitter.entity.TableEntity.MessageOwnsTopicKey" >
+    delete from MESSAGE_OWNS_TOPIC
+    where MESSAGE_ID = #{messageId,jdbcType=DECIMAL}
+      and TOPIC_ID = #{topicId,jdbcType=DECIMAL}
+  </delete>
+  <insert id="insert" parameterType="com.yzchnb.twitter.entity.TableEntity.MessageOwnsTopicKey" >
+    insert into MESSAGE_OWNS_TOPIC (MESSAGE_ID, TOPIC_ID)
+    values (#{messageId,jdbcType=DECIMAL}, #{topicId,jdbcType=DECIMAL})
+  </insert>
+  <insert id="insertSelective" parameterType="com.yzchnb.twitter.entity.TableEntity.MessageOwnsTopicKey" >
+    insert into MESSAGE_OWNS_TOPIC
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="messageId != null" >
+        MESSAGE_ID,
+      </if>
+      <if test="topicId != null" >
+        TOPIC_ID,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="messageId != null" >
+        #{messageId,jdbcType=DECIMAL},
+      </if>
+      <if test="topicId != null" >
+        #{topicId,jdbcType=DECIMAL},
+      </if>
+    </trim>
+  </insert>
+</mapper>

@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.yzchnb.twitter.dao.TableMapper.LikesMapper" >
+  <resultMap id="BaseResultMap" type="com.yzchnb.twitter.entity.TableEntity.Likes" >
+    <id column="LIKES_USER_ID" property="likesUserId" jdbcType="DECIMAL" />
+    <id column="LIKES_MESSAGE_ID" property="likesMessageId" jdbcType="DECIMAL" />
+    <result column="LIKES_TIME" property="likesTime" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    LIKES_USER_ID, LIKES_MESSAGE_ID, LIKES_TIME
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="com.yzchnb.twitter.entity.TableEntity.LikesKey" >
+    select 
+    <include refid="Base_Column_List" />
+    from LIKES
+    where LIKES_USER_ID = #{likesUserId,jdbcType=DECIMAL}
+      and LIKES_MESSAGE_ID = #{likesMessageId,jdbcType=DECIMAL}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="com.yzchnb.twitter.entity.TableEntity.LikesKey" >
+    delete from LIKES
+    where LIKES_USER_ID = #{likesUserId,jdbcType=DECIMAL}
+      and LIKES_MESSAGE_ID = #{likesMessageId,jdbcType=DECIMAL}
+  </delete>
+  <insert id="insert" parameterType="com.yzchnb.twitter.entity.TableEntity.Likes" >
+    insert into LIKES (LIKES_USER_ID, LIKES_MESSAGE_ID, LIKES_TIME
+      )
+    values (#{likesUserId,jdbcType=DECIMAL}, #{likesMessageId,jdbcType=DECIMAL}, #{likesTime,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.yzchnb.twitter.entity.TableEntity.Likes" >
+    insert into LIKES
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="likesUserId != null" >
+        LIKES_USER_ID,
+      </if>
+      <if test="likesMessageId != null" >
+        LIKES_MESSAGE_ID,
+      </if>
+      <if test="likesTime != null" >
+        LIKES_TIME,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="likesUserId != null" >
+        #{likesUserId,jdbcType=DECIMAL},
+      </if>
+      <if test="likesMessageId != null" >
+        #{likesMessageId,jdbcType=DECIMAL},
+      </if>
+      <if test="likesTime != null" >
+        #{likesTime,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.yzchnb.twitter.entity.TableEntity.Likes" >
+    update LIKES
+    <set >
+      <if test="likesTime != null" >
+        LIKES_TIME = #{likesTime,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where LIKES_USER_ID = #{likesUserId,jdbcType=DECIMAL}
+      and LIKES_MESSAGE_ID = #{likesMessageId,jdbcType=DECIMAL}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.yzchnb.twitter.entity.TableEntity.Likes" >
+    update LIKES
+    set LIKES_TIME = #{likesTime,jdbcType=VARCHAR}
+    where LIKES_USER_ID = #{likesUserId,jdbcType=DECIMAL}
+      and LIKES_MESSAGE_ID = #{likesMessageId,jdbcType=DECIMAL}
+  </update>
+</mapper>

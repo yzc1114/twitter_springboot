@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.yzchnb.twitter.dao.TableMapper.AvatarImageMapper" >
+  <resultMap id="BaseResultMap" type="com.yzchnb.twitter.entity.TableEntity.AvatarImage" >
+    <id column="AVATAR_IMAGE_ID" property="avatarImageId" jdbcType="DECIMAL" />
+    <id column="USER_ID" property="userId" jdbcType="DECIMAL" />
+    <result column="AVATAR_IMAGE_IN_USE" property="avatarImageInUse" jdbcType="DECIMAL" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    AVATAR_IMAGE_ID, USER_ID, AVATAR_IMAGE_IN_USE
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="com.yzchnb.twitter.entity.TableEntity.AvatarImageKey" >
+    select 
+    <include refid="Base_Column_List" />
+    from AVATAR_IMAGE
+    where AVATAR_IMAGE_ID = #{avatarImageId,jdbcType=DECIMAL}
+      and USER_ID = #{userId,jdbcType=DECIMAL}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="com.yzchnb.twitter.entity.TableEntity.AvatarImageKey" >
+    delete from AVATAR_IMAGE
+    where AVATAR_IMAGE_ID = #{avatarImageId,jdbcType=DECIMAL}
+      and USER_ID = #{userId,jdbcType=DECIMAL}
+  </delete>
+  <insert id="insert" parameterType="com.yzchnb.twitter.entity.TableEntity.AvatarImage" >
+    insert into AVATAR_IMAGE (AVATAR_IMAGE_ID, USER_ID, AVATAR_IMAGE_IN_USE
+      )
+    values (#{avatarImageId,jdbcType=DECIMAL}, #{userId,jdbcType=DECIMAL}, #{avatarImageInUse,jdbcType=DECIMAL}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.yzchnb.twitter.entity.TableEntity.AvatarImage" >
+    insert into AVATAR_IMAGE
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="avatarImageId != null" >
+        AVATAR_IMAGE_ID,
+      </if>
+      <if test="userId != null" >
+        USER_ID,
+      </if>
+      <if test="avatarImageInUse != null" >
+        AVATAR_IMAGE_IN_USE,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="avatarImageId != null" >
+        #{avatarImageId,jdbcType=DECIMAL},
+      </if>
+      <if test="userId != null" >
+        #{userId,jdbcType=DECIMAL},
+      </if>
+      <if test="avatarImageInUse != null" >
+        #{avatarImageInUse,jdbcType=DECIMAL},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.yzchnb.twitter.entity.TableEntity.AvatarImage" >
+    update AVATAR_IMAGE
+    <set >
+      <if test="avatarImageInUse != null" >
+        AVATAR_IMAGE_IN_USE = #{avatarImageInUse,jdbcType=DECIMAL},
+      </if>
+    </set>
+    where AVATAR_IMAGE_ID = #{avatarImageId,jdbcType=DECIMAL}
+      and USER_ID = #{userId,jdbcType=DECIMAL}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.yzchnb.twitter.entity.TableEntity.AvatarImage" >
+    update AVATAR_IMAGE
+    set AVATAR_IMAGE_IN_USE = #{avatarImageInUse,jdbcType=DECIMAL}
+    where AVATAR_IMAGE_ID = #{avatarImageId,jdbcType=DECIMAL}
+      and USER_ID = #{userId,jdbcType=DECIMAL}
+  </update>
+</mapper>

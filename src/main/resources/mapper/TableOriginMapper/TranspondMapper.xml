@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.yzchnb.twitter.dao.TableMapper.TranspondMapper" >
+  <resultMap id="BaseResultMap" type="com.yzchnb.twitter.entity.TableEntity.TranspondKey" >
+    <id column="MESSAGE_ID" property="messageId" jdbcType="DECIMAL" />
+    <id column="TRANSPONDED_MESSAGE_ID" property="transpondedMessageId" jdbcType="DECIMAL" />
+  </resultMap>
+  <delete id="deleteByPrimaryKey" parameterType="com.yzchnb.twitter.entity.TableEntity.TranspondKey" >
+    delete from TRANSPOND
+    where MESSAGE_ID = #{messageId,jdbcType=DECIMAL}
+      and TRANSPONDED_MESSAGE_ID = #{transpondedMessageId,jdbcType=DECIMAL}
+  </delete>
+  <insert id="insert" parameterType="com.yzchnb.twitter.entity.TableEntity.TranspondKey" >
+    insert into TRANSPOND (MESSAGE_ID, TRANSPONDED_MESSAGE_ID)
+    values (#{messageId,jdbcType=DECIMAL}, #{transpondedMessageId,jdbcType=DECIMAL})
+  </insert>
+  <insert id="insertSelective" parameterType="com.yzchnb.twitter.entity.TableEntity.TranspondKey" >
+    insert into TRANSPOND
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="messageId != null" >
+        MESSAGE_ID,
+      </if>
+      <if test="transpondedMessageId != null" >
+        TRANSPONDED_MESSAGE_ID,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="messageId != null" >
+        #{messageId,jdbcType=DECIMAL},
+      </if>
+      <if test="transpondedMessageId != null" >
+        #{transpondedMessageId,jdbcType=DECIMAL},
+      </if>
+    </trim>
+  </insert>
+</mapper>

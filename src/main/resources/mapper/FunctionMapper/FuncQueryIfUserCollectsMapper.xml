@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yzchnb.twitter.dao.FunctionMapper.FuncQueryIfUserCollectsMapper">
+
+	<parameterMap id="paramMapX" type="java.util.Map">
+		<parameter property="return"  javaType="java.lang.Integer" jdbcType="INTEGER" mode="OUT" />
+		<parameter property="userId"  javaType="java.lang.Integer" jdbcType="INTEGER" mode="IN" />
+		<parameter property="messageId"  javaType="java.lang.Integer" jdbcType="INTEGER" mode="IN" />
+	</parameterMap>
+
+
+	<select id="call" statementType="CALLABLE" parameterMap="paramMapX">
+		{? = call FUNC_QUERY_IF_USER_COLLECTS(?,?) }
+	</select>
+
+</mapper>

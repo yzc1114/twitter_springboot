@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yzchnb.twitter.dao.FunctionMapper.FuncQueryCommentByRangeMapper">
+
+	<parameterMap id="paramMapX" type="java.util.Map">
+		<parameter property="return"  javaType="java.lang.Integer" jdbcType="INTEGER" mode="OUT" />
+		<parameter property="messageId"  javaType="java.lang.Integer" jdbcType="INTEGER" mode="IN" />
+		<parameter property="startfrom"  javaType="java.lang.Integer" jdbcType="INTEGER" mode="IN" />
+		<parameter property="limitation"  javaType="java.lang.Integer" jdbcType="INTEGER" mode="IN" />
+		<parameter property="data"  javaType="java.sql.ResultSet" jdbcType="CURSOR" mode="OUT" resultMap="cursorMapX"/>
+	</parameterMap>
+
+	<resultMap id="cursorMapX" type="java.util.Map">
+		<result property="commentCreateTime" column="COMMENT_CREATE_TIME" jdbcType="VARCHAR" javaType="java.lang.String"/>
+		<result property="commentIsRead" column="COMMENT_IS_READ" jdbcType="INTEGER" javaType="java.lang.Integer"/>
+		<result property="commentContent" column="COMMENT_CONTENT" jdbcType="VARCHAR" javaType="java.lang.String"/>
+		<result property="commentSenderId" column="COMMENT_SENDER_ID" jdbcType="INTEGER" javaType="java.lang.Integer"/>
+		<result property="commentId" column="COMMENT_ID" jdbcType="INTEGER" javaType="java.lang.Integer"/>
+		<result property="commentMessageId" column="COMMENT_MESSAGE_ID" jdbcType="INTEGER" javaType="java.lang.Integer"/>
+	</resultMap>
+
+	<select id="call" statementType="CALLABLE" parameterMap="paramMapX">
+		{? = call FUNC_QUERY_COMMENT_BY_RANGE(?,?,?,?) }
+	</select>
+
+</mapper>

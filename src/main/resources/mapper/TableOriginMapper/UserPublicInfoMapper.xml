@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.yzchnb.twitter.dao.TableMapper.UserPublicInfoMapper" >
+  <resultMap id="BaseResultMap" type="com.yzchnb.twitter.entity.TableEntity.UserPublicInfo" >
+    <id column="USER_ID" property="userId" jdbcType="DECIMAL" />
+    <result column="USER_NICKNAME" property="userNickname" jdbcType="VARCHAR" />
+    <result column="USER_REGISTER_TIME" property="userRegisterTime" jdbcType="VARCHAR" />
+    <result column="USER_SELF_INTRODUCTION" property="userSelfIntroduction" jdbcType="VARCHAR" />
+    <result column="USER_FOLLOWERS_NUM" property="userFollowersNum" jdbcType="DECIMAL" />
+    <result column="USER_FOLLOWS_NUM" property="userFollowsNum" jdbcType="DECIMAL" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    USER_ID, USER_NICKNAME, USER_REGISTER_TIME, USER_SELF_INTRODUCTION, USER_FOLLOWERS_NUM, 
+    USER_FOLLOWS_NUM
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Short" >
+    select 
+    <include refid="Base_Column_List" />
+    from USER_PUBLIC_INFO
+    where USER_ID = #{userId,jdbcType=DECIMAL}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Short" >
+    delete from USER_PUBLIC_INFO
+    where USER_ID = #{userId,jdbcType=DECIMAL}
+  </delete>
+  <insert id="insert" parameterType="com.yzchnb.twitter.entity.TableEntity.UserPublicInfo" >
+    insert into USER_PUBLIC_INFO (USER_ID, USER_NICKNAME, USER_REGISTER_TIME, 
+      USER_SELF_INTRODUCTION, USER_FOLLOWERS_NUM, 
+      USER_FOLLOWS_NUM)
+    values (#{userId,jdbcType=DECIMAL}, #{userNickname,jdbcType=VARCHAR}, #{userRegisterTime,jdbcType=VARCHAR}, 
+      #{userSelfIntroduction,jdbcType=VARCHAR}, #{userFollowersNum,jdbcType=DECIMAL}, 
+      #{userFollowsNum,jdbcType=DECIMAL})
+  </insert>
+  <insert id="insertSelective" parameterType="com.yzchnb.twitter.entity.TableEntity.UserPublicInfo" >
+    insert into USER_PUBLIC_INFO
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="userId != null" >
+        USER_ID,
+      </if>
+      <if test="userNickname != null" >
+        USER_NICKNAME,
+      </if>
+      <if test="userRegisterTime != null" >
+        USER_REGISTER_TIME,
+      </if>
+      <if test="userSelfIntroduction != null" >
+        USER_SELF_INTRODUCTION,
+      </if>
+      <if test="userFollowersNum != null" >
+        USER_FOLLOWERS_NUM,
+      </if>
+      <if test="userFollowsNum != null" >
+        USER_FOLLOWS_NUM,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="userId != null" >
+        #{userId,jdbcType=DECIMAL},
+      </if>
+      <if test="userNickname != null" >
+        #{userNickname,jdbcType=VARCHAR},
+      </if>
+      <if test="userRegisterTime != null" >
+        #{userRegisterTime,jdbcType=VARCHAR},
+      </if>
+      <if test="userSelfIntroduction != null" >
+        #{userSelfIntroduction,jdbcType=VARCHAR},
+      </if>
+      <if test="userFollowersNum != null" >
+        #{userFollowersNum,jdbcType=DECIMAL},
+      </if>
+      <if test="userFollowsNum != null" >
+        #{userFollowsNum,jdbcType=DECIMAL},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.yzchnb.twitter.entity.TableEntity.UserPublicInfo" >
+    update USER_PUBLIC_INFO
+    <set >
+      <if test="userNickname != null" >
+        USER_NICKNAME = #{userNickname,jdbcType=VARCHAR},
+      </if>
+      <if test="userRegisterTime != null" >
+        USER_REGISTER_TIME = #{userRegisterTime,jdbcType=VARCHAR},
+      </if>
+      <if test="userSelfIntroduction != null" >
+        USER_SELF_INTRODUCTION = #{userSelfIntroduction,jdbcType=VARCHAR},
+      </if>
+      <if test="userFollowersNum != null" >
+        USER_FOLLOWERS_NUM = #{userFollowersNum,jdbcType=DECIMAL},
+      </if>
+      <if test="userFollowsNum != null" >
+        USER_FOLLOWS_NUM = #{userFollowsNum,jdbcType=DECIMAL},
+      </if>
+    </set>
+    where USER_ID = #{userId,jdbcType=DECIMAL}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.yzchnb.twitter.entity.TableEntity.UserPublicInfo" >
+    update USER_PUBLIC_INFO
+    set USER_NICKNAME = #{userNickname,jdbcType=VARCHAR},
+      USER_REGISTER_TIME = #{userRegisterTime,jdbcType=VARCHAR},
+      USER_SELF_INTRODUCTION = #{userSelfIntroduction,jdbcType=VARCHAR},
+      USER_FOLLOWERS_NUM = #{userFollowersNum,jdbcType=DECIMAL},
+      USER_FOLLOWS_NUM = #{userFollowsNum,jdbcType=DECIMAL}
+    where USER_ID = #{userId,jdbcType=DECIMAL}
+  </update>
+</mapper>

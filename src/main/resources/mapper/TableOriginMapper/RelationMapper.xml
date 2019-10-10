@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.yzchnb.twitter.dao.TableMapper.RelationMapper" >
+  <resultMap id="BaseResultMap" type="com.yzchnb.twitter.entity.TableEntity.Relation" >
+    <id column="RELATION_USER_FOLLOWER_ID" property="relationUserFollowerId" jdbcType="DECIMAL" />
+    <id column="RELATION_USER_BE_FOLLOWED_ID" property="relationUserBeFollowedId" jdbcType="DECIMAL" />
+    <result column="RELATION_CREATE_TIME" property="relationCreateTime" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    RELATION_USER_FOLLOWER_ID, RELATION_USER_BE_FOLLOWED_ID, RELATION_CREATE_TIME
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="com.yzchnb.twitter.entity.TableEntity.RelationKey" >
+    select 
+    <include refid="Base_Column_List" />
+    from RELATION
+    where RELATION_USER_FOLLOWER_ID = #{relationUserFollowerId,jdbcType=DECIMAL}
+      and RELATION_USER_BE_FOLLOWED_ID = #{relationUserBeFollowedId,jdbcType=DECIMAL}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="com.yzchnb.twitter.entity.TableEntity.RelationKey" >
+    delete from RELATION
+    where RELATION_USER_FOLLOWER_ID = #{relationUserFollowerId,jdbcType=DECIMAL}
+      and RELATION_USER_BE_FOLLOWED_ID = #{relationUserBeFollowedId,jdbcType=DECIMAL}
+  </delete>
+  <insert id="insert" parameterType="com.yzchnb.twitter.entity.TableEntity.Relation" >
+    insert into RELATION (RELATION_USER_FOLLOWER_ID, RELATION_USER_BE_FOLLOWED_ID, 
+      RELATION_CREATE_TIME)
+    values (#{relationUserFollowerId,jdbcType=DECIMAL}, #{relationUserBeFollowedId,jdbcType=DECIMAL}, 
+      #{relationCreateTime,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.yzchnb.twitter.entity.TableEntity.Relation" >
+    insert into RELATION
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="relationUserFollowerId != null" >
+        RELATION_USER_FOLLOWER_ID,
+      </if>
+      <if test="relationUserBeFollowedId != null" >
+        RELATION_USER_BE_FOLLOWED_ID,
+      </if>
+      <if test="relationCreateTime != null" >
+        RELATION_CREATE_TIME,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="relationUserFollowerId != null" >
+        #{relationUserFollowerId,jdbcType=DECIMAL},
+      </if>
+      <if test="relationUserBeFollowedId != null" >
+        #{relationUserBeFollowedId,jdbcType=DECIMAL},
+      </if>
+      <if test="relationCreateTime != null" >
+        #{relationCreateTime,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.yzchnb.twitter.entity.TableEntity.Relation" >
+    update RELATION
+    <set >
+      <if test="relationCreateTime != null" >
+        RELATION_CREATE_TIME = #{relationCreateTime,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where RELATION_USER_FOLLOWER_ID = #{relationUserFollowerId,jdbcType=DECIMAL}
+      and RELATION_USER_BE_FOLLOWED_ID = #{relationUserBeFollowedId,jdbcType=DECIMAL}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.yzchnb.twitter.entity.TableEntity.Relation" >
+    update RELATION
+    set RELATION_CREATE_TIME = #{relationCreateTime,jdbcType=VARCHAR}
+    where RELATION_USER_FOLLOWER_ID = #{relationUserFollowerId,jdbcType=DECIMAL}
+      and RELATION_USER_BE_FOLLOWED_ID = #{relationUserBeFollowedId,jdbcType=DECIMAL}
+  </update>
+</mapper>

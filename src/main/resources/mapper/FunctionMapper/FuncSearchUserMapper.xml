@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yzchnb.twitter.dao.FunctionMapper.FuncSearchUserMapper">
+
+	<parameterMap id="paramMapX" type="java.util.Map">
+		<parameter property="return"  javaType="java.lang.Integer" jdbcType="INTEGER" mode="OUT" />
+		<parameter property="searchkey"  javaType="java.lang.String" jdbcType="VARCHAR" mode="IN" />
+		<parameter property="startfrom"  javaType="java.lang.Integer" jdbcType="INTEGER" mode="IN" />
+		<parameter property="limitation"  javaType="java.lang.Integer" jdbcType="INTEGER" mode="IN" />
+		<parameter property="data"  javaType="java.sql.ResultSet" jdbcType="CURSOR" mode="OUT" resultMap="cursorMapX"/>
+	</parameterMap>
+
+	<resultMap id="cursorMapX" type="java.util.Map">
+		<result property="userNickname" column="USER_NICKNAME" jdbcType="VARCHAR" javaType="java.lang.String"/>
+		<result property="userRegisterTime" column="USER_REGISTER_TIME" jdbcType="VARCHAR" javaType="java.lang.String"/>
+		<result property="userFollowersNum" column="USER_FOLLOWERS_NUM" jdbcType="INTEGER" javaType="java.lang.Integer"/>
+		<result property="userId" column="USER_ID" jdbcType="INTEGER" javaType="java.lang.Integer"/>
+		<result property="userSelfIntroduction" column="USER_SELF_INTRODUCTION" jdbcType="VARCHAR" javaType="java.lang.String"/>
+		<result property="userFollowsNum" column="USER_FOLLOWS_NUM" jdbcType="INTEGER" javaType="java.lang.Integer"/>
+	</resultMap>
+
+	<select id="call" statementType="CALLABLE" parameterMap="paramMapX">
+		{? = call FUNC_SEARCH_USER(?,?,?,?) }
+	</select>
+
+</mapper>

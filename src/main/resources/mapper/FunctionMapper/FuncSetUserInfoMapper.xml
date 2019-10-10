@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yzchnb.twitter.dao.FunctionMapper.FuncSetUserInfoMapper">
+
+	<parameterMap id="paramMapX" type="java.util.Map">
+		<parameter property="return"  javaType="java.lang.Integer" jdbcType="INTEGER" mode="OUT" />
+		<parameter property="nickname"  javaType="java.lang.String" jdbcType="VARCHAR" mode="IN" />
+		<parameter property="selfIntroduction"  javaType="java.lang.String" jdbcType="VARCHAR" mode="IN" />
+		<parameter property="password"  javaType="java.lang.String" jdbcType="VARCHAR" mode="IN" />
+		<parameter property="realname"  javaType="java.lang.String" jdbcType="VARCHAR" mode="IN" />
+		<parameter property="gender"  javaType="java.lang.String" jdbcType="VARCHAR" mode="IN" />
+		<parameter property="id"  javaType="java.lang.Integer" jdbcType="INTEGER" mode="IN" />
+		<parameter property="setMode"  javaType="java.lang.Integer" jdbcType="INTEGER" mode="IN" />
+	</parameterMap>
+
+
+	<select id="call" statementType="CALLABLE" parameterMap="paramMapX">
+		{? = call FUNC_SET_USER_INFO(?,?,?,?,?,?,?) }
+	</select>
+
+</mapper>

@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.yzchnb.twitter.dao.TableMapper.AtUserMapper" >
+  <resultMap id="BaseResultMap" type="com.yzchnb.twitter.entity.TableEntity.AtUser" >
+    <id column="AT_USER_ID" property="atUserId" jdbcType="DECIMAL" />
+    <id column="MESSAGE_ID" property="messageId" jdbcType="DECIMAL" />
+    <result column="USER_ID" property="userId" jdbcType="DECIMAL" />
+    <result column="AT_TIME" property="atTime" jdbcType="VARCHAR" />
+    <result column="AT_IS_READ" property="atIsRead" jdbcType="DECIMAL" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    AT_USER_ID, MESSAGE_ID, USER_ID, AT_TIME, AT_IS_READ
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="com.yzchnb.twitter.entity.TableEntity.AtUserKey" >
+    select 
+    <include refid="Base_Column_List" />
+    from AT_USER
+    where AT_USER_ID = #{atUserId,jdbcType=DECIMAL}
+      and MESSAGE_ID = #{messageId,jdbcType=DECIMAL}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="com.yzchnb.twitter.entity.TableEntity.AtUserKey" >
+    delete from AT_USER
+    where AT_USER_ID = #{atUserId,jdbcType=DECIMAL}
+      and MESSAGE_ID = #{messageId,jdbcType=DECIMAL}
+  </delete>
+  <insert id="insert" parameterType="com.yzchnb.twitter.entity.TableEntity.AtUser" >
+    insert into AT_USER (AT_USER_ID, MESSAGE_ID, USER_ID, 
+      AT_TIME, AT_IS_READ)
+    values (#{atUserId,jdbcType=DECIMAL}, #{messageId,jdbcType=DECIMAL}, #{userId,jdbcType=DECIMAL}, 
+      #{atTime,jdbcType=VARCHAR}, #{atIsRead,jdbcType=DECIMAL})
+  </insert>
+  <insert id="insertSelective" parameterType="com.yzchnb.twitter.entity.TableEntity.AtUser" >
+    insert into AT_USER
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="atUserId != null" >
+        AT_USER_ID,
+      </if>
+      <if test="messageId != null" >
+        MESSAGE_ID,
+      </if>
+      <if test="userId != null" >
+        USER_ID,
+      </if>
+      <if test="atTime != null" >
+        AT_TIME,
+      </if>
+      <if test="atIsRead != null" >
+        AT_IS_READ,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="atUserId != null" >
+        #{atUserId,jdbcType=DECIMAL},
+      </if>
+      <if test="messageId != null" >
+        #{messageId,jdbcType=DECIMAL},
+      </if>
+      <if test="userId != null" >
+        #{userId,jdbcType=DECIMAL},
+      </if>
+      <if test="atTime != null" >
+        #{atTime,jdbcType=VARCHAR},
+      </if>
+      <if test="atIsRead != null" >
+        #{atIsRead,jdbcType=DECIMAL},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.yzchnb.twitter.entity.TableEntity.AtUser" >
+    update AT_USER
+    <set >
+      <if test="userId != null" >
+        USER_ID = #{userId,jdbcType=DECIMAL},
+      </if>
+      <if test="atTime != null" >
+        AT_TIME = #{atTime,jdbcType=VARCHAR},
+      </if>
+      <if test="atIsRead != null" >
+        AT_IS_READ = #{atIsRead,jdbcType=DECIMAL},
+      </if>
+    </set>
+    where AT_USER_ID = #{atUserId,jdbcType=DECIMAL}
+      and MESSAGE_ID = #{messageId,jdbcType=DECIMAL}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.yzchnb.twitter.entity.TableEntity.AtUser" >
+    update AT_USER
+    set USER_ID = #{userId,jdbcType=DECIMAL},
+      AT_TIME = #{atTime,jdbcType=VARCHAR},
+      AT_IS_READ = #{atIsRead,jdbcType=DECIMAL}
+    where AT_USER_ID = #{atUserId,jdbcType=DECIMAL}
+      and MESSAGE_ID = #{messageId,jdbcType=DECIMAL}
+  </update>
+</mapper>
