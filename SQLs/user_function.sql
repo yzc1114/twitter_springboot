@@ -168,8 +168,7 @@ end;
 
 ---------------FUNC_SEARCH_USER----------------------------
 ---------------搜索用户信息--------------------------------
-CREATE OR REPLACE
-function FUNC_SEARCH_USER
+create or replace function FUNC_SEARCH_USER
 (searchKey in VARCHAR2, startFrom in INTEGER, limitation in INTEGER, search_result out sys_refcursor)
 return INTEGER
 is 
@@ -186,21 +185,13 @@ else
 state:=1;
 
 open search_result for 
-select * from (
-(select user_id, user_nickname
+select * from
+(select user_id, user_nickname, ROWNUM rn
 from (select user_id, user_nickname
 	 from USER_PUBLIC_INFO 
 	 where user_nickname like '%'||searchKey||'%' 
-	 order by user_followers_num desc)
-where ROWNUM<(startFrom+limitation)) 
-minus 
-(select user_id, user_nickname
-from (select user_id, user_nickname
-	 from USER_PUBLIC_INFO 
-	 where user_nickname like '%'||searchKey||'%' 
-	 order by user_followers_num desc)
-where ROWNUM<startFrom)
-);
+	 order by user_followers_num desc) M)
+where rn >= startFrom and rn < startFrom+limitation;
 
 end if;
 return state;

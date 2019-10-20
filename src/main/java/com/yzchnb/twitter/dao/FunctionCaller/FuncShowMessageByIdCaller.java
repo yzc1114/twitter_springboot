@@ -16,7 +16,7 @@ public class FuncShowMessageByIdCaller extends FuncBaseCaller {
 
 	public java.util.ArrayList call(java.lang.Integer messageIdInput){
 		Map map = new HashMap();
-		map.put("message_id_input", messageIdInput);
+		map.put("messageIdInput", messageIdInput);
 		return resolveArrayList(funcShowMessageByIdMapper, map);
 	}
 }

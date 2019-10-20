@@ -16,7 +16,7 @@ public class FuncGetCollectionNumCaller extends FuncBaseCaller {
 
 	public java.lang.Integer call(java.lang.Integer myUserId){
 		Map map = new HashMap();
-		map.put("my_user_id", myUserId);
+		map.put("myUserId", myUserId);
 		return resolveInteger(funcGetCollectionNumMapper, map);
 	}
 }

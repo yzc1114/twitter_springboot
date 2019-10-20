@@ -17,12 +17,12 @@ public class FuncSetUserInfoCaller extends FuncBaseCaller {
 	public void call(java.lang.String nickname, java.lang.String selfIntroduction, java.lang.String password, java.lang.String realname, java.lang.String gender, java.lang.Integer id, java.lang.Integer setMode){
 		Map map = new HashMap();
 		map.put("nickname", nickname);
-		map.put("self_introduction", selfIntroduction);
+		map.put("selfIntroduction", selfIntroduction);
 		map.put("password", password);
 		map.put("realname", realname);
 		map.put("gender", gender);
 		map.put("id", id);
-		map.put("set_mode", setMode);
+		map.put("setMode", setMode);
 		resolveVoid(funcSetUserInfoMapper, map);
 	}
 }

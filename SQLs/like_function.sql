@@ -109,37 +109,43 @@ END;
 
 --------------------------------------------------
 --------------FUNC_QUERY_MESSAGE_IDS_LIKES--------------------------------//
-create or replace FUNCTION FUNC_QUERY_MESSAGE_IDS_LIKES
+create or replace 
+FUNCTION FUNC_QUERY_MESSAGE_IDS_LIKES
 (user_id IN INTEGER, startFrom IN INTEGER, limitation IN INTEGER, search_result OUT Sys_refcursor)
 RETURN INTEGER
 AS
 state INTEGER:=1;
 
 BEGIN
-open search_result for 
-      SELECT* FROM 
-        (SELECT LIKES_MESSAGE_ID
-          FROM LIKES
-          WHERE LIKES.LIKES_USER_ID=user_id
-          ORDER BY LIKES.LIKES_TIME DESC)
-          WHERE ROWNUM<startFrom+limitation
-        MINUS
-      SELECT* FROM 
+
+	SELECT count(*) into state 
+  from LIKES
+  WHERE LIKES.LIKES_USER_ID=user_id;
+
+  IF state=0
+  THEN 
+    return state;
+  ELSE  
+    open search_result for
+    select * from
+        (SELECT M.*, ROWNUM rn FROM
          (SELECT LIKES_MESSAGE_ID
           FROM LIKES
           WHERE LIKES.LIKES_USER_ID=user_id
-         ORDER BY LIKES.LIKES_TIME DESC)
-    WHERE ROWNUM<startFrom;
+         ORDER BY LIKES.LIKES_TIME DESC) M)
+    WHERE rn >= startFrom and rn < startFrom + limitation;
 
-state:=1;
-RETURN state;
+    state:=1;
+  END IF;
+	RETURN state;
 
 END;
 /
 
 --------------------------------------------------
 --------------FUNC_QUERY_USER_LIKES_MESSAGE--------------------------------//
-create or replace FUNCTION FUNC_QUERY_USER_LIKES_MESSAGE
+create or replace 
+FUNCTION FUNC_QUERY_USER_LIKES_MESSAGE
 (user_id IN INTEGER, message_id IN INTEGER)
 RETURN INTEGER
 AS

@@ -16,8 +16,8 @@ public class FuncAddLikeCaller extends FuncBaseCaller {
 
 	public void call(java.lang.Integer userId, java.lang.Integer likeMessageId){
 		Map map = new HashMap();
-		map.put("user_id", userId);
-		map.put("like_message_id", likeMessageId);
+		map.put("userId", userId);
+		map.put("likeMessageId", likeMessageId);
 		resolveVoid(funcAddLikeMapper, map);
 	}
 }

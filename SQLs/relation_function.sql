@@ -50,8 +50,7 @@ end;
 
 ---------------FUNC_QUERY_FOLLOWING_LIST----------------------
 -------------------------查找关注列表---------------------------------
-create or replace 
-function 
+create or replace function 
 FUNC_QUERY_FOLLOWING_LIST(my_user_id in INTEGER, startFrom in INTEGER, limitation in INTEGER, search_result out sys_refcursor)
 return INTEGER
 is 
@@ -71,21 +70,14 @@ state:=1;
 end if;
 
 open search_result for
-select* from(
+    select * from
+    (select M.*, ROWNUM rn from(
 select user_id, user_nickname,RELATION_CREATE_TIME 
 from USER_PUBLIC_INFO,RELATION
 where user_id=RELATION.RELATION_USER_BE_FOLLOWED_ID and
 my_user_id=RELATION.RELATION_USER_FOLLOWER_ID
-order by RELATION_CREATE_TIME desc)
-where ROWNUM <startFrom+limitation
-minus
-select* from(
-select user_id, user_nickname, RELATION_CREATE_TIME
-from USER_PUBLIC_INFO,RELATION 
-where user_id=RELATION.RELATION_USER_BE_FOLLOWED_ID and
-my_user_id=RELATION.RELATION_USER_FOLLOWER_ID
-order by RELATION_CREATE_TIME desc)
-where ROWNUM <startFrom;
+order by RELATION_CREATE_TIME desc) M)
+where rn >= startFrom and rn < startFrom+limitation;
 
 
 return state;
@@ -94,8 +86,7 @@ end;
 
 ---------------FUNC_QUERY_FOLLOWERS_LIST----------------------
 -------------------------查找粉丝列表---------------------------------
-create or replace 
-function 
+create or replace function 
 FUNC_QUERY_FOLLOWERS_LIST(my_user_id in INTEGER, startFrom in INTEGER, limitation in INTEGER, search_result out sys_refcursor)
 return INTEGER
 is 
@@ -113,21 +104,14 @@ if state!=0 then
 state:=1;
 end if;
 open search_result for
-select* from(
+select * from
+    (select M.*, ROWNUM rn from(
 select user_id, user_nickname, RELATION_CREATE_TIME
 from USER_PUBLIC_INFO,RELATION 
 where my_user_id=RELATION.RELATION_USER_BE_FOLLOWED_ID and
 user_id=RELATION.RELATION_USER_FOLLOWER_ID
-order by RELATION_CREATE_TIME desc)
-where ROWNUM <startFrom+limitation
-minus
-select* from(
-select user_id, user_nickname, RELATION_CREATE_TIME
-from USER_PUBLIC_INFO,RELATION 
-where my_user_id=RELATION.RELATION_USER_BE_FOLLOWED_ID and
-user_id=RELATION.RELATION_USER_FOLLOWER_ID
-order by RELATION_CREATE_TIME desc)
-where ROWNUM <startFrom;
+order by RELATION_CREATE_TIME desc) M)
+where rn >= startFrom and rn < startFrom+limitation;
 
 
 return state;

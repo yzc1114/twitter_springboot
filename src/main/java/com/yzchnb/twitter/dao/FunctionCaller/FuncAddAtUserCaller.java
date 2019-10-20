@@ -16,9 +16,9 @@ public class FuncAddAtUserCaller extends FuncBaseCaller {
 
 	public void call(java.lang.String atNickname, java.lang.Integer atmessageId, java.lang.Integer sourceUserId){
 		Map map = new HashMap();
-		map.put("at_nickname", atNickname);
-		map.put("atmessage_id", atmessageId);
-		map.put("source_user_id", sourceUserId);
+		map.put("atNickname", atNickname);
+		map.put("atmessageId", atmessageId);
+		map.put("sourceUserId", sourceUserId);
 		resolveVoid(funcAddAtUserMapper, map);
 	}
 }

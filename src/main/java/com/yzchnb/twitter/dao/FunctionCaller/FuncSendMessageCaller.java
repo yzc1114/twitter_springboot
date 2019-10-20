@@ -16,10 +16,10 @@ public class FuncSendMessageCaller extends FuncBaseCaller {
 
 	public java.lang.Integer call(java.lang.String messageContent, java.lang.Integer messageHasImage, java.lang.Integer userId, java.lang.Integer messageImageCount){
 		Map map = new HashMap();
-		map.put("message_content", messageContent);
-		map.put("message_has_image", messageHasImage);
-		map.put("user_id", userId);
-		map.put("message_image_count", messageImageCount);
+		map.put("messageContent", messageContent);
+		map.put("messageHasImage", messageHasImage);
+		map.put("userId", userId);
+		map.put("messageImageCount", messageImageCount);
 		return resolveInteger(funcSendMessageMapper, map);
 	}
 }

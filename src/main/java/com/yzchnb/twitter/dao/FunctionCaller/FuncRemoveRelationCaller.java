@@ -16,8 +16,8 @@ public class FuncRemoveRelationCaller extends FuncBaseCaller {
 
 	public void call(java.lang.Integer followerId, java.lang.Integer beFollowedId){
 		Map map = new HashMap();
-		map.put("follower_id", followerId);
-		map.put("be_followed_id", beFollowedId);
+		map.put("followerId", followerId);
+		map.put("beFollowedId", beFollowedId);
 		resolveVoid(funcRemoveRelationMapper, map);
 	}
 }

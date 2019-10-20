@@ -16,7 +16,7 @@ public class FuncDeleteMessageCaller extends FuncBaseCaller {
 
 	public java.lang.Integer call(java.lang.Integer messageIdInput){
 		Map map = new HashMap();
-		map.put("message_id_input", messageIdInput);
+		map.put("messageIdInput", messageIdInput);
 		return resolveInteger(funcDeleteMessageMapper, map);
 	}
 }

@@ -16,7 +16,7 @@ public class FuncShowMessageByRangeCaller extends FuncBaseCaller {
 
 	public java.util.ArrayList call(java.lang.Integer userId, java.lang.Integer rangestart, java.lang.Integer rangelimitation){
 		Map map = new HashMap();
-		map.put("user_id", userId);
+		map.put("userId", userId);
 		map.put("rangestart", rangestart);
 		map.put("rangelimitation", rangelimitation);
 		return resolveArrayList(funcShowMessageByRangeMapper, map);

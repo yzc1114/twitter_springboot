@@ -5,6 +5,7 @@ import com.yzchnb.twitter.dao.FunctionMapper.FuncAddCollectionMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -15,8 +16,8 @@ public class FuncAddCollectionCaller extends FuncBaseCaller {
 
 	public void call(java.lang.Integer userId, java.lang.Integer beCollectedId){
 		Map map = new HashMap();
-		map.put("user_id", userId);
-		map.put("be_collected_id", beCollectedId);
+		map.put("userId", userId);
+		map.put("beCollectedId", beCollectedId);
 		resolveVoid(funcAddCollectionMapper, map);
 	}
 }

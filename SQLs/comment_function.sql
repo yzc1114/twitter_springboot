@@ -43,19 +43,13 @@ select count(*) into state
 from Message tb where tb.message_id = message_id;
 
 open search_result for
-SELECT* FROM 
+select * from
+    (SELECT M.*, ROWNUM rn FROM 
         (SELECT *
           FROM comment_on_message
           WHERE comment_message_id = message_id
-          ORDER BY comment_id DESC)
-          WHERE ROWNUM <= startFrom+limitation
-        MINUS
-SELECT * FROM 
-         (SELECT *
-          FROM comment_on_message
-          WHERE comment_message_id = message_id
-         ORDER BY comment_id DESC)
-    WHERE ROWNUM<=startFrom-1;
+          ORDER BY comment_id DESC) M)
+WHERE rn >= startFrom and rn < startFrom+limitation;
 
 commit;
 return state;

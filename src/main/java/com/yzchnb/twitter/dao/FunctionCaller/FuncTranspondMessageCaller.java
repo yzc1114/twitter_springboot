@@ -16,10 +16,10 @@ public class FuncTranspondMessageCaller extends FuncBaseCaller {
 
 	public java.lang.Integer call(java.lang.String messageContent, java.lang.Integer messageSourceIsTranspond, java.lang.Integer messageSenderUserId, java.lang.Integer messageTranspondMessageId){
 		Map map = new HashMap();
-		map.put("message_content", messageContent);
-		map.put("message_source_is_transpond", messageSourceIsTranspond);
-		map.put("message_sender_user_id", messageSenderUserId);
-		map.put("message_transpond_message_id", messageTranspondMessageId);
+		map.put("messageContent", messageContent);
+		map.put("messageSourceIsTranspond", messageSourceIsTranspond);
+		map.put("messageSenderUserId", messageSenderUserId);
+		map.put("messageTranspondMessageId", messageTranspondMessageId);
 		return resolveInteger(funcTranspondMessageMapper, map);
 	}
 }

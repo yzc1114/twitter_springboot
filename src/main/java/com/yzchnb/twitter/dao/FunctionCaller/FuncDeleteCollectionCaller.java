@@ -16,8 +16,8 @@ public class FuncDeleteCollectionCaller extends FuncBaseCaller {
 
 	public void call(java.lang.Integer userIdInput, java.lang.Integer messageIdInput){
 		Map map = new HashMap();
-		map.put("user_id_input", userIdInput);
-		map.put("message_id_input", messageIdInput);
+		map.put("userIdInput", userIdInput);
+		map.put("messageIdInput", messageIdInput);
 		resolveVoid(funcDeleteCollectionMapper, map);
 	}
 }

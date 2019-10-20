@@ -1,6 +1,7 @@
 package com.yzchnb.twitter;
 
 
+import com.yzchnb.twitter.dao.FunctionCaller.FuncShowMessageByRangeCaller;
 import com.yzchnb.twitter.dao.FunctionCaller.FuncUserSignInByEmailCaller;
 import com.yzchnb.twitter.dao.FunctionCaller.FuncUserSignUpCaller;
 import com.yzchnb.twitter.dao.FunctionMapper.FuncRecommendUserMapper;
@@ -41,6 +42,9 @@ public class FunctionMapperTests {
 
     @Autowired
     FuncUserSignInByEmailCaller funcUserSignInByEmailCaller;
+
+    @Autowired
+    FuncShowMessageByRangeCaller funcShowMessageByRangeCaller;
 
 
     @Test
@@ -116,7 +120,17 @@ public class FunctionMapperTests {
             Integer userId = funcUserSignInByEmailCaller.call("102@qq.com", "123456");
             System.out.println(userId);
         }catch (Exception e){
-            e.getMessage();
+            System.out.println(e.getMessage());
+        }
+    }
+
+    @Test
+    public void testfunc_show_message_by_range(){
+        try{
+            ArrayList res = funcShowMessageByRangeCaller.call(1, 1, 4);
+            System.out.println(res);
+        }catch (Exception e){
+            e.printStackTrace();
             System.out.println(e.getMessage());
         }
     }

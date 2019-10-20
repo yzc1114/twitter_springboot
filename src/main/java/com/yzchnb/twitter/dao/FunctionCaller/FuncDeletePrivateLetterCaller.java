@@ -16,7 +16,7 @@ public class FuncDeletePrivateLetterCaller extends FuncBaseCaller {
 
 	public void call(java.lang.Integer dPrivateLetterId){
 		Map map = new HashMap();
-		map.put("d_private_letter_id", dPrivateLetterId);
+		map.put("dPrivateLetterId", dPrivateLetterId);
 		resolveVoid(funcDeletePrivateLetterMapper, map);
 	}
 }

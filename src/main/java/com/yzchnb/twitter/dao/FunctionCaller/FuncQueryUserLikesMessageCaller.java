@@ -16,8 +16,8 @@ public class FuncQueryUserLikesMessageCaller extends FuncBaseCaller {
 
 	public void call(java.lang.Integer userId, java.lang.Integer messageId){
 		Map map = new HashMap();
-		map.put("user_id", userId);
-		map.put("message_id", messageId);
+		map.put("userId", userId);
+		map.put("messageId", messageId);
 		resolveVoid(funcQueryUserLikesMessageMapper, map);
 	}
 }

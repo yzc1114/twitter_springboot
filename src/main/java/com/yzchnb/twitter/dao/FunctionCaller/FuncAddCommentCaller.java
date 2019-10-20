@@ -16,8 +16,8 @@ public class FuncAddCommentCaller extends FuncBaseCaller {
 
 	public void call(java.lang.Integer userId, java.lang.Integer beCommentedId, java.lang.String content){
 		Map map = new HashMap();
-		map.put("user_id", userId);
-		map.put("be_commented_id", beCommentedId);
+		map.put("userId", userId);
+		map.put("beCommentedId", beCommentedId);
 		map.put("content", content);
 		resolveVoid(funcAddCommentMapper, map);
 	}

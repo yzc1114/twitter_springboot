@@ -16,8 +16,8 @@ public class FuncIfFollowingCaller extends FuncBaseCaller {
 
 	public void call(java.lang.Integer followingId, java.lang.Integer beFollowedId){
 		Map map = new HashMap();
-		map.put("following_id", followingId);
-		map.put("be_followed_id", beFollowedId);
+		map.put("followingId", followingId);
+		map.put("beFollowedId", beFollowedId);
 		resolveVoid(funcIfFollowingMapper, map);
 	}
 }

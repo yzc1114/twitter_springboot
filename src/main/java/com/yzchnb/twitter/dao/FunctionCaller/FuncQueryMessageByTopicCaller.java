@@ -16,7 +16,7 @@ public class FuncQueryMessageByTopicCaller extends FuncBaseCaller {
 
 	public java.util.ArrayList call(java.lang.Integer topicId, java.lang.Integer startfrom, java.lang.Integer limitation){
 		Map map = new HashMap();
-		map.put("topic_id", topicId);
+		map.put("topicId", topicId);
 		map.put("startfrom", startfrom);
 		map.put("limitation", limitation);
 		return resolveArrayList(funcQueryMessageByTopicMapper, map);

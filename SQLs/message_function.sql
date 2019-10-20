@@ -36,20 +36,14 @@ from MESSAGE
 where MESSAGE_SENDER_USER_ID = user_id;
 
 if state!=0 then
-  open search_result for 
-  select * from 
-    (select * 
-     from (message natural left join message_image) natural left join transpond
-     where message_sender_user_id=user_id
-     order by message_id desc)
-  where rownum <rangeLimitation+rangeStart
-  minus
-  select * from 
-    (select * 
-     from (message natural left join message_image) natural left join transpond
-     where message_sender_user_id=user_id
-     order by message_id desc)
-  where rownum <rangeStart;
+  open search_result for
+  select * from (
+      select M.*, ROWNUM rn
+      from (select * from (message natural left join message_image) natural left join transpond
+      where message_sender_user_id=user_id
+      order by message_id desc) M)
+  where rn >= rangeStart and rn < rangeStart + rangeLimitation;
+  
 
 end if;
 return state;
@@ -95,7 +89,7 @@ end;
 
 
 -------------------FUNC_TRANSPOND_MESSAGE--------------------
--------------------转发1条推特（Message和Transpond添加�??
+-------------------转发1条推特（Message和Transpond添加�??
 create or replace function
 FUNC_TRANSPOND_MESSAGE(message_content in VARCHAR2, message_source_is_transpond in INTEGER, message_sender_user_id in INTEGER, message_transpond_message_id in INTEGER, message_id out INTEGER)
 return INTEGER
@@ -211,12 +205,11 @@ END;
 /
 
 ----------------FUNC_SEARCH_MESSAGE-------------------
---------通过搜索键，在Message相关表中搜索相关的推�?------
+--------通过搜索键，在Message相关表中搜索相关的推�?------
 ----返回的属性依次为message_id, message_content, message_create_time, message_agree_num, ---
-----message_transponded_num, message_comment_num, message_view_num, message_has_image�?-----
+----message_transponded_num, message_comment_num, message_view_num, message_has_image�?-----
 ----message_sender_user_id, message_heat,message_image_count,transponded_message_id---------
-CREATE OR REPLACE 
-FUNCTION FUNC_SEARCH_MESSAGE
+create or replace FUNCTION FUNC_SEARCH_MESSAGE
 (searchKey IN VARCHAR2, startFrom IN INTEGER, limitation IN INTEGER, search_result OUT Sys_refcursor)
 RETURN INTEGER
 AS
@@ -232,20 +225,14 @@ BEGIN
   THEN
     return state;
   ELSE
-    open search_result for 
-    SELECT * FROM
+    open search_result for
+        select * from
+        (SELECT M.*, ROWNUM rn FROM
          (SELECT *
           FROM (MESSAGE NATURAL left outer join MESSAGE_IMAGE) NATURAL left outer join TRANSPOND
           WHERE MESSAGE_CONTENT like'%'||searchKey||'%'
-          ORDER BY MESSAGE_CREATE_TIME DESC)
-    WHERE ROWNUM<=startFrom+limitation
-    MINUS
-    SELECT* FROM
-         (SELECT *
-          FROM (MESSAGE NATURAL join MESSAGE_IMAGE) NATURAL join TRANSPOND
-          WHERE MESSAGE_CONTENT like '%'||searchKey||'%'
-          ORDER BY MESSAGE_CREATE_TIME DESC)
-    WHERE ROWNUM<=startFrom-1;
+          ORDER BY MESSAGE_CREATE_TIME DESC) M)
+    WHERE rn >= startFrom and rn < startFrom+limitation;
     state:=1;
   END IF;
 

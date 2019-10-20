@@ -66,8 +66,7 @@ end;
 
 ---------------FUNC_QUERY_COLLECTIONS_OF_MINE--------------------
 -----------------------------查询收藏信息----------------------------------
-create or replace 
-function 
+create or replace function 
 FUNC_QUERY_COLLECTIONS_OF_MINE(user_id in INTEGER, startFrom in INTEGER, limitation in INTEGER, search_result out sys_refcursor)
 return INTEGER
 is 
@@ -82,12 +81,13 @@ if state=0 then
 return state;
 else
 state:=1;
-open search_result for 
-select * from(
+open search_result for
+select * from (
+select M.*, ROWNUM rn from(
 select MESSAGE_COLLECTION.MESSAGE_ID
 from MESSAGE_COLLECTION
-where MESSAGE_COLLECTION.USER_ID= user_id)
-where ROWNUM >= startFrom and ROWNUM <= limitation;
+where MESSAGE_COLLECTION.USER_ID= user_id) M)
+where rn >= startFrom and rn < startFrom + limitation;
 
 end if;
 return state;

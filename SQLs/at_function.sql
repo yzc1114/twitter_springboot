@@ -1,7 +1,6 @@
 ----------------FUNC_QUERY_MESSAGE_AT_USER----------------------
 ------------------------查询@我的信息----------------------------------
-create or replace 
-function 
+create or replace function 
 FUNC_QUERY_MESSAGE_AT_USER(user_id in INTEGER, startFrom in INTEGER, limitation in INTEGER, search_result out sys_refcursor)
 return INTEGER
 is 
@@ -16,13 +15,14 @@ if state=0 then
 return state;
 else
 state:=1;
-open search_result for 
-select * from(
+open search_result for
+    select * from
+(select M.*, ROWNUM rn from(
 select MESSAGE_ID
 from AT_USER
 where AT_USER_ID= user_id
-order by AT_TIME desc)
-where ROWNUM >= startFrom and ROWNUM <= limitation;
+order by AT_TIME desc) M)
+where rn >= startFrom and rn < startFrom + limitation;
 
 end if;
 return state;
@@ -30,7 +30,7 @@ end;
 /
 
 -------------FUNC_ADD_AT_USER-----------------------------------
--------------添加@某人的记�?------------------------------------
+-------------添加@某人的记�?------------------------------------
 create or replace function
 FUNC_ADD_AT_USER(at_nickname in VARCHAR2, atmessage_id in INTEGER, source_user_id in INTEGER)
 return INTEGER

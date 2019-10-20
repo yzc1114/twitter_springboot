@@ -16,7 +16,7 @@ public class FuncQueryCommentByRangeCaller extends FuncBaseCaller {
 
 	public java.util.ArrayList call(java.lang.Integer messageId, java.lang.Integer startfrom, java.lang.Integer limitation){
 		Map map = new HashMap();
-		map.put("message_id", messageId);
+		map.put("messageId", messageId);
 		map.put("startfrom", startfrom);
 		map.put("limitation", limitation);
 		return resolveArrayList(funcQueryCommentByRangeMapper, map);

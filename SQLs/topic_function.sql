@@ -55,18 +55,13 @@ BEGIN
   THEN 
     return state;
   ELSE  
-    open search_result for 
-    SELECT* FROM 
+    open search_result for
+        select * from
+        (SELECT M.*, ROWNUM rn FROM
          (SELECT *
           FROM TOPIC
-         ORDER BY TOPIC.TOPIC_HEAT DESC)
-    WHERE ROWNUM<=startFrom+limitation
-    MINUS
-    SELECT* FROM 
-         (SELECT *
-          FROM TOPIC
-         ORDER BY TOPIC.TOPIC_HEAT DESC)
-    WHERE ROWNUM<=startFrom-1;
+         ORDER BY TOPIC.TOPIC_HEAT DESC) M)
+    WHERE rn >= startFrom and rn < startFrom+limitation;
 
     state:=1;
   END IF;
@@ -76,8 +71,7 @@ END;
 
 
 ------------------FUNC_SREACH_TOPICS--------------------------------
-create or replace 
-function func_search_topics
+create or replace function func_search_topics
 (Searchkey In Varchar2, Startfrom in Integer, Limitation In Integer, Search_Result Out Sys_Refcursor)
 return INTEGER
 is
@@ -87,26 +81,17 @@ begin
 	select count(*) into state 
   from topic
   where topic_content like '%'||Searchkey||'%';
-  
+
 if state!=0 then 
 state:=1;
   open search_result for
-    select * from(
-     (select * from
+    select * from 
+     (select M.*, ROWNUM rn from
        (select topic_id
        from topic
        where topic_content like'%'||searchkey||'%'
-       order by topic_heat desc)
-      where rownum < startfrom+limitation)
-     minus
-     (select * from
-       (select topic_id
-       from topic
-       where topic_content like'%'||searchkey||'%'
-       order by topic_heat desc)
-      where rownum < startfrom)
-    )
-    where rownum >= startfrom and rownum <= limitation;   
+       order by topic_heat desc) M)
+      where rn >= startFrom and rn < startfrom+limitation; 
 end if;
 
 return state;
@@ -139,8 +124,7 @@ end;
 
 
 -----FUNC_QUERY_MESSAGE_BY_TOPIC
-create or replace 
-function
+create or replace function
 FUNC_QUERY_MESSAGE_BY_TOPIC(topic_id in INTEGER, startFrom in INTEGER, limitation in INTEGER, search_result out sys_refcursor)
 RETURN INTEGER
 is
@@ -154,17 +138,12 @@ BEGIN
 
 
     open search_result for
-    select * from
+        select * from
+        (select M.*, ROWNUM rn from
     ( 
       select Message_Owns_Topic.message_id from Message_owns_topic
-      where Message_Owns_Topic.topic_id = m_topic_id)
-    where rownum <= limitation+startFrom
-      minus
-    select * from
-    (
-      select Message_Owns_Topic.message_id from Message_owns_topic
-      where Message_Owns_Topic.topic_id = m_topic_id)
-    where rownum <= startFrom - 1;
+      where Message_Owns_Topic.topic_id = m_topic_id) M)
+    where rn >= startFrom and rn < limitation + startFrom;
     state:=1;
 
 	RETURN state;

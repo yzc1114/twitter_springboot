@@ -16,8 +16,8 @@ public class FuncAddPrivateLetterCaller extends FuncBaseCaller {
 
 	public void call(java.lang.Integer senderUserId, java.lang.Integer receiverUserId, java.lang.String content){
 		Map map = new HashMap();
-		map.put("sender_user_id", senderUserId);
-		map.put("receiver_user_id", receiverUserId);
+		map.put("senderUserId", senderUserId);
+		map.put("receiverUserId", receiverUserId);
 		map.put("content", content);
 		resolveVoid(funcAddPrivateLetterMapper, map);
 	}

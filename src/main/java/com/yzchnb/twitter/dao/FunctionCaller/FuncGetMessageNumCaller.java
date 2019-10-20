@@ -16,7 +16,7 @@ public class FuncGetMessageNumCaller extends FuncBaseCaller {
 
 	public java.lang.Integer call(java.lang.Integer mUserId){
 		Map map = new HashMap();
-		map.put("m_user_id", mUserId);
+		map.put("mUserId", mUserId);
 		return resolveInteger(funcGetMessageNumMapper, map);
 	}
 }

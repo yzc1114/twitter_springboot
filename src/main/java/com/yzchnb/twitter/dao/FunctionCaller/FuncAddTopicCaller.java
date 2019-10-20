@@ -16,8 +16,8 @@ public class FuncAddTopicCaller extends FuncBaseCaller {
 
 	public void call(java.lang.String topicName, java.lang.Integer messageId){
 		Map map = new HashMap();
-		map.put("topic_name", topicName);
-		map.put("message_id", messageId);
+		map.put("topicName", topicName);
+		map.put("messageId", messageId);
 		resolveVoid(funcAddTopicMapper, map);
 	}
 }

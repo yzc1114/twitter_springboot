@@ -16,7 +16,7 @@ public class FuncQueryMessageIdsLikesCaller extends FuncBaseCaller {
 
 	public java.util.ArrayList call(java.lang.Integer userId, java.lang.Integer startfrom, java.lang.Integer limitation){
 		Map map = new HashMap();
-		map.put("user_id", userId);
+		map.put("userId", userId);
 		map.put("startfrom", startfrom);
 		map.put("limitation", limitation);
 		return resolveArrayList(funcQueryMessageIdsLikesMapper, map);
