@@ -14,10 +14,10 @@ public class FuncIfFollowingCaller extends FuncBaseCaller {
 	@Autowired
 	private FuncIfFollowingMapper funcIfFollowingMapper;
 
-	public void call(java.lang.Integer followingId, java.lang.Integer beFollowedId){
+	public java.lang.Integer call(java.lang.Integer followingId, java.lang.Integer beFollowedId){
 		Map map = new HashMap();
 		map.put("followingId", followingId);
 		map.put("beFollowedId", beFollowedId);
-		resolveVoid(funcIfFollowingMapper, map);
+		return resolveInteger(funcIfFollowingMapper, map);
 	}
 }

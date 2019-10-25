@@ -9,5 +9,5 @@ public interface IRelationService {
     ArrayList QueryFollowingFor(int user_id,int start_from,int limitation);
     void FollowUser(int follower_id,int be_followed_id);
     void CancelFollowingTo(int follower_id,int be_followed_id);
-    void IfFollowing(int follower_id,int be_followed_id);
+    Integer IfFollowing(int follower_id,int be_followed_id);
 }

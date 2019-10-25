@@ -6,11 +6,12 @@
 		<parameter property="return"  javaType="java.lang.Integer" jdbcType="INTEGER" mode="OUT" />
 		<parameter property="followingId"  javaType="java.lang.Integer" jdbcType="INTEGER" mode="IN" />
 		<parameter property="beFollowedId"  javaType="java.lang.Integer" jdbcType="INTEGER" mode="IN" />
+		<parameter property="data"  javaType="java.lang.Integer" jdbcType="INTEGER" mode="OUT" />
 	</parameterMap>
 
 
 	<select id="call" statementType="CALLABLE" parameterMap="paramMapX">
-		{? = call FUNC_IF_FOLLOWING(?,?) }
+		{? = call FUNC_IF_FOLLOWING(?,?,?) }
 	</select>
 
 </mapper>

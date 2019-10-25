@@ -13,14 +13,16 @@ begin
   where user_id=Avatar_Image.user_id and avatar_image_in_use=1;
 
 if state>0
-  then 
-  state:=1;
+  then
   select 
   avatar_image_id into avatar_id 
   from Avatar_Image
   where user_id=Avatar_Image.user_id and avatar_image_in_use=1;
   return state;
+else
+    avatar_id:=-1;
 end if;
+  state:=1;
 return state;
 end;
 /

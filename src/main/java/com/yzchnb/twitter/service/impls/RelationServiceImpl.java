@@ -41,7 +41,7 @@ public class RelationServiceImpl implements IRelationService {
     }
 
     @Override
-    public void IfFollowing(int follower_id, int be_followed_id) {
-        funcIfFollowingCaller.call(follower_id,be_followed_id);
+    public Integer IfFollowing(int follower_id, int be_followed_id) {
+        return funcIfFollowingCaller.call(follower_id,be_followed_id);
     }
 }
