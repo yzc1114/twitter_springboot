@@ -88,7 +88,7 @@
                     <projecRootDir>${project.basedir}/src/main/java</projecRootDir>
                     <jdbc_url>jdbc:oracle:thin:@106.13.82.84:1521:helowin</jdbc_url>
                     <jdbc_username>yzcdba</jdbc_username>
-                    <jdbc_driver_jar_path>/Users/purchaser/IdeaProjects/twitter/ojdbc6-11.2.0.3.jar</jdbc_driver_jar_path>
+                    <jdbc_driver_jar_path>${project.basedir}/ojdbc6-11.2.0.3.jar</jdbc_driver_jar_path>
                     <jdbc_driver_class_name>oracle.jdbc.OracleDriver</jdbc_driver_class_name>
                     <jdbc_password>123456</jdbc_password>
                 </configuration>
