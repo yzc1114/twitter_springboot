@@ -12,8 +12,6 @@
 
 	<resultMap id="cursorMapX" type="java.util.Map">
 		<result property="topicId" column="TOPIC_ID" jdbcType="INTEGER" javaType="java.lang.Integer"/>
-		<result property="topicHeat" column="TOPIC_HEAT" jdbcType="INTEGER" javaType="java.lang.Integer"/>
-		<result property="topicContent" column="TOPIC_CONTENT" jdbcType="VARCHAR" javaType="java.lang.String"/>
 	</resultMap>
 
 	<select id="call" statementType="CALLABLE" parameterMap="paramMapX">
