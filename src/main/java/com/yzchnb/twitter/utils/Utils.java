@@ -1,7 +1,10 @@
 package com.yzchnb.twitter.utils;
 
+import org.springframework.util.ResourceUtils;
+
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
+import java.io.FileNotFoundException;
 
 public class Utils {
     public static Integer getUserIdFromCookie(HttpServletRequest request) {
@@ -15,5 +18,11 @@ public class Utils {
             }
         }
         return 0;
+    }
+    public static String getAvatarsLocation() throws FileNotFoundException {
+        return ResourceUtils.getURL("classpath:").getPath()+"avatar/";
+    }
+    public static String getImageLocation() throws FileNotFoundException{
+        return ResourceUtils.getURL("classpath:").getPath()+"img/";
     }
 }
