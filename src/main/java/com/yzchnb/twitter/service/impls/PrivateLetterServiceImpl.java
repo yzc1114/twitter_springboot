@@ -5,9 +5,10 @@ import com.yzchnb.twitter.dao.FunctionCaller.FuncDeletePrivateLetterCaller;
 import com.yzchnb.twitter.dao.FunctionCaller.FuncQueryPrivateLettersCaller;
 import com.yzchnb.twitter.service.IPrivateLetterService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
-
+@Service
 public class PrivateLetterServiceImpl implements IPrivateLetterService {
     @Autowired
     private FuncQueryPrivateLettersCaller funcQueryPrivateLettersCaller;

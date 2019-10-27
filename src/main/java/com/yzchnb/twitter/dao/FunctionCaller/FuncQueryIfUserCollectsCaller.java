@@ -14,10 +14,10 @@ public class FuncQueryIfUserCollectsCaller extends FuncBaseCaller {
 	@Autowired
 	private FuncQueryIfUserCollectsMapper funcQueryIfUserCollectsMapper;
 
-	public void call(java.lang.Integer userId, java.lang.Integer messageId){
+	public java.lang.Integer call(java.lang.Integer userId, java.lang.Integer messageId){
 		Map map = new HashMap();
 		map.put("userId", userId);
 		map.put("messageId", messageId);
-		resolveVoid(funcQueryIfUserCollectsMapper, map);
+		return resolveInteger(funcQueryIfUserCollectsMapper, map);
 	}
 }

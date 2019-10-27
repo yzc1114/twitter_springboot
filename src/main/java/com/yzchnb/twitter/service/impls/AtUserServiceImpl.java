@@ -8,10 +8,11 @@ import com.yzchnb.twitter.dao.FunctionMapper.FuncQueryMessageAtUserMapper;
 import com.yzchnb.twitter.service.IAtUserService;
 import com.yzchnb.twitter.utils.Utils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.Map;
-
+@Service
 public class AtUserServiceImpl implements IAtUserService {
     @Autowired
     private FuncQueryMessageAtUserCaller funcQueryMessageAtUserCaller;

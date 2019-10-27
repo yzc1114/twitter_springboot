@@ -1,16 +1,14 @@
 package com.yzchnb.twitter.service.impls;
 
-import com.yzchnb.twitter.dao.FunctionCaller.FuncDeleteMessageCaller;
-import com.yzchnb.twitter.dao.FunctionCaller.FuncSendMessageCaller;
-import com.yzchnb.twitter.dao.FunctionCaller.FuncShowMessageByRangeCaller;
-import com.yzchnb.twitter.dao.FunctionCaller.FuncTranspondMessageCaller;
+import com.yzchnb.twitter.dao.FunctionCaller.*;
 import com.yzchnb.twitter.service.IMessageService;
 import com.yzchnb.twitter.utils.Utils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.Map;
-
+@Service
 public class MessageServiceImpl implements IMessageService {
     @Autowired
     private FuncShowMessageByRangeCaller funcShowMessageByRangeCaller;
@@ -20,14 +18,18 @@ public class MessageServiceImpl implements IMessageService {
     private FuncTranspondMessageCaller funcTranspondMessageCaller;
     @Autowired
     private FuncDeleteMessageCaller funcDeleteMessageCaller;
+    @Autowired
+    private FuncShowFollowMessageCaller funcShowFollowMessageCaller;
+    @Autowired
+    private FuncShowMessageByTimeCaller funcShowMessageByTimeCaller;
     @Override
     public ArrayList QueryFollowMessage(int user_id, int start_from, int limitation) {
-        return 1;
+        return Utils.getMessageFromArray(funcShowFollowMessageCaller.call(user_id,start_from,limitation));
     }
 
     @Override
     public ArrayList QueryNewest(int start_from, int limitation) {
-        return null;
+        return Utils.getMessageFromArray(funcShowMessageByTimeCaller.call(start_from,limitation));
     }
 
     @Override

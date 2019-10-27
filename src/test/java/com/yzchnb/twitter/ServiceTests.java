@@ -1,6 +1,8 @@
 package com.yzchnb.twitter;
 
 import com.yzchnb.twitter.entity.TableEntity.UserPublicInfo;
+import com.yzchnb.twitter.service.ICollectionService;
+import com.yzchnb.twitter.service.IMessageService;
 import com.yzchnb.twitter.service.IRelationService;
 import com.yzchnb.twitter.service.IUserService;
 import org.junit.Test;
@@ -20,11 +22,20 @@ public class ServiceTests {
     private IUserService userService;
     @Resource
     private IRelationService relationService;
+    @Resource
+    private IMessageService messageService;
+    @Resource
+    private ICollectionService collectionService;
     @Test
     public void main(){
         //relationService.FollowUser(3,7);
-        System.out.println(relationService.QueryFollowersFor(7,0,100));
-        System.out.println(relationService.QueryFollowingFor(3,0,100));
-        System.out.println(relationService.IfFollowing(3,7));
+        //System.out.println(relationService.QueryFollowersFor(7,0,100));
+        //System.out.println(relationService.QueryFollowingFor(3,0,100));
+        //System.out.println(relationService.IfFollowing(3,7));
+        //System.out.println(messageService.AddMessage("sss",0,7,0));
+        //System.out.println(messageService.QueryNewest(0,100));
+        //System.out.println(userService.getRecommend());
+        //collectionService.Add(7,21);
+        System.out.println(collectionService.QueryCollection(7,0,100));
     }
 }

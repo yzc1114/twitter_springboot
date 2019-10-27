@@ -29,8 +29,7 @@ public class RelationServiceImpl implements IRelationService {
     public ArrayList<Map> QueryFollowersFor(int user_id, int start_from, int limitation) {
         ArrayList<Map> result= funcQueryFollowersListCaller.call(user_id,start_from,limitation);
         for(Map map : result){
-            map.put("avatar_url", Utils.getAvatarUrlById(Integer.parseInt(map.get("userId").toString())));
-            System.out.println(Integer.parseInt(map.get("userId").toString()));
+            Utils.setAvatarUrl(map);
         }
         return result;
     }
@@ -39,8 +38,7 @@ public class RelationServiceImpl implements IRelationService {
     public ArrayList<Map> QueryFollowingFor(int user_id, int start_from, int limitation) {
         ArrayList<Map> result = funcQueryFollowingListCaller.call(user_id,start_from,limitation);
         for(Map map : result){
-            map.put("avatar_url", Utils.getAvatarUrlById(Integer.parseInt(map.get("userId").toString())));
-            System.out.println(Integer.parseInt(map.get("userId").toString()));
+            Utils.setAvatarUrl(map);
         }
         return result;
     }

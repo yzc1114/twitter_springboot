@@ -5,9 +5,10 @@ import com.yzchnb.twitter.dao.FunctionCaller.FuncSearchTopicsCaller;
 import com.yzchnb.twitter.dao.FunctionCaller.FuncSearchUserCaller;
 import com.yzchnb.twitter.service.ISearchService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
-
+@Service
 public class SearchServiceImpl implements ISearchService {
     @Autowired
     private FuncSearchMessageCaller funcSearchMessageCaller;

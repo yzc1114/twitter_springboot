@@ -7,9 +7,10 @@ import com.yzchnb.twitter.dao.FunctionCaller.FuncQueryTopicsByHeatCaller;
 import com.yzchnb.twitter.service.ITopicService;
 import com.yzchnb.twitter.utils.Utils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
-
+@Service
 public class TopicServiceImpl implements ITopicService {
     @Autowired
     private FuncGetTopicIdByNameCaller funcGetTopicIdByNameCaller;

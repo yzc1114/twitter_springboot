@@ -14,6 +14,7 @@ import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.ArrayList;
+import java.util.Map;
 
 @RestController
 @Api(tags = "用户管理相关接口")
@@ -29,7 +30,7 @@ public class UserController {
             @ApiImplicitParam(name = "user_id", value = "用户id", required = true)
     })
     @ResponseBody
-    public UserPublicInfo getUserPublicInfo(@PathVariable int userId){
+    public Map getUserPublicInfo(@PathVariable int userId){
         return iUserService.getUserPublicInfo(userId);
     }
 

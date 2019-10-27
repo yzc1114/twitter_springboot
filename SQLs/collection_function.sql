@@ -97,7 +97,7 @@ end;
 --------------------------------------------------
 --------------FUNC_QUERY_IF_USER_COLLECTS--------------------------------//
 create or replace FUNCTION FUNC_QUERY_IF_USER_COLLECTS
-(user_id IN INTEGER, message_id IN INTEGER)
+(user_id IN INTEGER, message_id IN INTEGER, result out integer)
 RETURN INTEGER
 AS
 state INTEGER:=1;
@@ -105,7 +105,7 @@ q_user_id INTEGER:= user_id;
 q_message_id INTEGER:= message_id;
 
 BEGIN
-select count(*) into state
+select count(*) into result
 from MESSAGE_COLLECTION tb where tb.user_id = q_user_id and tb.message_id = q_message_id;
 
 RETURN state;

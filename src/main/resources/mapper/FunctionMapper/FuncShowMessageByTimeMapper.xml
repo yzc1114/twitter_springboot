@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yzchnb.twitter.dao.FunctionMapper.FuncShowMessageByTimeMapper">
+
+	<parameterMap id="paramMapX" type="java.util.Map">
+		<parameter property="return"  javaType="java.lang.Integer" jdbcType="INTEGER" mode="OUT" />
+		<parameter property="startfrom"  javaType="java.lang.Integer" jdbcType="INTEGER" mode="IN" />
+		<parameter property="limitation"  javaType="java.lang.Integer" jdbcType="INTEGER" mode="IN" />
+		<parameter property="data"  javaType="java.sql.ResultSet" jdbcType="CURSOR" mode="OUT" resultMap="cursorMapX"/>
+	</parameterMap>
+
+	<resultMap id="cursorMapX" type="java.util.Map">
+		<result property="messageTranspondedNum" column="MESSAGE_TRANSPONDED_NUM" jdbcType="INTEGER" javaType="java.lang.Integer"/>
+		<result property="messageCommentNum" column="MESSAGE_COMMENT_NUM" jdbcType="INTEGER" javaType="java.lang.Integer"/>
+		<result property="messageViewNum" column="MESSAGE_VIEW_NUM" jdbcType="INTEGER" javaType="java.lang.Integer"/>
+		<result property="messageHasImage" column="MESSAGE_HAS_IMAGE" jdbcType="INTEGER" javaType="java.lang.Integer"/>
+		<result property="messageId" column="MESSAGE_ID" jdbcType="INTEGER" javaType="java.lang.Integer"/>
+		<result property="messageAgreeNum" column="MESSAGE_AGREE_NUM" jdbcType="INTEGER" javaType="java.lang.Integer"/>
+		<result property="messageCreateTime" column="MESSAGE_CREATE_TIME" jdbcType="VARCHAR" javaType="java.lang.String"/>
+		<result property="messageSenderUserId" column="MESSAGE_SENDER_USER_ID" jdbcType="INTEGER" javaType="java.lang.Integer"/>
+		<result property="messageHeat" column="MESSAGE_HEAT" jdbcType="INTEGER" javaType="java.lang.Integer"/>
+		<result property="messageContent" column="MESSAGE_CONTENT" jdbcType="VARCHAR" javaType="java.lang.String"/>
+		<result property="messageImageCount" column="MESSAGE_IMAGE_COUNT" jdbcType="INTEGER" javaType="java.lang.Integer"/>
+		<result property="transpondedMessageId" column="TRANSPONDED_MESSAGE_ID" jdbcType="INTEGER" javaType="java.lang.Integer"/>
+	</resultMap>
+
+	<select id="call" statementType="CALLABLE" parameterMap="paramMapX">
+		{? = call FUNC_SHOW_MESSAGE_BY_TIME(?,?,?) }
+	</select>
+
+</mapper>

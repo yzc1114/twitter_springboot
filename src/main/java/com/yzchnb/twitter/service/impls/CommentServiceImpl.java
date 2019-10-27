@@ -4,9 +4,10 @@ import com.yzchnb.twitter.dao.FunctionCaller.FuncAddCommentCaller;
 import com.yzchnb.twitter.dao.FunctionCaller.FuncQueryCommentByRangeCaller;
 import com.yzchnb.twitter.service.ICommentService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
-
+@Service
 public class CommentServiceImpl implements ICommentService {
     @Autowired
     private FuncAddCommentCaller funcAddCommentCaller;

@@ -4,7 +4,6 @@ import com.yzchnb.twitter.dao.FunctionCaller.FuncGetUserAvatarCaller;
 import com.yzchnb.twitter.dao.FunctionCaller.FuncShowMessageByIdCaller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-import org.springframework.stereotype.Service;
 import org.springframework.util.ResourceUtils;
 
 import javax.servlet.http.Cookie;
@@ -46,7 +45,9 @@ public class Utils {
     public static String getAvatarUrlById(int user_id){
         return "/avatars/"+funcGetUserAvatarCaller.call(user_id).toString();
     }
-
+    public static void setAvatarUrl(Map user){
+        user.put("avatar_url",getAvatarUrlById(Integer.parseInt(user.get("userId").toString())));
+    }
     public static Map getMessageById(int message_id){
         Map result=(Map)funcShowMessageByIdCaller.call(message_id).get(0);
         setMessageUrl(result);
@@ -58,7 +59,7 @@ public class Utils {
     public static ArrayList<Map> getMessageFromArray(ArrayList<Map> message_ids){
         ArrayList<Map> result=new ArrayList<>();
         for(Map id:message_ids){
-            result.add(getMessageById(id.get("message_id")));
+            result.add(getMessageById(id.get("messageId")));
         }
         return result;
     }

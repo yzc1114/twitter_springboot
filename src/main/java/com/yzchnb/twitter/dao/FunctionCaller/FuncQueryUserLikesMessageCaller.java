@@ -14,10 +14,10 @@ public class FuncQueryUserLikesMessageCaller extends FuncBaseCaller {
 	@Autowired
 	private FuncQueryUserLikesMessageMapper funcQueryUserLikesMessageMapper;
 
-	public void call(java.lang.Integer userId, java.lang.Integer messageId){
+	public java.lang.Integer call(java.lang.Integer userId, java.lang.Integer messageId){
 		Map map = new HashMap();
 		map.put("userId", userId);
 		map.put("messageId", messageId);
-		resolveVoid(funcQueryUserLikesMessageMapper, map);
+		return resolveInteger(funcQueryUserLikesMessageMapper, map);
 	}
 }

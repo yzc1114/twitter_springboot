@@ -1,15 +1,13 @@
 package com.yzchnb.twitter.service.impls;
 
-import com.yzchnb.twitter.dao.FunctionCaller.FuncAddLikeCaller;
-import com.yzchnb.twitter.dao.FunctionCaller.FuncDeleteLikeCaller;
-import com.yzchnb.twitter.dao.FunctionCaller.FuncQueryMessageIdsLikesCaller;
-import com.yzchnb.twitter.dao.FunctionCaller.FuncQueryUserLikesMessageCaller;
+import com.yzchnb.twitter.dao.FunctionCaller.*;
 import com.yzchnb.twitter.service.ILikeService;
 import com.yzchnb.twitter.utils.Utils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
-
+@Service
 public class LikeServiceImpl implements ILikeService {
     @Autowired
     private FuncQueryUserLikesMessageCaller funcQueryUserLikesMessageCaller;

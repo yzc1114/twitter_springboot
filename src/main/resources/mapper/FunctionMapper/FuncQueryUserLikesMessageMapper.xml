@@ -6,11 +6,12 @@
 		<parameter property="return"  javaType="java.lang.Integer" jdbcType="INTEGER" mode="OUT" />
 		<parameter property="userId"  javaType="java.lang.Integer" jdbcType="INTEGER" mode="IN" />
 		<parameter property="messageId"  javaType="java.lang.Integer" jdbcType="INTEGER" mode="IN" />
+		<parameter property="data"  javaType="java.lang.Integer" jdbcType="INTEGER" mode="OUT" />
 	</parameterMap>
 
 
 	<select id="call" statementType="CALLABLE" parameterMap="paramMapX">
-		{? = call FUNC_QUERY_USER_LIKES_MESSAGE(?,?) }
+		{? = call FUNC_QUERY_USER_LIKES_MESSAGE(?,?,?) }
 	</select>
 
 </mapper>
