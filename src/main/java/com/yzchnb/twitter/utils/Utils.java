@@ -10,6 +10,7 @@ import org.springframework.util.ResourceUtils;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import java.io.FileNotFoundException;
+import java.util.ArrayList;
 import java.util.Map;
 
 @Component
@@ -49,6 +50,16 @@ public class Utils {
     public static Map getMessageById(int message_id){
         Map result=(Map)funcShowMessageByIdCaller.call(message_id).get(0);
         setMessageUrl(result);
+        return result;
+    }
+    public static Map getMessageById(Object message_id){
+        return getMessageById(Integer.parseInt(message_id.toString()));
+    }
+    public static ArrayList<Map> getMessageFromArray(ArrayList<Map> message_ids){
+        ArrayList<Map> result=new ArrayList<>();
+        for(Map id:message_ids){
+            result.add(getMessageById(id.get("message_id")));
+        }
         return result;
     }
     public static void setMessageUrl(Map message){
