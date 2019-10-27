@@ -20,7 +20,7 @@ if state>0
   where user_id=Avatar_Image.user_id and avatar_image_in_use=1;
   return state;
 else
-    avatar_id:=-1;
+    avatar_id:=0;
 end if;
   state:=1;
 return state;

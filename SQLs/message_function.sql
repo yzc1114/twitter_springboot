@@ -232,3 +232,54 @@ BEGIN
 	RETURN state;
 END;
 /
+
+------------FUNC_SHOW_MESSAGE_BY_TIME---------------
+----------------Show all twitters by send time----------------------
+create or replace function
+FUNC_SHOW_MESSAGE_BY_TIME(startFrom in INTEGER, limitation in INTEGER, search_result out sys_refcursor)
+return INTEGER
+is
+state INTEGER:=0;
+
+begin
+
+open search_result for
+select * from
+  (select M.*, ROWNUM rn from
+    (select *
+     from (message natural left join message_image) natural left join transpond
+     order by message_create_time desc) M)
+WHERE rn >= startFrom and rn < startFrom+limitation;
+
+
+state:=1;
+return state;
+end;
+/
+
+---------------FUNC_SHOW_FOLLOW_MESSAGE---------------------
+create or replace function
+FUNC_SHOW_FOLLOW_MESSAGE(startFrom in INTEGER, limitation in INTEGER, userid in INTEGER, search_result out sys_refcursor)
+return INTEGER
+is
+state INTEGER:=0;
+
+begin
+
+open search_result for
+select * from
+  (select M.*,ROWNUM rn from
+    (select *
+     from (message natural left join message_image) natural left join transpond
+     where MESSAGE_SENDER_USER_ID = userid or MESSAGE_SENDER_USER_ID in
+     (select RELATION_USER_BE_FOLLOWED_ID
+      from RELATION
+      where RELATION_USER_FOLLOWER_ID = userid
+     )
+     order by message_create_time desc) M)
+WHERE rn >= startFrom and rn < startFrom+limitation;
+
+state:=1;
+return state;
+end;
+/

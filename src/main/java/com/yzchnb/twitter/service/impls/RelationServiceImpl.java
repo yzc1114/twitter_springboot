@@ -4,10 +4,14 @@ import com.yzchnb.twitter.dao.FunctionCaller.*;
 import com.yzchnb.twitter.dao.TableMapper.UserPublicInfoMapper;
 import com.yzchnb.twitter.entity.TableEntity.UserPublicInfo;
 import com.yzchnb.twitter.service.IRelationService;
+import com.yzchnb.twitter.utils.Utils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
+
 @Service
 public class RelationServiceImpl implements IRelationService {
     @Autowired
@@ -20,14 +24,25 @@ public class RelationServiceImpl implements IRelationService {
     private FuncRemoveRelationCaller funcRemoveRelationCaller;
     @Autowired
     private FuncIfFollowingCaller funcIfFollowingCaller;
+
     @Override
-    public ArrayList QueryFollowersFor(int user_id, int start_from, int limitation) {
-        return funcQueryFollowersListCaller.call(user_id,start_from,limitation);
+    public ArrayList<Map> QueryFollowersFor(int user_id, int start_from, int limitation) {
+        ArrayList<Map> result= funcQueryFollowersListCaller.call(user_id,start_from,limitation);
+        for(Map map : result){
+            map.put("avatar_url", Utils.getAvatarUrlById(Integer.parseInt(map.get("userId").toString())));
+            System.out.println(Integer.parseInt(map.get("userId").toString()));
+        }
+        return result;
     }
 
     @Override
-    public ArrayList QueryFollowingFor(int user_id, int start_from, int limitation) {
-        return funcQueryFollowingListCaller.call(user_id,start_from,limitation);
+    public ArrayList<Map> QueryFollowingFor(int user_id, int start_from, int limitation) {
+        ArrayList<Map> result = funcQueryFollowingListCaller.call(user_id,start_from,limitation);
+        for(Map map : result){
+            map.put("avatar_url", Utils.getAvatarUrlById(Integer.parseInt(map.get("userId").toString())));
+            System.out.println(Integer.parseInt(map.get("userId").toString()));
+        }
+        return result;
     }
 
     @Override

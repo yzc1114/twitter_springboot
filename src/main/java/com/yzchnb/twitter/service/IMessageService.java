@@ -1,9 +1,10 @@
 package com.yzchnb.twitter.service;
 
 import java.util.ArrayList;
+import java.util.Map;
 
 public interface IMessageService {
-    ArrayList QueryMessage(int message_id);
+    Map QueryMessage(int message_id);
     ArrayList QueryUserMessage(int user_id,int start_from,int limitation);
     ArrayList QueryNewest(int start_from,int limitation);
     ArrayList QueryFollowMessage(int user_id,int start_from,int limitation);
