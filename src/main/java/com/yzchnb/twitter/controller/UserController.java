@@ -34,7 +34,7 @@ public class UserController {
         return iUserService.GetUserPublicInfo(userId);
     }
 
-    @PostMapping(value = "/signIn")
+    @PostMapping(value = "/signUp")
     @ApiOperation("注册接口")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "email", value = "邮箱", required = true),
@@ -47,7 +47,7 @@ public class UserController {
         iUserService.SignUp(email, nickname, password);
     }
 
-    @PostMapping(value = "/signUp")
+    @PostMapping(value = "/signIn")
     @ApiOperation("登录接口")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "email", value = "邮箱", required = true),
