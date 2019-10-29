@@ -1,9 +1,6 @@
 package com.yzchnb.twitter.service.impls;
 
-import com.yzchnb.twitter.dao.FunctionCaller.FuncGetUserPublicInfoCaller;
-import com.yzchnb.twitter.dao.FunctionCaller.FuncRecommendUserCaller;
-import com.yzchnb.twitter.dao.FunctionCaller.FuncUserSignInByEmailCaller;
-import com.yzchnb.twitter.dao.FunctionCaller.FuncUserSignUpCaller;
+import com.yzchnb.twitter.dao.FunctionCaller.*;
 import com.yzchnb.twitter.dao.TableMapper.UserPrivateInfoMapper;
 import com.yzchnb.twitter.dao.TableMapper.UserPublicInfoMapper;
 import com.yzchnb.twitter.entity.TableEntity.UserPublicInfo;
@@ -26,26 +23,31 @@ public class UserServiceImpl implements IUserService {
     private FuncUserSignInByEmailCaller funcUserSignInByEmailCaller;
     @Autowired
     private FuncRecommendUserCaller funcRecommendUserCaller;
-
-    public Map getUserPublicInfo(int userId){
+    @Autowired
+    private FuncCheckUserEmailExistCaller funcCheckUserEmailExistCaller;
+    @Autowired
+    private FuncGetMessageNumCaller funcGetMessageNumCaller;
+    @Autowired
+    private FuncGetUserPrivateInfoCaller funcGetUserPrivateInfoCaller;
+    public Map GetUserPublicInfo(int userId){
         System.out.println(userId);
         Map result=(Map)funcGetUserPublicInfoCaller.call(userId).get(0);
         Utils.setAvatarUrl(result);
         return result;
     }
 
-    public void signUp(String email, String nickname, String password){
+    public void SignUp(String email, String nickname, String password){
         System.out.println("preparing signUp email:" + email + " nickname: " + nickname + " password: " + password);
         funcUserSignUpCaller.call(email, nickname, password);
     }
 
-    public Integer signIn(String email, String password) {
+    public Integer SignIn(String email, String password) {
         System.out.println("sign up " + email);
         Integer userId = funcUserSignInByEmailCaller.call(email, password);
         return userId;
     }
 
-    public ArrayList getRecommend(){
+    public ArrayList GetRecommend(){
         ArrayList<Map> result=funcRecommendUserCaller.call();
         for(Map user:result){
             Utils.setAvatarUrl(user);
@@ -53,4 +55,23 @@ public class UserServiceImpl implements IUserService {
         return result;
     }
 
+    @Override
+    public Integer CheckUserEmail(String email) {
+        return funcCheckUserEmailExistCaller.call(email);
+    }
+
+    @Override
+    public Integer GetUserMessageNum(int user_id) {
+        return funcGetMessageNumCaller.call(user_id);
+    }
+
+    @Override
+    public Map GetAllInfo(int user_id) {
+        Map result=GetUserPublicInfo(user_id);
+        Map<String,Object> temp=(Map<String,Object>)funcGetUserPrivateInfoCaller.call(user_id).get(0);
+        for(String key:temp.keySet()){
+            result.put(key,temp.get(key));
+        }
+        return result;
+    }
 }

@@ -6,8 +6,11 @@ import java.util.ArrayList;
 import java.util.Map;
 
 public interface IUserService {
-    Map getUserPublicInfo(int userId);
-    Integer signIn(String email, String password);
-    void signUp(String email, String nickname, String password);
-    ArrayList getRecommend();
+    Map GetUserPublicInfo(int userId);
+    Integer SignIn(String email, String password);
+    void SignUp(String email, String nickname, String password);
+    ArrayList GetRecommend();
+    Map GetAllInfo(int user_id);
+    Integer CheckUserEmail(String email);
+    Integer GetUserMessageNum(int user_id);
 }

@@ -65,4 +65,65 @@ public class Utils {
     }
     public static void setMessageUrl(Map message){
     }
+
+    public static ArrayList getTopicContent(String message){
+        int start=-1;
+        boolean flag=false;
+        ArrayList<String> result=new ArrayList<>();
+        for(int i=0;i<message.length();++i){
+            if(message.charAt(i)=='#'){
+                if(start==-1){
+                    start=i+1;
+                }else{
+
+                    if(flag){
+                        result.add(message.substring(start,i));
+                        flag=false;
+                    }
+                    start=-1;
+
+                }
+            }else{
+                if(start!=-1&&(!Character.isSpaceChar(message.charAt(i)))){
+                    flag=true;
+                }
+            }
+        }
+        return result;
+    }
+
+    public static ArrayList getAtContent(String message){
+        ArrayList<String> result=new ArrayList<>();
+        int start=-1;
+        boolean flag=false;
+        for(int i=0;i<message.length();++i){
+            if(message.charAt(i)=='@'){
+                if(start!=-1){
+                    if(flag){
+                        result.add(message.substring(start,i));
+                    }
+                    flag=false;
+                }
+                start=i+1;
+            }else{
+                if(start!=-1){
+                    if(Character.isSpaceChar(message.charAt(i))){
+                        if(flag){
+                            result.add(message.substring(start,i));
+                        }
+                        flag=false;
+                        start=-1;
+                    }else{
+                        flag=true;
+                    }
+                }
+            }
+        }
+        if(start!=-1){
+            if(flag){
+                result.add(message.substring(start));
+            }
+        }
+        return result;
+    }
 }

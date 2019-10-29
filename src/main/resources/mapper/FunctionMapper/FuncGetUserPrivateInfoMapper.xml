@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yzchnb.twitter.dao.FunctionMapper.FuncGetUserPrivateInfoMapper">
+
+	<parameterMap id="paramMapX" type="java.util.Map">
+		<parameter property="return"  javaType="java.lang.Integer" jdbcType="INTEGER" mode="OUT" />
+		<parameter property="mUserId"  javaType="java.lang.Integer" jdbcType="INTEGER" mode="IN" />
+		<parameter property="data"  javaType="java.sql.ResultSet" jdbcType="CURSOR" mode="OUT" resultMap="cursorMapX"/>
+	</parameterMap>
+
+	<resultMap id="cursorMapX" type="java.util.Map">
+		<result property="userPassword" column="USER_PASSWORD" jdbcType="VARCHAR" javaType="java.lang.String"/>
+		<result property="userEmail" column="USER_EMAIL" jdbcType="VARCHAR" javaType="java.lang.String"/>
+		<result property="userId" column="USER_ID" jdbcType="INTEGER" javaType="java.lang.Integer"/>
+		<result property="userRealName" column="USER_REAL_NAME" jdbcType="VARCHAR" javaType="java.lang.String"/>
+		<result property="userGender" column="USER_GENDER" jdbcType="VARCHAR" javaType="java.lang.String"/>
+	</resultMap>
+
+	<select id="call" statementType="CALLABLE" parameterMap="paramMapX">
+		{? = call FUNC_GET_USER_PRIVATE_INFO(?,?) }
+	</select>
+
+</mapper>

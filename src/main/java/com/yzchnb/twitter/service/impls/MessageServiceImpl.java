@@ -22,6 +22,10 @@ public class MessageServiceImpl implements IMessageService {
     private FuncShowFollowMessageCaller funcShowFollowMessageCaller;
     @Autowired
     private FuncShowMessageByTimeCaller funcShowMessageByTimeCaller;
+    @Autowired
+    private FuncAddTopicCaller funcAddTopicCaller;
+    @Autowired
+    private FuncAddAtUserCaller funcAddAtUserCaller;
     @Override
     public ArrayList QueryFollowMessage(int user_id, int start_from, int limitation) {
         return Utils.getMessageFromArray(funcShowFollowMessageCaller.call(user_id,start_from,limitation));
@@ -43,7 +47,16 @@ public class MessageServiceImpl implements IMessageService {
 
     @Override
     public Integer AddMessage(String message_content, int message_has_image, int user_id, int message_image_count) {
-        return funcSendMessageCaller.call(message_content,message_has_image,user_id,message_image_count);
+        Integer id=funcSendMessageCaller.call(message_content,message_has_image,user_id,message_image_count);
+        ArrayList<String> temps=Utils.getTopicContent(message_content);
+        for(String i:temps){
+            funcAddTopicCaller.call(i,id);
+        }
+        temps=Utils.getAtContent(message_content);
+        for(String i:temps){
+            funcAddAtUserCaller.call(i,id,user_id);
+        }
+        return id;
     }
 
     @Override
