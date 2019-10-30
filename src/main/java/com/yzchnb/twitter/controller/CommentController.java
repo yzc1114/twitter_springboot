@@ -1,5 +1,6 @@
 package com.yzchnb.twitter.controller;
 
+import com.yzchnb.twitter.configs.ExceptionDefinition.UserException;
 import com.yzchnb.twitter.service.ICommentService;
 import com.yzchnb.twitter.utils.Utils;
 import io.swagger.annotations.Api;
@@ -27,9 +28,10 @@ public class CommentController {
     @ApiOperation("获取推特的评论信息")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "startFrom", value = "起始位置",required = true),
-            @ApiImplicitParam(name = "limitation", value = "长度限制", required = true)
+            @ApiImplicitParam(name = "limitation", value = "长度限制", required = true),
+            @ApiImplicitParam(name = "message_id", value = "推特ID", required = true)
     })
-    public ArrayList queryComments(int message_id,
+    public ArrayList queryComments(@RequestParam("message_id") int message_id,
                                    @RequestParam("startFrom") int start_from,
                                    @RequestParam("limitation") int limitation){
         return iCommentService.QueryComments(message_id,start_from,limitation);
@@ -41,11 +43,21 @@ public class CommentController {
             @ApiImplicitParam(name = "be_commented_id", value = "被评论的推特id", required = true),
             @ApiImplicitParam(name = "content", value = "评论内容", required = true)
     })
-    public void addComments(HttpServletRequest request, int be_commented_id, @RequestParam("content") String content){
+    public void addComments (HttpServletRequest request,
+                            @RequestParam("be_commented_id") int be_commented_id,
+                            @RequestParam("content") String content){
         int user_id = Utils.getUserIdFromCookie(request);
         //登录验证失败处理
+        try {
+            if (user_id == 0)
+                throw new UserException("用户未登录！");
+            iCommentService.AddComment(user_id,be_commented_id,content);
+        }
+        catch (Exception e){
+            System.out.println(e);
+        }
 
-        iCommentService.AddComment(user_id,be_commented_id,content);
+
     }
 
 

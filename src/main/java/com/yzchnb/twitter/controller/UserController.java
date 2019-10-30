@@ -1,5 +1,6 @@
 package com.yzchnb.twitter.controller;
 
+import com.yzchnb.twitter.configs.ExceptionDefinition.UserException;
 import com.yzchnb.twitter.entity.TableEntity.UserPublicInfo;
 import com.yzchnb.twitter.service.IUserService;
 import com.yzchnb.twitter.utils.Utils;
@@ -8,6 +9,7 @@ import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.web.bind.annotation.*;
+import sun.security.x509.OtherName;
 
 import javax.annotation.Resource;
 import javax.servlet.http.Cookie;
@@ -27,7 +29,7 @@ public class UserController {
     @GetMapping("/getUserPublicInfo/{userId}")
     @ApiOperation("查看某人可公开的信息")
     @ApiImplicitParams({
-            @ApiImplicitParam(name = "user_id", value = "用户id", required = true)
+            @ApiImplicitParam(name = "userId", value = "用户id", required = true)
     })
     @ResponseBody
     public Map GetUserPublicInfo(@PathVariable int userId){
@@ -75,10 +77,26 @@ public class UserController {
 
     @GetMapping(value = "/getRecommend")
     @ApiOperation("获得推荐用户")
+    @ResponseBody
     public ArrayList GetRecommend() {
         return iUserService.GetRecommend();
     }
 
+    @GetMapping(value = "/getAllUserInfo")
+    @ApiOperation("查看用户所有信息")
+    @ResponseBody
+    public Map GetAllUserInfo(HttpServletRequest request){
+        int user_id = Utils.getUserIdFromCookie(request);
+        //验证登录
+        try {
+            if (user_id == 0) throw new UserException("用户未登录");
+            return iUserService.GetAllInfo(user_id);
 
+        }catch (Exception e){
+            System.out.println(e);
+        }
+
+        return null;
+    }
 }
 

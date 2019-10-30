@@ -1,6 +1,7 @@
 package com.yzchnb.twitter.controller;
 
 
+import com.yzchnb.twitter.configs.ExceptionDefinition.UserException;
 import com.yzchnb.twitter.service.IAtUserService;
 import com.yzchnb.twitter.utils.Utils;
 import io.swagger.annotations.Api;
@@ -29,18 +30,42 @@ public class AtUserController {
             @ApiImplicitParam(name = "limitation", value = "长度限制", required = true)
 
     })
-    public ArrayList query(HttpServletRequest request, @RequestParam("startFrom") int start_from, @RequestParam("limitation") int limitation ){
+    @ResponseBody
+    public ArrayList query(HttpServletRequest request,
+                           @RequestParam("startFrom") int start_from,
+                           @RequestParam("limitation") int limitation ){
         int user_id = Utils.getUserIdFromCookie(request);
-        // 还需要登录验证失败时的返回
-        return iAtUserService.Query(user_id,start_from,limitation);
+        // 登录验证失败时的返回
+        try {
+            if (user_id == 0)
+                throw new UserException("用户未登录！");
+
+            return iAtUserService.Query(user_id,start_from,limitation);
+        }
+        catch (Exception e){
+            System.out.println(e);
+        }
+
+        return null;
     }
 
     @GetMapping(value = "/queryUnreadAt")
     @ApiOperation("返回对自己的未读的At数")
+    @ResponseBody
     public Integer queryUnreadAt(HttpServletRequest request){
         int user_id = Utils.getUserIdFromCookie(request);
-        //仍需处理登录验证
-        return iAtUserService.QueryUnreadAt(user_id);
+        //处理登录验证
+        try {
+            if (user_id == 0)
+                throw new UserException("用户未登录！");
+            return iAtUserService.QueryUnreadAt(user_id);
+        }
+        catch (Exception e){
+            System.out.println(e);
+        }
+
+
+        return null;
     }
 
 
