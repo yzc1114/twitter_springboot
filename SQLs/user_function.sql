@@ -1,13 +1,13 @@
 ------------------FUNC_CHECK_USER_EMAIL_EXIST(email in VARCHAR)----------------
 -----------------------�?查用户Email是否存在于数据库�?---------------------------
-create or replace function 
-FUNC_CHECK_USER_EMAIL_EXIST(email in VARCHAR)
+create or replace function
+FUNC_CHECK_USER_EMAIL_EXIST(email in VARCHAR,result out INTEGER)
 return INTEGER
-is 
-state INTEGER;
-begin 
+is
+state INTEGER:=1;
+begin
 select count(*)
-into state
+into result
 from USER_PRIVATE_INFO
 where USER_EMAIL=email;
 return state;
@@ -258,4 +258,17 @@ return state;
 end;
 /
 
+---------FUNC_GET_USER_PRIVATE_INFO-----
+create or replace function FUNC_GET_USER_PRIVATE_INFO(m_user_id in INTEGER, info OUT Sys_refcursor)
+return INTEGER
+is state integer:=1;
+
+begin
+open info for
+  select * from USER_PRIVATE_INFO
+  where user_id = m_user_id;
+
+return state;
+end;
+/
 

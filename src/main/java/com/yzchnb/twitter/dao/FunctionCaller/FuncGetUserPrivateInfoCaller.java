@@ -1,7 +1,7 @@
 package com.yzchnb.twitter.dao.FunctionCaller;
 
 import com.yzchnb.twitter.dao.FunctionCaller.BaseCaller.FuncBaseCaller;
-import com.yzchnb.twitter.dao.FunctionMapper.FuncCheckUserEmailExistMapper;
+import com.yzchnb.twitter.dao.FunctionMapper.FuncGetUserPrivateInfoMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
@@ -10,13 +10,13 @@ import java.util.HashMap;
 import java.util.Map;
 
 @Repository
-public class FuncCheckUserEmailExistCaller extends FuncBaseCaller {
+public class FuncGetUserPrivateInfoCaller extends FuncBaseCaller {
 	@Autowired
-	private FuncCheckUserEmailExistMapper funcCheckUserEmailExistMapper;
+	private FuncGetUserPrivateInfoMapper funcGetUserPrivateInfoMapper;
 
-	public java.lang.Integer call(java.lang.String email){
+	public java.util.ArrayList call(java.lang.Integer mUserId){
 		Map map = new HashMap();
-		map.put("email", email);
-		return resolveInteger(funcCheckUserEmailExistMapper, map);
+		map.put("mUserId", mUserId);
+		return resolveArrayList(funcGetUserPrivateInfoMapper, map);
 	}
 }

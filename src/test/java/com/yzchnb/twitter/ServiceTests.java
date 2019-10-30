@@ -5,6 +5,7 @@ import com.yzchnb.twitter.service.ICollectionService;
 import com.yzchnb.twitter.service.IMessageService;
 import com.yzchnb.twitter.service.IRelationService;
 import com.yzchnb.twitter.service.IUserService;
+import com.yzchnb.twitter.utils.Utils;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -36,6 +37,8 @@ public class ServiceTests {
         //System.out.println(messageService.QueryNewest(0,100));
         //System.out.println(userService.getRecommend());
         //collectionService.Add(7,21);
-        System.out.println(collectionService.QueryCollection(7,0,100));
+        //System.out.println(collectionService.QueryCollection(7,0,100));
+        System.out.println(Utils.getTopicContent("jkljkljlag  ##  #          #dfas#2##11#"));
+        System.out.println(Utils.getAtContent("@gddfg aee ffad feew@3324@2@@fffad"));
     }
 }

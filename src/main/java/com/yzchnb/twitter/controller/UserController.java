@@ -30,8 +30,8 @@ public class UserController {
             @ApiImplicitParam(name = "user_id", value = "用户id", required = true)
     })
     @ResponseBody
-    public Map getUserPublicInfo(@PathVariable int userId){
-        return iUserService.getUserPublicInfo(userId);
+    public Map GetUserPublicInfo(@PathVariable int userId){
+        return iUserService.GetUserPublicInfo(userId);
     }
 
     @PostMapping(value = "/signUp")
@@ -41,10 +41,10 @@ public class UserController {
             @ApiImplicitParam(name = "nickname", value = "昵称", required = true),
             @ApiImplicitParam(name = "password", value = "密码", required = true)
     })
-    public void signUp(@RequestParam("email") String email,
+    public void SignUp(@RequestParam("email") String email,
                          @RequestParam("nickname") String nickname,
                          @RequestParam("password") String password){
-        iUserService.signUp(email, nickname, password);
+        iUserService.SignUp(email, nickname, password);
     }
 
     @PostMapping(value = "/signIn")
@@ -53,10 +53,10 @@ public class UserController {
             @ApiImplicitParam(name = "email", value = "邮箱", required = true),
             @ApiImplicitParam(name = "password", value = "密码", required = true)
     })
-    public boolean signIn(@RequestParam("email")String email,
+    public boolean SignIn(@RequestParam("email")String email,
                           @RequestParam("password")String password,
                           HttpServletResponse response){
-        Integer userId = iUserService.signIn(email, password);
+        Integer userId = iUserService.SignIn(email, password);
         if(userId.equals(0)){
             return false;
         }
@@ -75,8 +75,8 @@ public class UserController {
 
     @GetMapping(value = "/getRecommend")
     @ApiOperation("获得推荐用户")
-    public ArrayList getRecommend() {
-        return iUserService.getRecommend();
+    public ArrayList GetRecommend() {
+        return iUserService.GetRecommend();
     }
 
 
