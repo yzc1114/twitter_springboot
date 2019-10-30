@@ -19,7 +19,7 @@ public class CommentServiceImpl implements ICommentService {
     }
 
     @Override
-    public void Add(int user_id, int be_commented_id, String content) {
+    public void AddComment(int user_id, int be_commented_id, String content) {
         funcAddCommentCaller.call(user_id,be_commented_id,content);
     }
 }

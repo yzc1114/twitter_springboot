@@ -25,7 +25,7 @@ public class UserController {
     private IUserService iUserService;
 
     @GetMapping("/getUserPublicInfo/{userId}")
-    @ApiOperation("添加用户的接口")
+    @ApiOperation("查看某人可公开的信息")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "user_id", value = "用户id", required = true)
     })
@@ -78,4 +78,7 @@ public class UserController {
     public ArrayList getRecommend() {
         return iUserService.getRecommend();
     }
+
+
 }
+
