@@ -31,7 +31,6 @@ public class UserController {
     @ApiImplicitParams({
             @ApiImplicitParam(name = "userId", value = "用户id", required = true)
     })
-    @ResponseBody
     public Map GetUserPublicInfo(@PathVariable int userId){
         return iUserService.GetUserPublicInfo(userId);
     }
@@ -67,6 +66,26 @@ public class UserController {
         return true;
     }
 
+    @GetMapping(value = "/logout")
+    @ApiOperation("退出登录")
+    public void logout(HttpServletRequest request , HttpServletResponse response){
+        Cookie[] cookies = request.getCookies();
+        if (cookies != null){
+            for (Cookie cookie : cookies) {
+                if (cookie.getName().equals("userId")){
+                    cookie.setValue(null);
+                    cookie.setMaxAge(0);
+                    cookie.setPath("/");
+                    response.addCookie(cookie);
+                    break;
+                }
+
+            }
+        }
+
+
+    }
+
     @GetMapping(value = "/checkIfSignUp")
     @ApiOperation("检查是否登录")
     public boolean checkIfSignUp(HttpServletRequest request) {
@@ -77,14 +96,12 @@ public class UserController {
 
     @GetMapping(value = "/getRecommend")
     @ApiOperation("获得推荐用户")
-    @ResponseBody
     public ArrayList GetRecommend() {
         return iUserService.GetRecommend();
     }
 
     @GetMapping(value = "/getAllUserInfo")
     @ApiOperation("查看用户所有信息")
-    @ResponseBody
     public Map GetAllUserInfo(HttpServletRequest request){
         int user_id = Utils.getUserIdFromCookie(request);
         //验证登录

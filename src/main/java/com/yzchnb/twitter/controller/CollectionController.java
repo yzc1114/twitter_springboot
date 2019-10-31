@@ -62,7 +62,6 @@ public class CollectionController {
             @ApiImplicitParam(name = "startFrom", value = "起始位置", required = true),
             @ApiImplicitParam(name = "limitation", value = "长度限制", required = true)
     })
-    @ResponseBody
     public ArrayList queryCollection(@PathVariable int userId,
                                      @RequestParam("startFrom") int startFrom,
                                      @RequestParam("limitation") int limitation){
@@ -74,7 +73,6 @@ public class CollectionController {
     @ApiImplicitParams({
             @ApiImplicitParam(name = "userId", value = "用户ID", required = true)
     })
-    @ResponseBody
     public Integer getCollectionNum(@PathVariable int userId){
         return iCollectionService.GetCollectionNum(userId);
     }

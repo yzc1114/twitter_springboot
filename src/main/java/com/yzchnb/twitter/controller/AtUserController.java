@@ -30,7 +30,6 @@ public class AtUserController {
             @ApiImplicitParam(name = "limitation", value = "长度限制", required = true)
 
     })
-    @ResponseBody
     public ArrayList query(HttpServletRequest request,
                            @RequestParam("startFrom") int start_from,
                            @RequestParam("limitation") int limitation ){
@@ -51,7 +50,6 @@ public class AtUserController {
 
     @GetMapping(value = "/queryUnreadAt")
     @ApiOperation("返回对自己的未读的At数")
-    @ResponseBody
     public Integer queryUnreadAt(HttpServletRequest request){
         int user_id = Utils.getUserIdFromCookie(request);
         //处理登录验证

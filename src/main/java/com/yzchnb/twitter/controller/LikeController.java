@@ -59,7 +59,6 @@ public class LikeController {
             @ApiImplicitParam(name = "startFrom", value = "起始位置",required = true),
             @ApiImplicitParam(name = "limitation", value = "长度限制",required = true)
     })
-    @ResponseBody
     public ArrayList queryLikes(@PathVariable int userId,
                                 @RequestParam("startFrom") int startFrom,
                                 @RequestParam("limitation") int limitation){
