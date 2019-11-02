@@ -24,11 +24,14 @@ public class Utils {
     }
 
     public static Integer getUserIdFromCookie(HttpServletRequest request) {
-        System.out.println(request);
+        //System.out.println(request);
         Cookie[] cookies = request.getCookies();
+        for(Cookie i:cookies){
+            System.out.println(i.getName()+" "+i.getValue());
+        }
         if(cookies != null){
             for (Cookie cookie: cookies) {
-                if(cookie.getName().equals("userId")){
+                if(cookie.getName().equals("userId")&&!cookie.getValue().equals("")){
                     return Integer.parseInt(cookie.getValue());
                 }
             }
@@ -46,7 +49,7 @@ public class Utils {
         return "/avatars/"+funcGetUserAvatarCaller.call(user_id).toString();
     }
     public static void setAvatarUrl(Map user){
-        user.put("avatar_url",getAvatarUrlById(Integer.parseInt(user.get("userId").toString())));
+        user.put("avatarUrl",getAvatarUrlById(Integer.parseInt(user.get("userId").toString())));
     }
     public static Map getMessageById(int message_id){
         Map result=(Map)funcShowMessageByIdCaller.call(message_id).get(0);

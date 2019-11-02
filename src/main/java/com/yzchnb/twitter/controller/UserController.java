@@ -8,8 +8,9 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.server.ServerHttpRequest;
 import org.springframework.web.bind.annotation.*;
-import sun.security.x509.OtherName;
 
 import javax.annotation.Resource;
 import javax.servlet.http.Cookie;
@@ -25,7 +26,6 @@ public class UserController {
 
     @Resource
     private IUserService iUserService;
-
     @GetMapping("/getUserPublicInfo/{userId}")
     @ApiOperation("查看某人可公开的信息")
     @ApiImplicitParams({
@@ -61,29 +61,22 @@ public class UserController {
         if(userId.equals(0)){
             return false;
         }
+        Cookie cookie=new Cookie("userId", userId.toString());
+        cookie.setPath("/");
+        cookie.setMaxAge(30*60);
         //写入cookie的方法
-        response.addCookie(new Cookie("userId", userId.toString()));
+        response.addCookie(cookie);
         return true;
     }
 
     @GetMapping(value = "/logout")
     @ApiOperation("退出登录")
-    public void logout(HttpServletRequest request , HttpServletResponse response){
-        Cookie[] cookies = request.getCookies();
-        if (cookies != null){
-            for (Cookie cookie : cookies) {
-                if (cookie.getName().equals("userId")){
-                    cookie.setValue(null);
-                    cookie.setMaxAge(0);
-                    cookie.setPath("/");
-                    response.addCookie(cookie);
-                    break;
-                }
-
-            }
-        }
-
-
+    public void logout(@CookieValue("userId") Cookie cookie,HttpServletResponse response){
+        System.out.println(cookie.getValue());
+        cookie.setValue(null);
+        cookie.setMaxAge(0);
+        cookie.setPath("/");
+        response.addCookie(cookie);
     }
 
     @GetMapping(value = "/checkIfSignUp")
@@ -105,15 +98,10 @@ public class UserController {
     public Map GetAllUserInfo(HttpServletRequest request){
         int user_id = Utils.getUserIdFromCookie(request);
         //验证登录
-        try {
             if (user_id == 0) throw new UserException("用户未登录");
             return iUserService.GetAllInfo(user_id);
 
-        }catch (Exception e){
-            System.out.println(e);
-        }
 
-        return null;
     }
 }
 
