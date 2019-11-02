@@ -22,7 +22,7 @@ public class PrivateLetterController {
     @Resource
     private IPrivateLetterService iPrivateLetterService;
 
-    @PostMapping("/AddPrivateLetter/{receiver_user_id}")
+    @PostMapping("/addPrivateLetter/{receiver_user_id}")
     @ApiOperation("发送私信")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "receiver_user_id", value = "接收私信的用户ID", required = true),
@@ -38,7 +38,7 @@ public class PrivateLetterController {
 
     }
 
-    @GetMapping("/DeletePrivateLetter/{private_letter_id}")
+    @GetMapping("/deletePrivateLetter/{private_letter_id}")
     @ApiOperation("删除私信")
     @ApiImplicitParam(name = "private_letter_id",value = "私信ID",required = true)
     void DeletePrivateLetter(@RequestParam("private_letter_id") int private_letter_id,
@@ -50,7 +50,7 @@ public class PrivateLetterController {
 
     }
 
-    @PostMapping("/QueryPrivateLetters/{user_id}")
+    @PostMapping("/queryPrivateLetters/{user_id}")
     @ApiOperation("查询和某用户的私信")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "user_id",value = "用户ID",required = true),
