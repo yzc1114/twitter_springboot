@@ -94,7 +94,7 @@ public class RelationController {
 
     }
 
-    @GetMapping(value = "/if_following_by_me{be_followed_id}")
+    @GetMapping(value = "/ifFollowingByMe{be_followed_id}")
     @ApiOperation("用户是否关注be_followed")
     @ApiImplicitParam(name = "be_followed_id", value = "被关注的用户ID", required = true)
     Integer IfFollowing(int be_followed_id,HttpServletRequest request) throws UserException{
@@ -108,7 +108,7 @@ public class RelationController {
 
     }
 
-    @PostMapping(value = "/if_following")
+    @PostMapping(value = "/ifFollowing")
     @ApiOperation("follower是否关注be_followed")
     @ApiImplicitParams({
         @ApiImplicitParam(name = "follower_id",value = "发起关注的用户ID",required = true),

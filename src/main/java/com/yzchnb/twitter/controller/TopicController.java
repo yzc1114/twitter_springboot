@@ -20,7 +20,7 @@ public class TopicController {
     @Resource
     private ITopicService iTopicService;
 
-    @PostMapping("/QueryMessageByTopic/{topic_id}")
+    @PostMapping("/queryMessageByTopic/{topic_id}")
     @ApiOperation("根据话题名字，起始位置和长度限制获取时间最近的几条message_id组成的列表")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "topic_id",value = "话题ID",required = true),
@@ -33,7 +33,7 @@ public class TopicController {
         return iTopicService.QueryMessageByTopic(topic_id,start_from,limitation);
     }
 
-    @PostMapping("/QueryTopicsBaseOnHeat")
+    @PostMapping("/queryTopicsBaseOnHeat")
     @ApiOperation("查找最热的几条话题")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "start_from",value = "起始位置",required = true),
@@ -44,7 +44,7 @@ public class TopicController {
         return iTopicService.QueryTopicsBaseOnHeat(start_from,limitation);
     }
 
-    @PostMapping("/AddTopicWithMessage")
+    @PostMapping("/addTopicWithMessage")
     @ApiOperation("根据传入的内容，将内容中的Topic全都增加")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "topic_content",value = "话题内容",required = true),
@@ -55,7 +55,7 @@ public class TopicController {
         iTopicService.AddTopicWithMessage(topic_content,message_id);
     }
 
-    @PostMapping("/GetTopicIdByName")
+    @PostMapping("/getTopicIdByName")
     @ApiOperation("通过话题名字返回ID")
     @ApiImplicitParam(name = "topic_name",value = "话题名字",required = true)
     Integer GetTopicIdByName(@RequestParam("topic_name") String topic_name){

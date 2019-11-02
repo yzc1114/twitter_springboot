@@ -21,7 +21,7 @@ public class SearchController {
     @Resource
     private ISearchService iSearchService;
 
-    @PostMapping(value = "getSearchResult")
+    @PostMapping(value = "/getSearchResult")
     @ApiOperation("获得搜索结果，包括Message,User,Topic三类")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "searchKey", value = "搜索关键字", required = true),
