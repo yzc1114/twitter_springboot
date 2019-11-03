@@ -26,7 +26,7 @@ public class MessageController {
     private IMessageService iMessageService;
 
     //用于发送推特时的模型
-    public class MessageForSender {
+    private static class MessageForSender {
 
         public String message_content;
 
@@ -36,6 +36,19 @@ public class MessageController {
 
         public int message_image_count;
 
+    }
+
+    //用于转发推特时的模型
+    public static class MessageForTransponder {
+
+        //推特内容
+        public String message_content;
+
+        //转发来源推特ID
+        public int message_transpond_message_id;
+
+        //是否转发
+        public int message_source_is_transponder;
     }
 
     @PostMapping("/queryMessage")
@@ -107,20 +120,26 @@ public class MessageController {
     }
 
     @PostMapping("/retweet")
-    Integer TransponderMessage(String message_content, int message_source_is_transponder,
-                               int message_sender_user_id, int transponder_message_id,
-                               HttpServletRequest request) throws UserException {
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "message_content",value = "推特内容",required = true),
+            @ApiImplicitParam(name = "message_source_is_transponder",value = "是否转发",required = true),
+            @ApiImplicitParam(name = "message_transpond_message_id",value = "转发推特的ID",required = true)
+    })
+    Integer TransponderMessage( MessageForTransponder message,HttpServletRequest request) throws UserException {
         int userId = Utils.getUserIdFromCookie(request);
         // 登录验证失败时的返回
 
         if (userId == 0)
             throw new UserException("用户未登录！");
 
-        return iMessageService.TransponderMessage(message_content, message_source_is_transponder,
-                message_sender_user_id, transponder_message_id);
+        return iMessageService.TransponderMessage(message.message_content, message.message_source_is_transponder,
+                userId, message.message_transpond_message_id);
 
     }
 
+    @PostMapping("/delete")
+    @ApiOperation("删除推特")
+    @ApiImplicitParam(name = "message_id",value = "推特ID",required = true)
     void Delete(int message_id, HttpServletRequest request) throws UserException {
         int userId = Utils.getUserIdFromCookie(request);
         // 登录验证失败时的返回
