@@ -2,12 +2,14 @@ package com.yzchnb.twitter.utils;
 
 import com.yzchnb.twitter.dao.FunctionCaller.FuncGetUserAvatarCaller;
 import com.yzchnb.twitter.dao.FunctionCaller.FuncShowMessageByIdCaller;
+import io.swagger.models.auth.In;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.util.ResourceUtils;
 
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.Map;
@@ -25,7 +27,7 @@ public class Utils {
 
     public static Integer getUserIdFromCookie(HttpServletRequest request) {
         //System.out.println(request);
-        Cookie[] cookies = request.getCookies();
+        /*Cookie[] cookies = request.getCookies();
         for(Cookie i:cookies){
             System.out.println(i.getName()+" "+i.getValue());
         }
@@ -35,8 +37,32 @@ public class Utils {
                     return Integer.parseInt(cookie.getValue());
                 }
             }
+        }*/
+        Object value=request.getSession().getAttribute("userId");
+        if(value==null){
+            return 0;
+        }else{
+            return Integer.parseInt(value.toString());
         }
-        return 0;
+
+    }
+    public static void setSession(HttpServletRequest request,int user_id){
+        /*Cookie cookie=new Cookie("userId",null);
+        cookie.setPath("/");
+        //cookie.setSecure(true);
+        cookie.setMaxAge(0);
+        if(user_id!=0){
+            cookie.setValue(String.valueOf(user_id));
+            cookie.setMaxAge(max_time);
+        }
+        System.out.println(cookie.getValue());
+        return cookie;*/
+        if(user_id==0){
+            request.getSession().removeAttribute("userId");
+        }else{
+            request.getSession(true).setAttribute("userId",user_id);
+        }
+
     }
     public static String getAvatarsLocation() throws FileNotFoundException {
         return ResourceUtils.getURL("classpath:").getPath()+"avatar/";
@@ -128,5 +154,9 @@ public class Utils {
             }
         }
         return result;
+    }
+    static public class Range{
+        public int startFrom;
+        public int limitation;
     }
 }

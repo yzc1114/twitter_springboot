@@ -55,28 +55,25 @@ public class UserController {
             @ApiImplicitParam(name = "password", value = "密码", required = true)
     })
     public boolean SignIn(@RequestParam("email")String email,
-                          @RequestParam("password")String password,
+                          @RequestParam("password")String password,HttpServletRequest request,
                           HttpServletResponse response){
         Integer userId = iUserService.SignIn(email, password);
         if(userId.equals(0)){
             return false;
         }
-        Cookie cookie=new Cookie("userId", userId.toString());
-        cookie.setPath("/");
-        cookie.setMaxAge(30*60);
+        /*Cookie cookie=Utils.createNewCookie(userId,60*60);
+        System.out.println(cookie.getName()+" "+cookie.getValue());
         //写入cookie的方法
-        response.addCookie(cookie);
+        response.addCookie(cookie);*/
+        Utils.setSession(request,userId);
         return true;
     }
 
     @GetMapping(value = "/logout")
     @ApiOperation("退出登录")
-    public void logout(@CookieValue("userId") Cookie cookie,HttpServletResponse response){
-        System.out.println(cookie.getValue());
-        cookie.setValue(null);
-        cookie.setMaxAge(0);
-        cookie.setPath("/");
-        response.addCookie(cookie);
+    public void logout(HttpServletRequest request){
+        //response.addCookie(Utils.createNewCookie(0,0));
+        Utils.setSession(request,0);
     }
 
     @GetMapping(value = "/checkIfSignUp")

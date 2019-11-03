@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.websocket.server.PathParam;
 import java.util.ArrayList;
 
 @RestController
@@ -25,21 +26,17 @@ public class RelationController {
     @PostMapping(value = "/queryFollowersFor/{user_id}")
     @ApiOperation("查看关注某人的用户列表")
     @ApiImplicitParams({
-            @ApiImplicitParam(name = "user_id", value = "用户ID",required = true),
-            @ApiImplicitParam(name = "start_from", value = "起始位置", required = true),
-            @ApiImplicitParam(name = "limitation", value = "长度限制", required = true)
+            @ApiImplicitParam(name = "user_id", value = "用户ID",required = true)
     })
-    ArrayList QueryFollowersFor(@RequestParam("user_id") int user_id,
-                                @RequestParam("start_from") int start_from,
-                                @RequestParam("limitation") int limitation,
+    ArrayList QueryFollowersFor(@PathVariable() int user_id,
+                                @RequestBody Utils.Range range,
                                 HttpServletRequest request)throws UserException{
         int userId = Utils.getUserIdFromCookie(request);
         // 登录验证失败时的返回
 
             if (userId == 0)
-                throw new UserException("用户未登录！");
-
-            return iRelationService.QueryFollowersFor(user_id,start_from,limitation);
+                 new UserException("用户未登录！");
+            return iRelationService.QueryFollowersFor(user_id,range.startFrom,range.limitation);
 
     }
 
