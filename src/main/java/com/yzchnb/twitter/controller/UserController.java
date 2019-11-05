@@ -91,9 +91,9 @@ public class UserController {
     public boolean checkIfSignUp(HttpServletRequest request) {
         //从cookie中取用户id的方法
         Integer userId = Utils.getUserIdFromCookie(request);
-        return userId != 0;
+        //System.out.println(userId);
+        return (userId != 0);
     }
-
     @GetMapping(value = "/getRecommend")
     @ApiOperation("获得推荐用户")
     public ArrayList GetRecommend() {
