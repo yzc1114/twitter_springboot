@@ -38,7 +38,8 @@ public class ServiceTests {
         //System.out.println(userService.getRecommend());
         //collectionService.Add(7,21);
         //System.out.println(collectionService.QueryCollection(7,0,100));
-        System.out.println(Utils.getTopicContent("jkljkljlag  ##  #          #dfas#2##11#"));
-        System.out.println(Utils.getAtContent("@gddfg aee ffad feew@3324@2@@fffad"));
+        //System.out.println(Utils.getTopicContent("jkljkljlag  ##  #          #dfas#2##11#"));
+        //System.out.println(Utils.getAtContent("@gddfg aee ffad feew@3324@2@@fffad"));
+        System.out.println(relationService.QueryFollowingFor(63,0,63));
     }
 }
