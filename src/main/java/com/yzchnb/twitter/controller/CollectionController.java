@@ -1,6 +1,7 @@
 package com.yzchnb.twitter.controller;
 
 import com.yzchnb.twitter.configs.ExceptionDefinition.UserException;
+import com.yzchnb.twitter.entity.entityforController.Range;
 import com.yzchnb.twitter.service.ICollectionService;
 import com.yzchnb.twitter.utils.Utils;
 import io.swagger.annotations.Api;
@@ -59,13 +60,10 @@ public class CollectionController {
     @ApiOperation("查询用户收藏的推特")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "userId", value = "用户ID", required = true),
-            @ApiImplicitParam(name = "startFrom", value = "起始位置", required = true),
-            @ApiImplicitParam(name = "limitation", value = "长度限制", required = true)
     })
     public ArrayList queryCollection(@PathVariable int userId,
-                                     @RequestParam("startFrom") int startFrom,
-                                     @RequestParam("limitation") int limitation){
-        return iCollectionService.QueryCollection(userId, startFrom,limitation);
+                                     @RequestBody Range range){
+        return iCollectionService.QueryCollection(userId, range.startFrom,range.limitation);
     }
 
     @PostMapping(value = "/getCollectionNum/{userId}")

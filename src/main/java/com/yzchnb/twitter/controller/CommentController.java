@@ -1,16 +1,14 @@
 package com.yzchnb.twitter.controller;
 
 import com.yzchnb.twitter.configs.ExceptionDefinition.UserException;
+import com.yzchnb.twitter.entity.entityforController.Range;
 import com.yzchnb.twitter.service.ICommentService;
 import com.yzchnb.twitter.utils.Utils;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
@@ -27,14 +25,11 @@ public class CommentController {
     @PostMapping("/queryComments")
     @ApiOperation("获取推特的评论信息")
     @ApiImplicitParams({
-            @ApiImplicitParam(name = "startFrom", value = "起始位置",required = true),
-            @ApiImplicitParam(name = "limitation", value = "长度限制", required = true),
             @ApiImplicitParam(name = "message_id", value = "推特ID", required = true)
     })
     public ArrayList queryComments(@RequestParam("message_id") int message_id,
-                                   @RequestParam("startFrom") int start_from,
-                                   @RequestParam("limitation") int limitation){
-        return iCommentService.QueryComments(message_id,start_from,limitation);
+                                   @RequestBody Range range ){
+        return iCommentService.QueryComments(message_id,range.startFrom,range.limitation);
     }
 
     @PostMapping("/addComment")

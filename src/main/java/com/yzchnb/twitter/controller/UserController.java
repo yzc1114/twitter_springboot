@@ -3,6 +3,8 @@ package com.yzchnb.twitter.controller;
 import com.yzchnb.twitter.configs.ExceptionDefinition.UserException;
 import com.yzchnb.twitter.entity.TableEntity.UserPublicInfo;
 import com.yzchnb.twitter.entity.entityforController.UserEntity.Account;
+import com.yzchnb.twitter.entity.entityforController.UserEntity.UserInfoEdit;
+import com.yzchnb.twitter.service.IAvatarService;
 import com.yzchnb.twitter.service.IUserService;
 import com.yzchnb.twitter.utils.Utils;
 import io.swagger.annotations.Api;
@@ -10,6 +12,7 @@ import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpRequest;
 import org.springframework.http.server.ServerHttpRequest;
 import org.springframework.web.bind.annotation.*;
 
@@ -27,6 +30,10 @@ public class UserController {
 
     @Resource
     private IUserService iUserService;
+    @Resource
+    private IAvatarService iAvatarService;
+
+
     @GetMapping("/getUserPublicInfo/{userId}")
     @ApiOperation("查看某人可公开的信息")
     @ApiImplicitParams({
@@ -94,5 +101,19 @@ public class UserController {
 
 
     }
+
+
+    @PostMapping(value = "/editInfo")
+    @ApiOperation("修改用户信息")
+    public void EditInfo(HttpServletRequest request,
+                         @RequestBody UserInfoEdit userInfoEdit){
+        int user_id = Utils.getUserIdFromCookie(request);
+
+        if (user_id == 0) throw new UserException("用户未登录");
+        iUserService.EditInfo(userInfoEdit);
+    }
+
+
 }
+
 

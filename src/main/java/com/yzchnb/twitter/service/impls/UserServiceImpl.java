@@ -4,6 +4,7 @@ import com.yzchnb.twitter.dao.FunctionCaller.*;
 import com.yzchnb.twitter.dao.TableMapper.UserPrivateInfoMapper;
 import com.yzchnb.twitter.dao.TableMapper.UserPublicInfoMapper;
 import com.yzchnb.twitter.entity.TableEntity.UserPublicInfo;
+import com.yzchnb.twitter.entity.entityforController.UserEntity.UserInfoEdit;
 import com.yzchnb.twitter.service.IUserService;
 import com.yzchnb.twitter.utils.Utils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -66,6 +67,11 @@ public class UserServiceImpl implements IUserService {
     }
 
     @Override
+    public void EditInfo(UserInfoEdit userInfoEdit) {
+
+    }
+
+    @Override
     public Map GetAllInfo(int user_id) {
         Map result=GetUserPublicInfo(user_id);
         Map<String,Object> temp=(Map<String,Object>)funcGetUserPrivateInfoCaller.call(user_id).get(0);
@@ -74,4 +80,6 @@ public class UserServiceImpl implements IUserService {
         }
         return result;
     }
+
+
 }
