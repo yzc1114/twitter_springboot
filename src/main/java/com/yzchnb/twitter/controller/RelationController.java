@@ -1,6 +1,7 @@
 package com.yzchnb.twitter.controller;
 
 import com.yzchnb.twitter.configs.ExceptionDefinition.UserException;
+import com.yzchnb.twitter.entity.entityforController.Range;
 import com.yzchnb.twitter.service.IRelationService;
 import com.yzchnb.twitter.utils.Utils;
 import io.swagger.annotations.Api;
@@ -29,7 +30,7 @@ public class RelationController {
             @ApiImplicitParam(name = "user_id", value = "用户ID",required = true)
     })
     ArrayList QueryFollowersFor(@PathVariable() int user_id,
-                                @RequestBody Utils.Range range,
+                                @RequestBody Range range,
                                 HttpServletRequest request)throws UserException{
         int userId = Utils.getUserIdFromCookie(request);
         // 登录验证失败时的返回
@@ -44,12 +45,9 @@ public class RelationController {
     @ApiOperation("查看某人关注的用户列表")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "user_id", value = "用户ID",required = true),
-            @ApiImplicitParam(name = "start_from", value = "起始位置", required = true),
-            @ApiImplicitParam(name = "limitation", value = "长度限制", required = true)
     })
     ArrayList QueryFollowingFor(@RequestParam("user_id") int user_id,
-                                @RequestParam("start_from") int start_from,
-                                @RequestParam("limitation") int limitation,
+                                @RequestBody Range range,
                                 HttpServletRequest request)throws UserException{
         int userId = Utils.getUserIdFromCookie(request);
         // 登录验证失败时的返回
@@ -57,7 +55,7 @@ public class RelationController {
             if (userId == 0)
                 throw new UserException("用户未登录！");
 
-            return iRelationService.QueryFollowingFor(user_id,start_from,limitation);
+            return iRelationService.QueryFollowingFor(user_id,range.startFrom,range.limitation);
 
     }
 

@@ -2,6 +2,7 @@ package com.yzchnb.twitter.controller;
 
 import com.yzchnb.twitter.configs.ExceptionDefinition.UserException;
 import com.yzchnb.twitter.entity.TableEntity.UserPublicInfo;
+import com.yzchnb.twitter.entity.entityforController.UserEntity.Account;
 import com.yzchnb.twitter.service.IUserService;
 import com.yzchnb.twitter.utils.Utils;
 import io.swagger.annotations.Api;
@@ -38,26 +39,19 @@ public class UserController {
     @PostMapping(value = "/signUp")
     @ApiOperation("注册接口")
     @ApiImplicitParams({
-            @ApiImplicitParam(name = "email", value = "邮箱", required = true),
             @ApiImplicitParam(name = "nickname", value = "昵称", required = true),
-            @ApiImplicitParam(name = "password", value = "密码", required = true)
     })
-    public void SignUp(@RequestParam("email") String email,
-                         @RequestParam("nickname") String nickname,
-                         @RequestParam("password") String password){
-        iUserService.SignUp(email, nickname, password);
+    public void SignUp(@RequestParam("nickname") String nickname,
+                       @RequestBody Account account){
+        iUserService.SignUp(account.email, nickname, account.password);
     }
 
     @PostMapping(value = "/signIn")
     @ApiOperation("登录接口")
-    @ApiImplicitParams({
-            @ApiImplicitParam(name = "email", value = "邮箱", required = true),
-            @ApiImplicitParam(name = "password", value = "密码", required = true)
-    })
-    public boolean SignIn(@RequestParam("email")String email,
-                          @RequestParam("password")String password,HttpServletRequest request,
-                          HttpServletResponse response){
-        Integer userId = iUserService.SignIn(email, password);
+    public boolean SignIn(HttpServletRequest request,
+                          HttpServletResponse response,
+                          @RequestBody Account account){
+        Integer userId = iUserService.SignIn(account.email, account.password);
         if(userId.equals(0)){
             return false;
         }
