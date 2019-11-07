@@ -12,6 +12,7 @@ import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpRequest;
 import org.springframework.http.server.ServerHttpRequest;
 import org.springframework.web.bind.annotation.*;
@@ -32,6 +33,8 @@ public class UserController {
     private IUserService iUserService;
     @Resource
     private IAvatarService iAvatarService;
+    @Value("${uploadPath}")
+    private String path;
 
 
     @GetMapping("/getUserPublicInfo/{userId}")
@@ -113,7 +116,12 @@ public class UserController {
         iUserService.EditInfo(userInfoEdit);
     }
 
+    @PostMapping(value = "/uploadAvatar")
+    @ApiOperation("上传头像")
+    public void uploadAvatar(){
 
+
+    }
 }
 
 
