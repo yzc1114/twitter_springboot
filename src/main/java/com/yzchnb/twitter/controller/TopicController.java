@@ -1,5 +1,6 @@
 package com.yzchnb.twitter.controller;
 
+import com.yzchnb.twitter.entity.entityforController.Range;
 import com.yzchnb.twitter.service.ITopicService;
 import com.yzchnb.twitter.service.IUserService;
 import io.swagger.annotations.Api;
@@ -24,24 +25,16 @@ public class TopicController {
     @ApiOperation("根据话题名字，起始位置和长度限制获取时间最近的几条message_id组成的列表")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "topic_id",value = "话题ID",required = true),
-            @ApiImplicitParam(name = "start_from",value = "起始位置",required = true),
-            @ApiImplicitParam(name = "limitation",value = "长度限制",required = true)
     })
     ArrayList QueryMessageByTopic(@PathVariable int topic_id,
-                                  @RequestParam("start_from") int start_from,
-                                  @RequestParam("limitation") int limitation){
-        return iTopicService.QueryMessageByTopic(topic_id,start_from,limitation);
+                                  @RequestBody Range range){
+        return iTopicService.QueryMessageByTopic(topic_id,range.startFrom,range.limitation);
     }
 
     @PostMapping("/queryTopicsBaseOnHeat")
     @ApiOperation("查找最热的几条话题")
-    @ApiImplicitParams({
-            @ApiImplicitParam(name = "start_from",value = "起始位置",required = true),
-            @ApiImplicitParam(name = "limitation",value = "长度限制",required = true)
-    })
-    ArrayList QueryTopicsBaseOnHeat( @RequestParam("start_from") int start_from,
-                                     @RequestParam("limitation") int limitation){
-        return iTopicService.QueryTopicsBaseOnHeat(start_from,limitation);
+    ArrayList QueryTopicsBaseOnHeat(@RequestBody Range range){
+        return iTopicService.QueryTopicsBaseOnHeat(range.startFrom,range.limitation);
     }
 
     @PostMapping("/addTopicWithMessage")

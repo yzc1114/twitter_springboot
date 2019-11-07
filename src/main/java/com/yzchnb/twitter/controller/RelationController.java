@@ -46,7 +46,7 @@ public class RelationController {
     @ApiImplicitParams({
             @ApiImplicitParam(name = "user_id", value = "用户ID",required = true),
     })
-    ArrayList QueryFollowingFor(@RequestParam("user_id") int user_id,
+    ArrayList QueryFollowingFor(@PathVariable() int user_id,
                                 @RequestBody Range range,
                                 HttpServletRequest request)throws UserException{
         int userId = Utils.getUserIdFromCookie(request);
@@ -62,7 +62,7 @@ public class RelationController {
     @GetMapping(value = "/follow/{be_followed_id}")
     @ApiOperation("关注某用户")
     @ApiImplicitParam(name = "be_followed_id", value = "被关注的用户ID", required = true)
-    void FollowUser(@RequestParam("be_followed_id") int be_followed_id,
+    void FollowUser(@PathVariable() int be_followed_id,
                     HttpServletRequest request) throws UserException{
         int follower_id = Utils.getUserIdFromCookie(request);
         // 登录验证失败时的返回
@@ -77,7 +77,7 @@ public class RelationController {
     @GetMapping(value = "/cancelFollowingTo/{be_followed_id}")
     @ApiOperation("取消关注某用户")
     @ApiImplicitParam(name = "be_followed_id", value = "被取关的用户ID", required = true)
-    void CancelFollowingTo(@RequestParam("be_followed_id") int be_followed_id,
+    void CancelFollowingTo(@PathVariable() int be_followed_id,
                            HttpServletRequest request)throws UserException{
         int follower_id = Utils.getUserIdFromCookie(request);
         // 登录验证失败时的返回
@@ -92,7 +92,7 @@ public class RelationController {
     @GetMapping(value = "/ifFollowingByMe{be_followed_id}")
     @ApiOperation("用户是否关注be_followed")
     @ApiImplicitParam(name = "be_followed_id", value = "被关注的用户ID", required = true)
-    Integer IfFollowing(int be_followed_id,HttpServletRequest request) throws UserException{
+    Integer IfFollowing(@PathVariable() int be_followed_id,HttpServletRequest request) throws UserException{
         int userId = Utils.getUserIdFromCookie(request);
         // 登录验证失败时的返回
 

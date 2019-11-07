@@ -1,16 +1,14 @@
 package com.yzchnb.twitter.controller;
 
 import com.yzchnb.twitter.configs.ExceptionDefinition.UserException;
+import com.yzchnb.twitter.entity.entityforController.Range;
 import com.yzchnb.twitter.service.IMessageService;
 import com.yzchnb.twitter.utils.Utils;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
@@ -61,42 +59,30 @@ public class MessageController {
     @PostMapping("/queryUserMessage")
     @ApiOperation("根据范围返回相应用户的推特信息，按照时间排序")
     @ApiImplicitParams({
-            @ApiImplicitParam(name = "user_id", value = "用户ID", required = true),
-            @ApiImplicitParam(name = "start_from", value = "起始位置", required = true),
-            @ApiImplicitParam(name = "limitation", value = "长度限制", required = true)
+            @ApiImplicitParam(name = "user_id", value = "用户ID", required = true)
     })
     ArrayList QueryUserMessage(@RequestParam("user_id") int user_id,
-                               @RequestParam("start_from") int start_from,
-                               @RequestParam("limitation") int limitation) {
-        return iMessageService.QueryUserMessage(user_id, start_from, limitation);
+                               @RequestBody Range range) {
+        return iMessageService.QueryUserMessage(user_id, range.startFrom, range.limitation);
     }
 
     @PostMapping("/queryNewest")
     @ApiOperation("根据范围返回前几条推荐的推特，按照时间排序")
-    @ApiImplicitParams({
-            @ApiImplicitParam(name = "start_from", value = "起始位置", required = true),
-            @ApiImplicitParam(name = "limitation", value = "长度限制", required = true)
-    })
-    ArrayList QueryNewest(@RequestParam("start_from") int start_from,
-                          @RequestParam("limitation") int limitation) {
-        return iMessageService.QueryNewest(start_from, limitation);
+    ArrayList QueryNewest(@RequestBody Range range) {
+        return iMessageService.QueryNewest(range.startFrom, range.limitation);
     }
 
     @PostMapping("/queryFollowMessage")
     @ApiOperation("根据范围返回自身和用户关注的人的推特，按照时间排序")
-    @ApiImplicitParams({
-            @ApiImplicitParam(name = "start_from", value = "起始位置", required = true),
-            @ApiImplicitParam(name = "limitation", value = "长度限制", required = true)
-    })
-    ArrayList QueryFollowMessage(@RequestParam("start_from") int start_from,
-                                 @RequestParam("limitation") int limitation, HttpServletRequest request) throws UserException {
+
+    ArrayList QueryFollowMessage(@RequestBody Range range, HttpServletRequest request) throws UserException {
         int user_id = Utils.getUserIdFromCookie(request);
         // 登录验证失败时的返回
 
         if (user_id == 0)
             throw new UserException("用户未登录！");
 
-        return iMessageService.QueryFollowMessage(user_id, start_from, limitation);
+        return iMessageService.QueryFollowMessage(user_id, range.startFrom, range.limitation);
 
     }
 
