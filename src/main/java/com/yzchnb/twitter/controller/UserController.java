@@ -2,6 +2,9 @@ package com.yzchnb.twitter.controller;
 
 import com.yzchnb.twitter.configs.ExceptionDefinition.UserException;
 import com.yzchnb.twitter.entity.TableEntity.UserPublicInfo;
+import com.yzchnb.twitter.entity.entityforController.UserEntity.Account;
+import com.yzchnb.twitter.entity.entityforController.UserEntity.UserInfoEdit;
+import com.yzchnb.twitter.service.IAvatarService;
 import com.yzchnb.twitter.service.IUserService;
 import com.yzchnb.twitter.utils.Utils;
 import io.swagger.annotations.Api;
@@ -9,6 +12,8 @@ import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.HttpRequest;
 import org.springframework.http.server.ServerHttpRequest;
 import org.springframework.web.bind.annotation.*;
 
@@ -26,6 +31,12 @@ public class UserController {
 
     @Resource
     private IUserService iUserService;
+    @Resource
+    private IAvatarService iAvatarService;
+    @Value("${uploadPath}")
+    private String path;
+
+
     @GetMapping("/getUserPublicInfo/{userId}")
     @ApiOperation("查看某人可公开的信息")
     @ApiImplicitParams({
@@ -38,26 +49,19 @@ public class UserController {
     @PostMapping(value = "/signUp")
     @ApiOperation("注册接口")
     @ApiImplicitParams({
-            @ApiImplicitParam(name = "email", value = "邮箱", required = true),
             @ApiImplicitParam(name = "nickname", value = "昵称", required = true),
-            @ApiImplicitParam(name = "password", value = "密码", required = true)
     })
-    public void SignUp(@RequestParam("email") String email,
-                         @RequestParam("nickname") String nickname,
-                         @RequestParam("password") String password){
-        iUserService.SignUp(email, nickname, password);
+    public void SignUp(@RequestParam("nickname") String nickname,
+                       @RequestBody Account account){
+        iUserService.SignUp(account.email, nickname, account.password);
     }
 
     @PostMapping(value = "/signIn")
     @ApiOperation("登录接口")
-    @ApiImplicitParams({
-            @ApiImplicitParam(name = "email", value = "邮箱", required = true),
-            @ApiImplicitParam(name = "password", value = "密码", required = true)
-    })
-    public boolean SignIn(@RequestParam("email")String email,
-                          @RequestParam("password")String password,HttpServletRequest request,
-                          HttpServletResponse response){
-        Integer userId = iUserService.SignIn(email, password);
+    public boolean SignIn(HttpServletRequest request,
+                          HttpServletResponse response,
+                          @RequestBody Account account){
+        Integer userId = iUserService.SignIn(account.email, account.password);
         if(userId.equals(0)){
             return false;
         }
@@ -81,9 +85,9 @@ public class UserController {
     public boolean checkIfSignUp(HttpServletRequest request) {
         //从cookie中取用户id的方法
         Integer userId = Utils.getUserIdFromCookie(request);
-        return userId != 0;
+        //System.out.println(userId);
+        return (userId != 0);
     }
-
     @GetMapping(value = "/getRecommend")
     @ApiOperation("获得推荐用户")
     public ArrayList GetRecommend() {
@@ -100,5 +104,24 @@ public class UserController {
 
 
     }
+
+
+    @PostMapping(value = "/editInfo")
+    @ApiOperation("修改用户信息")
+    public void EditInfo(HttpServletRequest request,
+                         @RequestBody UserInfoEdit userInfoEdit){
+        int user_id = Utils.getUserIdFromCookie(request);
+
+        if (user_id == 0) throw new UserException("用户未登录");
+        iUserService.EditInfo(userInfoEdit);
+    }
+
+    @PostMapping(value = "/uploadAvatar")
+    @ApiOperation("上传头像")
+    public void uploadAvatar(){
+
+
+    }
 }
+
 

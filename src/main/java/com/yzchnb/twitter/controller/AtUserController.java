@@ -2,6 +2,7 @@ package com.yzchnb.twitter.controller;
 
 
 import com.yzchnb.twitter.configs.ExceptionDefinition.UserException;
+import com.yzchnb.twitter.entity.entityforController.Range;
 import com.yzchnb.twitter.service.IAtUserService;
 import com.yzchnb.twitter.utils.Utils;
 import io.swagger.annotations.Api;
@@ -25,21 +26,15 @@ public class AtUserController {
 
     @PostMapping(value = "/query")
     @ApiOperation("根据limitation查找最近几条At自己的推特id")
-    @ApiImplicitParams({
-            @ApiImplicitParam(name = "startFrom", value = "起始位置",required = true),
-            @ApiImplicitParam(name = "limitation", value = "长度限制", required = true)
-
-    })
     public ArrayList query(HttpServletRequest request,
-                           @RequestParam("startFrom") int start_from,
-                           @RequestParam("limitation") int limitation ){
+                           @RequestBody Range range){
         int user_id = Utils.getUserIdFromCookie(request);
         // 登录验证失败时的返回
         try {
             if (user_id == 0)
                 throw new UserException("用户未登录！");
 
-            return iAtUserService.Query(user_id,start_from,limitation);
+            return iAtUserService.Query(user_id,range.startFrom,range.limitation);
         }
         catch (Exception e){
             System.out.println(e);

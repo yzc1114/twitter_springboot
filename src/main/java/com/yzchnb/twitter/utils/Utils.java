@@ -155,8 +155,4 @@ public class Utils {
         }
         return result;
     }
-    static public class Range{
-        public int startFrom;
-        public int limitation;
-    }
 }
