@@ -9,6 +9,7 @@ import com.yzchnb.twitter.utils.Utils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.annotation.Resource;
 import java.util.ArrayList;
 @Service
 public class TopicServiceImpl implements ITopicService {
@@ -20,9 +21,11 @@ public class TopicServiceImpl implements ITopicService {
     private FuncQueryTopicsByHeatCaller funcQueryTopicsByHeatCaller;
     @Autowired
     private FuncQueryMessageByTopicCaller funcQueryMessageByTopicCaller;
+    @Resource
+    private Utils utils;
     @Override
     public ArrayList QueryMessageByTopic(int topic_id, int start_from, int limitation) {
-        return Utils.getMessageFromArray(funcQueryMessageByTopicCaller.call(topic_id,start_from,limitation));
+        return utils.getMessageFromArray(funcQueryMessageByTopicCaller.call(topic_id,start_from,limitation));
     }
 
     @Override

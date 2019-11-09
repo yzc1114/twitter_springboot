@@ -10,6 +10,7 @@ import com.yzchnb.twitter.utils.Utils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.annotation.Resource;
 import java.util.ArrayList;
 import java.util.Map;
 @Service
@@ -20,10 +21,12 @@ public class AtUserServiceImpl implements IAtUserService {
     private FuncQueryUnreadAtCaller funcQueryUnreadAtCaller;
     @Autowired
     private FuncAddAtUserCaller funcAddAtUserCaller;
+    @Resource
+    private Utils utils;
     @Override
     public ArrayList Query(int user_id, int start_from, int limitation) {
         ArrayList<Map> message_ids=funcQueryMessageAtUserCaller.call(user_id,start_from,limitation);
-        return Utils.getMessageFromArray(message_ids);
+        return utils.getMessageFromArray(message_ids);
     }
 
     @Override

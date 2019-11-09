@@ -6,6 +6,7 @@ import com.yzchnb.twitter.utils.Utils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.annotation.Resource;
 import java.util.ArrayList;
 import java.util.Map;
 @Service
@@ -26,21 +27,25 @@ public class MessageServiceImpl implements IMessageService {
     private FuncAddTopicCaller funcAddTopicCaller;
     @Autowired
     private FuncAddAtUserCaller funcAddAtUserCaller;
+    @Resource
+    private Utils utils;
+
+
     @Override
     public ArrayList QueryFollowMessage(int user_id, int start_from, int limitation) {
-        return Utils.getMessageFromArray(funcShowFollowMessageCaller.call(user_id,start_from,limitation));
+        return utils.getMessageFromArray(funcShowFollowMessageCaller.call(user_id,start_from,limitation));
     }
 
     @Override
     public ArrayList QueryNewest(int start_from, int limitation) {
-        return Utils.getMessageFromArray(funcShowMessageByTimeCaller.call(start_from,limitation));
+        return utils.getMessageFromArray(funcShowMessageByTimeCaller.call(start_from,limitation));
     }
 
     @Override
     public ArrayList QueryUserMessage(int user_id, int start_from, int limitation) {
         ArrayList<Map> result=funcShowMessageByRangeCaller.call(user_id,start_from,limitation);
         for(Map message : result){
-            Utils.setMessageUrl(message);
+            utils.setMessageUrl(message);
         }
         return result;
     }
@@ -48,11 +53,11 @@ public class MessageServiceImpl implements IMessageService {
     @Override
     public Integer AddMessage(String message_content, int message_has_image, int user_id, int message_image_count) {
         Integer id=funcSendMessageCaller.call(message_content,message_has_image,user_id,message_image_count);
-        ArrayList<String> temps=Utils.getTopicContent(message_content);
+        ArrayList<String> temps=utils.getTopicContent(message_content);
         for(String i:temps){
             funcAddTopicCaller.call(i,id);
         }
-        temps=Utils.getAtContent(message_content);
+        temps=utils.getAtContent(message_content);
         for(String i:temps){
             funcAddAtUserCaller.call(i,id,user_id);
         }
@@ -67,7 +72,7 @@ public class MessageServiceImpl implements IMessageService {
 
     @Override
     public Map QueryMessage(int message_id) {
-        return Utils.getMessageById(message_id);
+        return utils.getMessageById(message_id);
     }
 
     @Override

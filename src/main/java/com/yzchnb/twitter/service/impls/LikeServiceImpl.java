@@ -6,6 +6,7 @@ import com.yzchnb.twitter.utils.Utils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.annotation.Resource;
 import java.util.ArrayList;
 @Service
 public class LikeServiceImpl implements ILikeService {
@@ -17,9 +18,12 @@ public class LikeServiceImpl implements ILikeService {
     private FuncDeleteLikeCaller funcDeleteLikeCaller;
     @Autowired
     private FuncQueryMessageIdsLikesCaller funcQueryMessageIdsLikesCaller;
+    @Resource
+    private Utils utils;
+
     @Override
     public ArrayList QueryLikes(int user_id, int start_from, int limitation) {
-        return Utils.getMessageFromArray(funcQueryMessageIdsLikesCaller.call(user_id,start_from,limitation));
+        return utils.getMessageFromArray(funcQueryMessageIdsLikesCaller.call(user_id,start_from,limitation));
     }
 
     @Override

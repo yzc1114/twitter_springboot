@@ -9,6 +9,7 @@ import com.yzchnb.twitter.utils.Utils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.annotation.Resource;
 import java.util.ArrayList;
 import java.util.Map;
 @Service
@@ -23,10 +24,12 @@ public class CollectionServiceImpl implements ICollectionService {
     private FuncQueryCollectionsOfMineCaller funcQueryCollectionsOfMineCaller;
     @Autowired
     private FuncQueryIfUserCollectsCaller funcQueryIfUserCollectsCaller;
+    @Resource
+    private Utils utils;
     @Override
     public ArrayList QueryCollection(int user_id, int start_from, int limitation) {
         ArrayList<Map> ids=funcQueryCollectionsOfMineCaller.call(user_id,start_from,limitation);
-        return Utils.getMessageFromArray(ids);
+        return utils.getMessageFromArray(ids);
     }
 
     @Override

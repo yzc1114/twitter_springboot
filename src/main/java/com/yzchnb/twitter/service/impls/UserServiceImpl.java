@@ -10,6 +10,7 @@ import com.yzchnb.twitter.utils.Utils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.annotation.Resource;
 import java.util.ArrayList;
 import java.util.Map;
 
@@ -30,10 +31,12 @@ public class UserServiceImpl implements IUserService {
     private FuncGetMessageNumCaller funcGetMessageNumCaller;
     @Autowired
     private FuncGetUserPrivateInfoCaller funcGetUserPrivateInfoCaller;
+    @Resource
+    private Utils utils;
     public Map GetUserPublicInfo(int userId){
         System.out.println(userId);
         Map result=(Map)funcGetUserPublicInfoCaller.call(userId).get(0);
-        Utils.setAvatarUrl(result);
+        utils.setAvatarUrl(result);
         return result;
     }
 
@@ -51,7 +54,7 @@ public class UserServiceImpl implements IUserService {
     public ArrayList GetRecommend(){
         ArrayList<Map> result=funcRecommendUserCaller.call();
         for(Map user:result){
-            Utils.setAvatarUrl(user);
+            utils.setAvatarUrl(user);
         }
         return result;
     }

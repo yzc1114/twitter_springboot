@@ -8,6 +8,7 @@ import com.yzchnb.twitter.utils.Utils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.annotation.Resource;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
@@ -24,12 +25,13 @@ public class RelationServiceImpl implements IRelationService {
     private FuncRemoveRelationCaller funcRemoveRelationCaller;
     @Autowired
     private FuncIfFollowingCaller funcIfFollowingCaller;
-
+    @Resource
+    private Utils utils;
     @Override
     public ArrayList<Map> QueryFollowersFor(int user_id, int start_from, int limitation) {
         ArrayList<Map> result= funcQueryFollowersListCaller.call(user_id,start_from,limitation);
         for(Map map : result){
-            Utils.setAvatarUrl(map);
+            utils.setAvatarUrl(map);
         }
         return result;
     }
@@ -38,7 +40,7 @@ public class RelationServiceImpl implements IRelationService {
     public ArrayList<Map> QueryFollowingFor(int user_id, int start_from, int limitation) {
         ArrayList<Map> result = funcQueryFollowingListCaller.call(user_id,start_from,limitation);
         for(Map map : result){
-            Utils.setAvatarUrl(map);
+            utils.setAvatarUrl(map);
         }
         return result;
     }
