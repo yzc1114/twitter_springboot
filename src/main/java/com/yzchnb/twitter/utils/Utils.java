@@ -4,6 +4,7 @@ import com.yzchnb.twitter.dao.FunctionCaller.FuncGetUserAvatarCaller;
 import com.yzchnb.twitter.dao.FunctionCaller.FuncShowMessageByIdCaller;
 import io.swagger.models.auth.In;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import org.springframework.util.ResourceUtils;
 
@@ -19,6 +20,9 @@ public class Utils {
 
     private static FuncGetUserAvatarCaller funcGetUserAvatarCaller;
     private static FuncShowMessageByIdCaller funcShowMessageByIdCaller;
+
+    @Value("${uploadPath}")
+    public static String path;
     @Autowired
     public Utils(FuncGetUserAvatarCaller funcGetUserAvatarCaller,FuncShowMessageByIdCaller funcShowMessageByIdCaller){
         Utils.funcGetUserAvatarCaller=funcGetUserAvatarCaller;
@@ -72,7 +76,7 @@ public class Utils {
     }
 
     public static String getAvatarUrlById(int user_id){
-        return "/avatars/"+funcGetUserAvatarCaller.call(user_id).toString();
+        return path+funcGetUserAvatarCaller.call(user_id).toString();
     }
     public static void setAvatarUrl(Map user){
         user.put("avatarUrl",getAvatarUrlById(Integer.parseInt(user.get("userId").toString())));

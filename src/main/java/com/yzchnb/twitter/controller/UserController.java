@@ -2,6 +2,7 @@ package com.yzchnb.twitter.controller;
 
 import com.yzchnb.twitter.configs.ExceptionDefinition.UserException;
 import com.yzchnb.twitter.entity.TableEntity.UserPublicInfo;
+import com.yzchnb.twitter.entity.entityforController.UploadTool;
 import com.yzchnb.twitter.entity.entityforController.UserEntity.Account;
 import com.yzchnb.twitter.entity.entityforController.UserEntity.UserInfoEdit;
 import com.yzchnb.twitter.service.IAvatarService;
@@ -16,11 +17,13 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpRequest;
 import org.springframework.http.server.ServerHttpRequest;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.annotation.Resource;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Map;
 
@@ -33,8 +36,9 @@ public class UserController {
     private IUserService iUserService;
     @Resource
     private IAvatarService iAvatarService;
-    @Value("${uploadPath}")
-    private String path;
+    @Autowired
+    private UploadTool uploadTool;
+
 
 
     @GetMapping("/getUserPublicInfo/{userId}")
@@ -118,9 +122,15 @@ public class UserController {
 
     @PostMapping(value = "/uploadAvatar")
     @ApiOperation("上传头像")
-    public void uploadAvatar(){
+    public void uploadAvatar(@RequestParam(value = "avatar")MultipartFile avatar,
+                             HttpServletRequest request) throws IOException {
 
+    int user_id = Utils.getUserIdFromCookie(request);
+    if (user_id == 0 )throw new UserException("用户未登录");
 
+    int avatar_id = iAvatarService.AddAvatar(user_id);
+    String url = uploadTool.upload(avatar , avatar_id);
+    iAvatarService.SetMainAvatar(user_id,avatar_id);
     }
 }
 
