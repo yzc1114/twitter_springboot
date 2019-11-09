@@ -21,13 +21,15 @@ public class CollectionController {
 
     @Resource
     private ICollectionService iCollectionService;
+    @Resource
+    private Utils utils;
 
     @PostMapping(value = "/add")
     @ApiOperation("添加收藏")
     @ApiImplicitParam(name = "message_id", value = "被收藏推特ID",required = true)
     public boolean addCollection(@RequestParam("message_id") int be_collected_id,
                                  HttpServletRequest request){
-        int user_id = Utils.getUserIdFromCookie(request);
+        int user_id = utils.getUserIdFromCookie(request);
         try {
             if (user_id == 0 ) throw new UserException("用户未登录");
             iCollectionService.Add(user_id,be_collected_id);
@@ -45,7 +47,7 @@ public class CollectionController {
     })
     public boolean deleteCollection(HttpServletRequest request,
                                     @RequestParam("message_id") int be_collected_id){
-        int user_id = Utils.getUserIdFromCookie(request);
+        int user_id = utils.getUserIdFromCookie(request);
         try {
             if (user_id == 0)throw new UserException("用户未登录");
             iCollectionService.Delete(user_id,be_collected_id);

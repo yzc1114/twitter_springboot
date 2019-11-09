@@ -23,12 +23,14 @@ public class AtUserController {
 
     @Resource
     private IAtUserService iAtUserService;
+    @Resource
+    private Utils utils;
 
     @PostMapping(value = "/query")
     @ApiOperation("根据limitation查找最近几条At自己的推特id")
     public ArrayList query(HttpServletRequest request,
                            @RequestBody Range range){
-        int user_id = Utils.getUserIdFromCookie(request);
+        int user_id = utils.getUserIdFromCookie(request);
         // 登录验证失败时的返回
         try {
             if (user_id == 0)
@@ -46,7 +48,7 @@ public class AtUserController {
     @GetMapping(value = "/queryUnreadAt")
     @ApiOperation("返回对自己的未读的At数")
     public Integer queryUnreadAt(HttpServletRequest request){
-        int user_id = Utils.getUserIdFromCookie(request);
+        int user_id = utils.getUserIdFromCookie(request);
         //处理登录验证
         try {
             if (user_id == 0)

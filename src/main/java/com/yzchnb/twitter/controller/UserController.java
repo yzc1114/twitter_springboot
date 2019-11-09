@@ -37,6 +37,8 @@ public class UserController {
     @Resource
     private IAvatarService iAvatarService;
     @Autowired
+    private Utils utils;
+    @Autowired
     private UploadTool uploadTool;
 
 
@@ -69,26 +71,26 @@ public class UserController {
         if(userId.equals(0)){
             return false;
         }
-        /*Cookie cookie=Utils.createNewCookie(userId,60*60);
+        /*Cookie cookie=utils.createNewCookie(userId,60*60);
         System.out.println(cookie.getName()+" "+cookie.getValue());
         //写入cookie的方法
         response.addCookie(cookie);*/
-        Utils.setSession(request,userId);
+        utils.setSession(request,userId);
         return true;
     }
 
     @GetMapping(value = "/logout")
     @ApiOperation("退出登录")
     public void logout(HttpServletRequest request){
-        //response.addCookie(Utils.createNewCookie(0,0));
-        Utils.setSession(request,0);
+        //response.addCookie(utils.createNewCookie(0,0));
+        utils.setSession(request,0);
     }
 
     @GetMapping(value = "/checkIfSignUp")
     @ApiOperation("检查是否登录")
     public boolean checkIfSignUp(HttpServletRequest request) {
         //从cookie中取用户id的方法
-        Integer userId = Utils.getUserIdFromCookie(request);
+        Integer userId = utils.getUserIdFromCookie(request);
         //System.out.println(userId);
         return (userId != 0);
     }
@@ -101,7 +103,7 @@ public class UserController {
     @GetMapping(value = "/getAllUserInfo")
     @ApiOperation("查看用户所有信息")
     public Map GetAllUserInfo(HttpServletRequest request){
-        int user_id = Utils.getUserIdFromCookie(request);
+        int user_id = utils.getUserIdFromCookie(request);
         //验证登录
             if (user_id == 0) throw new UserException("用户未登录");
             return iUserService.GetAllInfo(user_id);
@@ -114,7 +116,7 @@ public class UserController {
     @ApiOperation("修改用户信息")
     public void EditInfo(HttpServletRequest request,
                          @RequestBody UserInfoEdit userInfoEdit){
-        int user_id = Utils.getUserIdFromCookie(request);
+        int user_id = utils.getUserIdFromCookie(request);
 
         if (user_id == 0) throw new UserException("用户未登录");
         iUserService.EditInfo(userInfoEdit);
@@ -125,7 +127,7 @@ public class UserController {
     public void uploadAvatar(@RequestParam(value = "avatar")MultipartFile avatar,
                              HttpServletRequest request) throws IOException {
 
-    int user_id = Utils.getUserIdFromCookie(request);
+    int user_id = utils.getUserIdFromCookie(request);
     if (user_id == 0 )throw new UserException("用户未登录");
 
     int avatar_id = iAvatarService.AddAvatar(user_id);

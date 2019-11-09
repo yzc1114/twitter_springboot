@@ -8,6 +8,7 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 
@@ -22,6 +23,9 @@ public class PrivateLetterController {
 
     @Resource
     private IPrivateLetterService iPrivateLetterService;
+    @Autowired
+    private Utils utils;
+
 
     @PostMapping("/addPrivateLetter/{receiver_user_id}")
     @ApiOperation("发送私信")
@@ -32,7 +36,7 @@ public class PrivateLetterController {
     void AddPrivateLetter(@PathVariable()int receiver_user_id,
                           @RequestParam("content")String content,
                           HttpServletRequest request) throws UserException{
-        int sender_user_id = Utils.getUserIdFromCookie(request);
+        int sender_user_id = utils.getUserIdFromCookie(request);
 
             if (sender_user_id == 0) throw new UserException("用户未登录");
             iPrivateLetterService.AddPrivateLetter(sender_user_id,receiver_user_id,content);
@@ -44,7 +48,7 @@ public class PrivateLetterController {
     @ApiImplicitParam(name = "private_letter_id",value = "私信ID",required = true)
     void DeletePrivateLetter(@PathVariable() int private_letter_id,
                              HttpServletRequest request) throws UserException{
-        int userId = Utils.getUserIdFromCookie(request);
+        int userId = utils.getUserIdFromCookie(request);
 
             if (userId == 0) throw new UserException("用户未登录");
             iPrivateLetterService.DeletePrivateLetter(private_letter_id);
@@ -58,7 +62,7 @@ public class PrivateLetterController {
     })
     ArrayList QueryPrivateLetters(@PathVariable() int user_id,
                                   @RequestBody Range range, HttpServletRequest request) throws UserException{
-        int userId = Utils.getUserIdFromCookie(request);
+        int userId = utils.getUserIdFromCookie(request);
 
             if (userId == 0) throw new UserException("用户未登录");
             return iPrivateLetterService.QueryPrivateLetters(user_id,range.startFrom,range.limitation);

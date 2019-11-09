@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import org.springframework.util.ResourceUtils;
 
+import javax.annotation.Resource;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -18,18 +19,15 @@ import java.util.Map;
 @Component
 public class Utils {
 
-    private static FuncGetUserAvatarCaller funcGetUserAvatarCaller;
-    private static FuncShowMessageByIdCaller funcShowMessageByIdCaller;
+    @Resource
+    private  FuncGetUserAvatarCaller funcGetUserAvatarCaller;
+    @Resource
+    private  FuncShowMessageByIdCaller funcShowMessageByIdCaller;
 
     @Value("${uploadPath}")
-    public static String path;
-    @Autowired
-    public Utils(FuncGetUserAvatarCaller funcGetUserAvatarCaller,FuncShowMessageByIdCaller funcShowMessageByIdCaller){
-        Utils.funcGetUserAvatarCaller=funcGetUserAvatarCaller;
-        Utils.funcShowMessageByIdCaller=funcShowMessageByIdCaller;
-    }
+    public String path;
 
-    public static Integer getUserIdFromCookie(HttpServletRequest request) {
+    public  Integer getUserIdFromCookie(HttpServletRequest request) {
         //System.out.println(request);
         /*Cookie[] cookies = request.getCookies();
         for(Cookie i:cookies){
@@ -50,7 +48,7 @@ public class Utils {
         }
 
     }
-    public static void setSession(HttpServletRequest request,int user_id){
+    public  void setSession(HttpServletRequest request,int user_id){
         /*Cookie cookie=new Cookie("userId",null);
         cookie.setPath("/");
         //cookie.setSecure(true);
@@ -68,38 +66,38 @@ public class Utils {
         }
 
     }
-    public static String getAvatarsLocation() throws FileNotFoundException {
+    public  String getAvatarsLocation() throws FileNotFoundException {
         return ResourceUtils.getURL("classpath:").getPath()+"avatar/";
     }
-    public static String getImageLocation() throws FileNotFoundException{
+    public  String getImageLocation() throws FileNotFoundException{
         return ResourceUtils.getURL("classpath:").getPath()+"img/";
     }
 
-    public static String getAvatarUrlById(int user_id){
+    public  String getAvatarUrlById(int user_id){
         return path+funcGetUserAvatarCaller.call(user_id).toString();
     }
-    public static void setAvatarUrl(Map user){
+    public  void setAvatarUrl(Map user){
         user.put("avatarUrl",getAvatarUrlById(Integer.parseInt(user.get("userId").toString())));
     }
-    public static Map getMessageById(int message_id){
+    public  Map getMessageById(int message_id){
         Map result=(Map)funcShowMessageByIdCaller.call(message_id).get(0);
         setMessageUrl(result);
         return result;
     }
-    public static Map getMessageById(Object message_id){
+    public  Map getMessageById(Object message_id){
         return getMessageById(Integer.parseInt(message_id.toString()));
     }
-    public static ArrayList<Map> getMessageFromArray(ArrayList<Map> message_ids){
+    public  ArrayList<Map> getMessageFromArray(ArrayList<Map> message_ids){
         ArrayList<Map> result=new ArrayList<>();
         for(Map id:message_ids){
             result.add(getMessageById(id.get("messageId")));
         }
         return result;
     }
-    public static void setMessageUrl(Map message){
+    public  void setMessageUrl(Map message){
     }
 
-    public static ArrayList getTopicContent(String message){
+    public  ArrayList getTopicContent(String message){
         int start=-1;
         boolean flag=false;
         ArrayList<String> result=new ArrayList<>();
@@ -125,7 +123,7 @@ public class Utils {
         return result;
     }
 
-    public static ArrayList getAtContent(String message){
+    public  ArrayList getAtContent(String message){
         ArrayList<String> result=new ArrayList<>();
         int start=-1;
         boolean flag=false;

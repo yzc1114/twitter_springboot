@@ -21,6 +21,8 @@ public class CommentController {
 
     @Resource
     private ICommentService iCommentService;
+    @Resource
+    private Utils utils;
 
     @PostMapping("/queryComments")
     @ApiOperation("获取推特的评论信息")
@@ -41,7 +43,7 @@ public class CommentController {
     public void addComments (HttpServletRequest request,
                             @RequestParam("be_commented_id") int be_commented_id,
                             @RequestParam("content") String content){
-        int user_id = Utils.getUserIdFromCookie(request);
+        int user_id = utils.getUserIdFromCookie(request);
         //登录验证失败处理
         try {
             if (user_id == 0)

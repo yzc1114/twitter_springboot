@@ -22,6 +22,8 @@ public class LikeController {
 
     @Resource
     private ILikeService iLikeService;
+    @Resource
+    private Utils utils;
 
     @GetMapping(value = "/addLike/{messageId}")
     @ApiOperation("给某个推特点赞")
@@ -29,7 +31,7 @@ public class LikeController {
             @ApiImplicitParam(name = "messageId", value = "推特ID", required = true)
     })
     public void addLike(@PathVariable int messageId, HttpServletRequest request){
-        int userId = Utils.getUserIdFromCookie(request);
+        int userId = utils.getUserIdFromCookie(request);
         try {
             if (userId == 0) throw new UserException("用户未登录");
             iLikeService.AddLike(userId,messageId);
@@ -44,7 +46,7 @@ public class LikeController {
             @ApiImplicitParam(name = "messageId", value = "推特ID", required = true)
     })
     public void cancelLike(@PathVariable int messageId, HttpServletRequest request){
-        int userId = Utils.getUserIdFromCookie(request);
+        int userId = utils.getUserIdFromCookie(request);
         try {
             if (userId == 0) throw new UserException("用户未登录");
             iLikeService.CancelLike(userId,messageId);
