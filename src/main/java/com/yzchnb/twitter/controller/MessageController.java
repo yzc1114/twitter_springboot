@@ -2,6 +2,7 @@ package com.yzchnb.twitter.controller;
 
 import com.yzchnb.twitter.configs.ExceptionDefinition.UserException;
 import com.yzchnb.twitter.entity.entityforController.Range;
+import com.yzchnb.twitter.entity.entityforController.UploadTool;
 import com.yzchnb.twitter.service.IMessageService;
 import com.yzchnb.twitter.utils.Utils;
 import io.swagger.annotations.Api;
@@ -10,9 +11,12 @@ import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Map;
 
@@ -26,6 +30,9 @@ public class MessageController {
 
     @Autowired
     private Utils utils;
+
+    @Resource
+    private UploadTool uploadTool;
 
     //用于发送推特时的模型
     private static class MessageForSender {
@@ -90,22 +97,19 @@ public class MessageController {
 
     }
 
-    @PostMapping("/addMessage")
-    @ApiOperation("发送推特")
-    @ApiImplicitParams({
-            @ApiImplicitParam(name = "message_content", value = "推特内容", required = true),
-            @ApiImplicitParam(name = "message_has_image", value = "是否含有图片", required = true),
-            @ApiImplicitParam(name = "message_image_count", value = "图片数量", required = true)
-    })
-    public Integer AddMessage(MessageForSender message, HttpServletRequest request) throws UserException {
+
+    @PostMapping("/Send")
+    @ApiOperation("发送推特，包括图片、AT、话题等完整信息")
+    public void Send(HttpServletRequest request, @RequestBody MessageForSender messageForSender) throws IOException {
         int userId = utils.getUserIdFromCookie(request);
-        // 登录验证失败时的返回
+        if (userId == 0 ) throw new UserException("用户未登录");
 
-        if (userId == 0)
-            throw new UserException("用户未登录！");
 
-        return iMessageService.AddMessage(message.message_content, message.message_has_image, userId, message.message_image_count);
-
+        int messageId = iMessageService.AddMessage(messageForSender.message_content,messageForSender.message_has_image,
+                                                    userId,messageForSender.message_image_count);
+        MultipartHttpServletRequest para = (MultipartHttpServletRequest)request;
+        ArrayList<MultipartFile> fileList = (ArrayList<MultipartFile>) para.getFiles("files");
+        uploadTool.uploadMessage(fileList,messageId);
 
     }
 
