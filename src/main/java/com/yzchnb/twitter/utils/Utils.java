@@ -24,7 +24,7 @@ public class Utils {
     @Resource
     private  FuncShowMessageByIdCaller funcShowMessageByIdCaller;
 
-    @Value("${uploadPath}")
+    @Value("${upload.avatarPath}")
     public String path;
 
     public  Integer getUserIdFromCookie(HttpServletRequest request) {

@@ -14,5 +14,5 @@ public interface IUserService {
     Map GetAllInfo(int user_id);
     Integer CheckUserEmail(String email);
     Integer GetUserMessageNum(int user_id);
-    void EditInfo(UserInfoEdit userInfoEdit);
+    void EditInfo(UserInfoEdit userInfoEdit, int userId);
 }

@@ -17,20 +17,22 @@ import java.util.Map;
 @Service
 public class UserServiceImpl implements IUserService {
 
-    @Autowired
+    @Resource
     private FuncGetUserPublicInfoCaller funcGetUserPublicInfoCaller;
-    @Autowired
+    @Resource
     private FuncUserSignUpCaller funcUserSignUpCaller;
-    @Autowired
+    @Resource
     private FuncUserSignInByEmailCaller funcUserSignInByEmailCaller;
-    @Autowired
+    @Resource
     private FuncRecommendUserCaller funcRecommendUserCaller;
-    @Autowired
+    @Resource
     private FuncCheckUserEmailExistCaller funcCheckUserEmailExistCaller;
-    @Autowired
+    @Resource
     private FuncGetMessageNumCaller funcGetMessageNumCaller;
-    @Autowired
+    @Resource
     private FuncGetUserPrivateInfoCaller funcGetUserPrivateInfoCaller;
+    @Resource
+    private FuncSetUserInfoCaller funcSetUserInfoCaller;
     @Resource
     private Utils utils;
     public Map GetUserPublicInfo(int userId){
@@ -47,8 +49,7 @@ public class UserServiceImpl implements IUserService {
 
     public Integer SignIn(String email, String password) {
         System.out.println("sign up " + email);
-        Integer userId = funcUserSignInByEmailCaller.call(email, password);
-        return userId;
+        return funcUserSignInByEmailCaller.call(email, password);
     }
 
     public ArrayList GetRecommend(){
@@ -70,8 +71,18 @@ public class UserServiceImpl implements IUserService {
     }
 
     @Override
-    public void EditInfo(UserInfoEdit userInfoEdit) {
-
+    public void EditInfo(UserInfoEdit userInfoEdit, int userId) {
+        int mode = 0;
+        System.out.println("nickname:  " + userInfoEdit.nickname + "  password:  " + userInfoEdit.password
+                            + "  realName: " + userInfoEdit.realName + "  gender:  "+ userInfoEdit.gender
+                            + "   selfIntroduction:  "+ userInfoEdit.selfIntroduction);
+        if(!userInfoEdit.nickname.equals("")) mode |= 1 << 0;
+        if (!userInfoEdit.selfIntroduction.equals("")) mode |= 1 << 1;
+        if (!userInfoEdit.password.equals("")) mode |= 1 << 2;
+        if (!userInfoEdit.realName.equals("")) mode |= 1 << 3;
+        if (!userInfoEdit.gender.equals("")) mode |= 1 << 4;
+        funcSetUserInfoCaller.call(userInfoEdit.nickname,userInfoEdit.selfIntroduction,userInfoEdit.password,
+                userInfoEdit.realName,userInfoEdit.gender,userId,mode);
     }
 
     @Override

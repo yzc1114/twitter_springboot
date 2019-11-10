@@ -119,7 +119,7 @@ public class UserController {
         int user_id = utils.getUserIdFromCookie(request);
 
         if (user_id == 0) throw new UserException("用户未登录");
-        iUserService.EditInfo(userInfoEdit);
+        iUserService.EditInfo(userInfoEdit,user_id);
     }
 
     @PostMapping(value = "/uploadAvatar")
