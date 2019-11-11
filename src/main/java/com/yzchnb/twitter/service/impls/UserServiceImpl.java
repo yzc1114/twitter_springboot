@@ -34,11 +34,15 @@ public class UserServiceImpl implements IUserService {
     @Resource
     private FuncSetUserInfoCaller funcSetUserInfoCaller;
     @Resource
+    private FuncGetCollectionNumCaller funcGetCollectionNumCaller;
+    @Resource
     private Utils utils;
     public Map GetUserPublicInfo(int userId){
         System.out.println(userId);
         Map result=(Map)funcGetUserPublicInfoCaller.call(userId).get(0);
         utils.setAvatarUrl(result);
+        result.put("userMessagesNum",GetUserMessageNum(userId));
+        result.put("userCollectionsNum",funcGetCollectionNumCaller.call(userId));
         return result;
     }
 
