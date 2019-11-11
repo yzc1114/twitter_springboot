@@ -64,19 +64,19 @@ public class UserController {
 
     @PostMapping(value = "/signIn")
     @ApiOperation("登录接口")
-    public boolean SignIn(HttpServletRequest request,
+    public Integer SignIn(HttpServletRequest request,
                           HttpServletResponse response,
                           @RequestBody Account account){
         Integer userId = iUserService.SignIn(account.email, account.password);
         if(userId.equals(0)){
-            return false;
+            return 0;
         }
         /*Cookie cookie=utils.createNewCookie(userId,60*60);
         System.out.println(cookie.getName()+" "+cookie.getValue());
         //写入cookie的方法
         response.addCookie(cookie);*/
         utils.setSession(request,userId);
-        return true;
+        return userId;
     }
 
     @GetMapping(value = "/logout")
