@@ -44,7 +44,7 @@ public class ServiceTests {
     @Resource
     UserServiceImpl userService;
 
-    /*@Test
+    @Test
     public void testAtUserServiceImpl(){
         System.out.println(atUserService.Query(64,1,5));
         System.out.println(atUserService.QueryUnreadAt(64));
@@ -90,17 +90,17 @@ public class ServiceTests {
         System.out.println(messageService.QueryFollowMessage(64,1,5));
         System.out.println(messageService.QueryNewest(1,5));
         System.out.println(messageService.QueryUserMessage(64,1,5));
-    }*/
+    }
 
     @Test
     public void testPrivateLetterServiceImpl(){
-        //privateLetterService.AddPrivateLetter(64,1,"fuck");
-        //System.out.println(privateLetterService.QueryPrivateLetters(1,1,5));
-        //privateLetterService.DeletePrivateLetter(1);
+        privateLetterService.AddPrivateLetter(64,1,"fuck");
+        System.out.println(privateLetterService.QueryPrivateLetters(1,1,5));
+        privateLetterService.DeletePrivateLetter(1);
         System.out.println(privateLetterService.QueryLatestContact(7,0,100));
     }
 
-    /*@Test
+    @Test
     public void testRelationServiceImpl(){
         relationService.FollowUser(1,64);
         System.out.println(relationService.IfFollowing(1,64));
@@ -134,5 +134,5 @@ public class ServiceTests {
         System.out.println(userService.GetAllInfo(64));
         System.out.println(userService.GetUserMessageNum(64));
         userService.EditInfo(new UserInfoEdit(),64);
-    }*/
+    }
 }
