@@ -1,8 +1,6 @@
 package com.yzchnb.twitter.utils;
 
-import com.yzchnb.twitter.dao.FunctionCaller.FuncGetMessageNumCaller;
-import com.yzchnb.twitter.dao.FunctionCaller.FuncGetUserAvatarCaller;
-import com.yzchnb.twitter.dao.FunctionCaller.FuncShowMessageByIdCaller;
+import com.yzchnb.twitter.dao.FunctionCaller.*;
 import io.swagger.models.auth.In;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -15,6 +13,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Map;
 
 @Component
@@ -24,6 +23,11 @@ public class Utils {
     private  FuncGetUserAvatarCaller funcGetUserAvatarCaller;
     @Resource
     private  FuncShowMessageByIdCaller funcShowMessageByIdCaller;
+    @Resource
+    private FuncGetTopicIdByNameCaller funcGetTopicIdByNameCaller;
+    @Resource
+    private FuncGetUserIdByNameCaller funcGetUserIdByNameCaller;
+
     @Value("${upload.avatarPath}")
     public String path;
 
@@ -83,8 +87,37 @@ public class Utils {
     public  Map getMessageById(int message_id){
         Map result=(Map)funcShowMessageByIdCaller.call(message_id).get(0);
         setMessageUrl(result);
+        setMessageAt(result);
+        setMessageTopic(result);
         return result;
     }
+
+    private void setMessageTopic(Map result) {
+        ArrayList<String> names=getTopicContent(result.get("messageContent").toString());
+        ArrayList<Map> topics=new ArrayList<>();
+        for(String name:names){
+            int topic_id=funcGetTopicIdByNameCaller.call(name);
+            Map<Object,Object>topic=new HashMap<>();
+            topic.put("topicId",topic_id);
+            topic.put("topicName",name);
+            topics.add(topic);
+        }
+        result.put("messageTopics",topics);
+    }
+
+    private void setMessageAt(Map result) {
+        ArrayList<String> names=getAtContent(result.get("messageContent").toString());
+        ArrayList<Map> at_users=new ArrayList<>();
+        for(String name:names){
+            int at_id=funcGetUserIdByNameCaller.call(name);
+            Map<Object,Object>topic=new HashMap<>();
+            topic.put("atId",at_id);
+            topic.put("atName",name);
+            at_users.add(topic);
+        }
+        result.put("messageAts",at_users);
+    }
+
     public  Map getMessageById(Object message_id){
         return getMessageById(Integer.parseInt(message_id.toString()));
     }

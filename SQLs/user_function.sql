@@ -176,14 +176,6 @@ state INTEGER:=1;
 
 begin
 
-select count(*) into state 
-from USER_PUBLIC_INFO;
-
-if state=0
-then return state;
-else 
-state:=1;
-
 open search_result for 
 select * from
 (select user_id, user_nickname, ROWNUM rn
@@ -193,7 +185,6 @@ from (select user_id, user_nickname
 	 order by user_followers_num desc) M)
 where rn >= startFrom and rn < startFrom+limitation;
 
-end if;
 return state;
 end;
 /

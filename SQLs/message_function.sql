@@ -210,14 +210,7 @@ state INTEGER:=1;
 
 BEGIN
 
-  SELECT count(*) into state 
-  FROM MESSAGE
-  WHERE MESSAGE_CONTENT like'%'||searchKey||'%';
 
-  IF state=0
-  THEN
-    return state;
-  ELSE
     open search_result for
         select * from
         (SELECT M.*, ROWNUM rn FROM
@@ -226,8 +219,6 @@ BEGIN
           WHERE MESSAGE_CONTENT like'%'||searchKey||'%'
           ORDER BY MESSAGE_CREATE_TIME DESC) M)
     WHERE rn >= startFrom and rn < startFrom+limitation;
-    state:=1;
-  END IF;
 
 	RETURN state;
 END;
