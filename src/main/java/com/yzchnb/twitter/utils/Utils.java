@@ -1,5 +1,6 @@
 package com.yzchnb.twitter.utils;
 
+import com.yzchnb.twitter.dao.FunctionCaller.FuncGetMessageNumCaller;
 import com.yzchnb.twitter.dao.FunctionCaller.FuncGetUserAvatarCaller;
 import com.yzchnb.twitter.dao.FunctionCaller.FuncShowMessageByIdCaller;
 import io.swagger.models.auth.In;
@@ -23,7 +24,6 @@ public class Utils {
     private  FuncGetUserAvatarCaller funcGetUserAvatarCaller;
     @Resource
     private  FuncShowMessageByIdCaller funcShowMessageByIdCaller;
-
     @Value("${upload.avatarPath}")
     public String path;
 
@@ -76,6 +76,7 @@ public class Utils {
     public  String getAvatarUrlById(int user_id){
         return path+funcGetUserAvatarCaller.call(user_id).toString();
     }
+
     public  void setAvatarUrl(Map user){
         user.put("avatarUrl",getAvatarUrlById(Integer.parseInt(user.get("userId").toString())));
     }
