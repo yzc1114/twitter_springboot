@@ -19,27 +19,32 @@ public class UploadTool {
     private String messagePath;
 
     public String uploadAvatar(MultipartFile multipartFile, Integer avatarId) throws IOException {
+        File fileDir = new File(avatarPath);
+        if(!fileDir.exists()){
+            // 递归生成文件夹
+            fileDir.mkdirs();
+        }
+
         String newName = null;
         String oriName = multipartFile.getOriginalFilename();
         newName = avatarId.toString() + oriName.substring(oriName.lastIndexOf('.'));
-        File file = new File(avatarPath + newName);
+        File file = new File(fileDir.getAbsolutePath() + File.separator + newName);
         multipartFile.transferTo(file);
         //System.out.println("上传成功");
         return avatarPath + newName;
     }
 
     public void uploadMessage(ArrayList<MultipartFile> arr, int messageId) throws IOException {
-        String folderPath = messagePath + messageId;
-        if(!Files.isWritable(Paths.get(folderPath)));
-        {
-            Files.createDirectories(Paths.get(folderPath));
+        File folderPath = new File(messagePath + messageId);
+        if(!folderPath.exists()){
+            // 递归生成文件夹
+            folderPath.mkdirs();
         }
         int i = 0;
-        String newMessagePath = folderPath + '\\';
         for (MultipartFile file:arr) {
             String oriName = file.getOriginalFilename();
             String newName = i + oriName.substring(oriName.lastIndexOf('.'));
-            File newFile = new File(newMessagePath + newName);
+            File newFile = new File(folderPath.getAbsolutePath()+File.separator + newName);
             file.transferTo(newFile);
             i++;
         }
