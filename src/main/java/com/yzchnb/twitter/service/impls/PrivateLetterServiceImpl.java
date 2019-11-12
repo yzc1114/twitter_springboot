@@ -1,9 +1,6 @@
 package com.yzchnb.twitter.service.impls;
 
-import com.yzchnb.twitter.dao.FunctionCaller.FuncAddPrivateLetterCaller;
-import com.yzchnb.twitter.dao.FunctionCaller.FuncDeletePrivateLetterCaller;
-import com.yzchnb.twitter.dao.FunctionCaller.FuncQueryPrivateLettersCaller;
-import com.yzchnb.twitter.dao.FunctionCaller.FuncQuerySpecifiedCaller;
+import com.yzchnb.twitter.dao.FunctionCaller.*;
 import com.yzchnb.twitter.service.IPrivateLetterService;
 import com.yzchnb.twitter.service.IUserService;
 import com.yzchnb.twitter.utils.Utils;
@@ -24,7 +21,11 @@ public class PrivateLetterServiceImpl implements IPrivateLetterService {
     @Autowired
     private FuncQuerySpecifiedCaller funcQuerySpecifiedCaller;
     @Autowired
+    private FuncQueryLatestContactCaller funcQueryLatestContactCaller;
+    @Autowired
     private IUserService userService;
+    @Autowired
+    private Utils util;
     @Override
     public ArrayList QueryPrivateLetters(int user_id, int start_from, int limitation) {
         ArrayList<Map> letters=funcQueryPrivateLettersCaller.call(user_id,start_from,limitation);
@@ -53,5 +54,14 @@ public class PrivateLetterServiceImpl implements IPrivateLetterService {
     @Override
     public void DeletePrivateLetter(int private_letter_id) {
         funcDeletePrivateLetterCaller.call(private_letter_id);
+    }
+
+    @Override
+    public ArrayList QueryLatestContact(int user_id, int start_from, int limitation) {
+        ArrayList<Map> result= funcQueryLatestContactCaller.call(user_id,start_from,limitation);
+        for(Map user : result){
+            util.setAvatarUrl(user);
+        }
+        return result;
     }
 }

@@ -34,7 +34,7 @@ public class MessageServiceImpl implements IMessageService {
 
     @Override
     public ArrayList QueryFollowMessage(int user_id, int start_from, int limitation) {
-        return utils.getMessageFromArray(funcShowFollowMessageCaller.call(user_id,start_from,limitation));
+        return utils.getMessageFromArray(funcShowFollowMessageCaller.call(start_from,limitation,user_id));
     }
 
     @Override

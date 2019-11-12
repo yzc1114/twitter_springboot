@@ -7,4 +7,5 @@ public interface IPrivateLetterService {
     void DeletePrivateLetter(int private_letter_id);
     ArrayList QueryPrivateLetters(int user_id,int start_from,int limitation);
     ArrayList QuerySpecified(int sender_id,int receiver_id,int start_from,int limitation);
+    ArrayList QueryLatestContact(int user_id,int start_from,int limitation);
 }
