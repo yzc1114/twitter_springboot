@@ -71,14 +71,14 @@ public class Utils {
 
     }
     public  String getAvatarsLocation() throws FileNotFoundException {
-        return ResourceUtils.getURL("classpath:").getPath()+"avatar/";
+        return ResourceUtils.getURL("classpath:").getPath()+"upload/avatar/";
     }
     public  String getImageLocation() throws FileNotFoundException{
-        return ResourceUtils.getURL("classpath:").getPath()+"img/";
+        return ResourceUtils.getURL("classpath:").getPath()+"upload/img/";
     }
 
     public  String getAvatarUrlById(int user_id){
-        return path+funcGetUserAvatarCaller.call(user_id).toString();
+        return "avatars/"+funcGetUserAvatarCaller.call(user_id).toString();
     }
 
     public  void setAvatarUrl(Map user){

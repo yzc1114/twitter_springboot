@@ -75,6 +75,7 @@ public class UserController {
         System.out.println(cookie.getName()+" "+cookie.getValue());
         //写入cookie的方法
         response.addCookie(cookie);*/
+
         utils.setSession(request,userId);
         return userId;
     }
@@ -131,7 +132,7 @@ public class UserController {
     if (user_id == 0 )throw new UserException("用户未登录");
 
     int avatar_id = iAvatarService.AddAvatar(user_id);
-    String url = uploadTool.uploadAvatar(avatar , avatar_id);
+    uploadTool.uploadAvatar(avatar , avatar_id);
     iAvatarService.SetMainAvatar(user_id,avatar_id);
     }
 }
