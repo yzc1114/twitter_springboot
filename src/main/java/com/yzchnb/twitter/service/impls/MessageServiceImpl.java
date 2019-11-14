@@ -44,11 +44,7 @@ public class MessageServiceImpl implements IMessageService {
 
     @Override
     public ArrayList QueryUserMessage(int user_id, int start_from, int limitation) {
-        ArrayList<Map> result=funcShowMessageByRangeCaller.call(user_id,start_from,limitation);
-        for(Map message : result){
-            utils.setMessageUrl(message);
-        }
-        return result;
+        return utils.getMessageFromArray(funcShowMessageByRangeCaller.call(user_id,start_from,limitation));
     }
 
     @Override

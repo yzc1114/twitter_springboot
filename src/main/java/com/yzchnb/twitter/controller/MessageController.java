@@ -100,7 +100,8 @@ public class MessageController {
 
     @PostMapping("/Send")
     @ApiOperation("发送推特，包括图片、AT、话题等完整信息")
-    public void Send(HttpServletRequest request, @RequestBody MessageForSender messageForSender) throws IOException {
+    public void Send(HttpServletRequest request, @RequestBody MessageForSender messageForSender,
+                     @RequestBody ArrayList<MultipartFile> imgs) throws IOException {
         int userId = utils.getUserIdFromCookie(request);
         if (userId == 0 ) throw new UserException("用户未登录");
 

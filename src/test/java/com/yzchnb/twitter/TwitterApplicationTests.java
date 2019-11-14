@@ -23,6 +23,12 @@ public class TwitterApplicationTests {
     Utils utils;
 
     @Test
+    public void testGetMessageById(){
+        int messageId = 1;
+        utils.getAvatarUrlById(messageId);
+    }
+
+    @Test
     public void testGetImgLocation() throws FileNotFoundException {
         System.out.println(utils.getImageLocation());
     }

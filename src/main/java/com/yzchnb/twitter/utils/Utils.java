@@ -28,9 +28,6 @@ public class Utils {
     @Resource
     private FuncGetUserIdByNameCaller funcGetUserIdByNameCaller;
 
-    @Value("${upload.avatarPath}")
-    public String path;
-
     public  Integer getUserIdFromCookie(HttpServletRequest request) {
         //System.out.println(request);
         /*Cookie[] cookies = request.getCookies();
@@ -78,12 +75,25 @@ public class Utils {
     }
 
     public  String getAvatarUrlById(int user_id){
-        return "avatars/"+funcGetUserAvatarCaller.call(user_id).toString();
+        return "upload/avatar/"+funcGetUserAvatarCaller.call(user_id).toString();
     }
+
 
     public  void setAvatarUrl(Map user){
         user.put("avatarUrl",getAvatarUrlById(Integer.parseInt(user.get("userId").toString())));
     }
+
+    public  void setMessageUrl(Map message){
+        if (!message.get("messageHasImage").toString().equals("0")){
+            ArrayList<String> urls = new ArrayList<String>();
+            String messageId = message.get("messageId").toString();
+            
+        }
+
+
+
+    }
+
     public  Map getMessageById(int message_id){
         Map result=(Map)funcShowMessageByIdCaller.call(message_id).get(0);
         setMessageUrl(result);
@@ -91,6 +101,7 @@ public class Utils {
         setMessageTopic(result);
         return result;
     }
+
 
     private void setMessageTopic(Map result) {
         ArrayList<String> names=getTopicContent(result.get("messageContent").toString());
@@ -121,6 +132,7 @@ public class Utils {
     public  Map getMessageById(Object message_id){
         return getMessageById(Integer.parseInt(message_id.toString()));
     }
+
     public  ArrayList<Map> getMessageFromArray(ArrayList<Map> message_ids){
         ArrayList<Map> result=new ArrayList<>();
         for(Map id:message_ids){
@@ -128,8 +140,7 @@ public class Utils {
         }
         return result;
     }
-    public  void setMessageUrl(Map message){
-    }
+
 
     public  ArrayList getTopicContent(String message){
         int start=-1;
