@@ -12,15 +12,13 @@ import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
 import java.lang.reflect.Array;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.Map;
+import java.util.*;
 
 @RestController
 @Api(tags = "推特（动态）控制接口")
@@ -102,16 +100,21 @@ public class MessageController {
 
     @PostMapping("/send")
     @ApiOperation("发送推特，包括图片、AT、话题等完整信息")
-    public void Send(HttpServletRequest request, @RequestBody MessageForSender messageForSender,
-                     @RequestBody MultipartFile[] imgs) throws IOException {
+    public void Send(HttpServletRequest request) throws IOException {
+        MultipartHttpServletRequest params=((MultipartHttpServletRequest) request);
+        List<MultipartFile> files = ((MultipartHttpServletRequest) request)
+                .getFiles("file");
+
         int userId = utils.getUserIdFromCookie(request);
         if (userId == 0 ) throw new UserException("用户未登录");
-
+        MessageForSender messageForSender = new MessageForSender();
+        messageForSender.message_content = params.getParameter("message_content");
+        messageForSender.message_has_image = Integer.parseInt(params.getParameter("message_has_image"));
+        messageForSender.message_image_count = Integer.parseInt(params.getParameter("message_image_count"));
 
         int messageId = iMessageService.AddMessage(messageForSender.message_content,messageForSender.message_has_image,
                                                     userId,messageForSender.message_image_count);
-        ArrayList<MultipartFile> fileList = (ArrayList<MultipartFile>) Arrays.asList(imgs);
-        uploadTool.uploadMessage(fileList,messageId);
+        uploadTool.uploadMessage(files,messageId);
 
     }
 

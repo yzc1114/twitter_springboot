@@ -42,7 +42,7 @@ public class Utils {
                 }
             }
         }*/
-        Object value=request.getSession().getAttribute("userId");
+        Object value=request.getSession(true).getAttribute("userId");
         if(value==null){
             return 0;
         }else{
@@ -50,7 +50,7 @@ public class Utils {
         }
 
     }
-    public  void setSession(HttpServletRequest request,int user_id){
+    public  void setSession(HttpServletRequest request, int user_id){
         /*Cookie cookie=new Cookie("userId",null);
         cookie.setPath("/");
         //cookie.setSecure(true);
@@ -88,7 +88,7 @@ public class Utils {
         ArrayList<String> urls = new ArrayList<String>();
         if (!message.get("messageHasImage").toString().equals("0")){
             String messageId = message.get("messageId").toString();
-            String path = "upload/img/" + messageId;
+            String path = "/upload/img/" + messageId;
             File file = new File(path);
             File[] allFiles = file.listFiles();
             assert allFiles != null;

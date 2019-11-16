@@ -12,6 +12,7 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.ArrayList;
+import java.util.List;
 
 @Component
 public class UploadTool {
@@ -35,7 +36,7 @@ public class UploadTool {
         //System.out.println("上传成功");
     }
 
-    public void uploadMessage(ArrayList<MultipartFile> arr, int messageId) throws IOException {
+    public void uploadMessage(List<MultipartFile> arr, int messageId) throws IOException {
         File folderPath = new File(utils.getImageLocation() + messageId);
         if(!folderPath.exists()){
             // 递归生成文件夹

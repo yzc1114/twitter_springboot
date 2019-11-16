@@ -63,6 +63,7 @@ public class UserController {
                           HttpServletResponse response,
                           @RequestBody Account account){
         Integer userId = iUserService.SignIn(account.getEmail(), account.getPassword());
+        System.out.println("登录userId" + userId);
         if(userId.equals(0)){
             return 0;
         }
@@ -131,10 +132,11 @@ public class UserController {
     iAvatarService.SetMainAvatar(user_id,avatar_id);
     }
 
-    @GetMapping(value = "/getUserId")
-    public Integer getUserId(HttpServletRequest request){
-        return utils.getUserIdFromCookie(request);
-    }
+//    @GetMapping(value = "/getUserId")
+//    public Integer getUserId(HttpServletRequest request){
+//        return 0;
+//        //return utils.getUserIdFromCookie(request);
+//    }
 }
 
 

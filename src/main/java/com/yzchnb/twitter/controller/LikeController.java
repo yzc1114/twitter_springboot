@@ -71,7 +71,7 @@ public class LikeController {
             @ApiImplicitParam(name = "userId", value = "用户id", required = true),
             @ApiImplicitParam(name = "message_id", value = "推特id", required = true)
     })
-    public Integer checkUserLikesMessage(@PathVariable int userId, @PathVariable int message_id){
-        return iLikeService.IfLike(userId, message_id);
+    public Integer checkUserLikesMessage(@RequestParam("userId") int userId, @RequestParam("messageId") int messageId){
+        return iLikeService.IfLike(userId, messageId);
     }
 }
