@@ -16,7 +16,9 @@ import org.springframework.web.multipart.MultipartFile;
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
+import java.lang.reflect.Array;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.Map;
 
@@ -98,17 +100,17 @@ public class MessageController {
     }
 
 
-    @PostMapping("/Send")
+    @PostMapping("/send")
     @ApiOperation("发送推特，包括图片、AT、话题等完整信息")
     public void Send(HttpServletRequest request, @RequestBody MessageForSender messageForSender,
-                     @RequestBody MultipartFile imgs) throws IOException {
+                     @RequestBody MultipartFile[] imgs) throws IOException {
         int userId = utils.getUserIdFromCookie(request);
         if (userId == 0 ) throw new UserException("用户未登录");
 
 
         int messageId = iMessageService.AddMessage(messageForSender.message_content,messageForSender.message_has_image,
                                                     userId,messageForSender.message_image_count);
-        ArrayList<MultipartFile> fileList = (ArrayList<MultipartFile>) Collections.singletonList(imgs);
+        ArrayList<MultipartFile> fileList = (ArrayList<MultipartFile>) Arrays.asList(imgs);
         uploadTool.uploadMessage(fileList,messageId);
 
     }

@@ -1,6 +1,7 @@
 package com.yzchnb.twitter.controller;
 
 import com.yzchnb.twitter.configs.ExceptionDefinition.UserException;
+import com.yzchnb.twitter.entity.entityforController.UserEntity.SignUpInfo;
 import com.yzchnb.twitter.utils.UploadTool;
 import com.yzchnb.twitter.entity.entityforController.UserEntity.Account;
 import com.yzchnb.twitter.entity.entityforController.UserEntity.UserInfoEdit;
@@ -52,9 +53,8 @@ public class UserController {
     @ApiImplicitParams({
             @ApiImplicitParam(name = "nickname", value = "昵称", required = true),
     })
-    public void SignUp(@RequestParam("nickname") String nickname,
-                       @RequestBody Account account){
-        iUserService.SignUp(account.email, nickname, account.password);
+    public void SignUp(@RequestBody SignUpInfo signUpInfo){
+        iUserService.SignUp(signUpInfo.getEmail(), signUpInfo.getNickname(), signUpInfo.getPassword());
     }
 
     @PostMapping(value = "/signIn")
@@ -62,7 +62,7 @@ public class UserController {
     public Integer SignIn(HttpServletRequest request,
                           HttpServletResponse response,
                           @RequestBody Account account){
-        Integer userId = iUserService.SignIn(account.email, account.password);
+        Integer userId = iUserService.SignIn(account.getEmail(), account.getPassword());
         if(userId.equals(0)){
             return 0;
         }
@@ -129,6 +129,11 @@ public class UserController {
     int avatar_id = iAvatarService.AddAvatar(user_id);
     uploadTool.uploadAvatar(avatar , avatar_id);
     iAvatarService.SetMainAvatar(user_id,avatar_id);
+    }
+
+    @GetMapping(value = "/getUserId")
+    public Integer getUserId(HttpServletRequest request){
+        return utils.getUserIdFromCookie(request);
     }
 }
 

@@ -1,8 +1,17 @@
 package com.yzchnb.twitter.entity.entityforController.UserEntity;
 
-public class Account {
+public class SignUpInfo {
     private String email;
     private String password;
+    private String nickname;
+
+    public String getNickname() {
+        return nickname;
+    }
+
+    public void setNickname(String nickname) {
+        this.nickname = nickname;
+    }
 
     public String getEmail() {
         return email;
@@ -19,4 +28,5 @@ public class Account {
     public void setPassword(String password) {
         this.password = password;
     }
+
 }

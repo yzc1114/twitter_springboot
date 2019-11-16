@@ -1,5 +1,6 @@
 package com.yzchnb.twitter.service.impls;
 
+import com.yzchnb.twitter.configs.ExceptionDefinition.UserException;
 import com.yzchnb.twitter.dao.FunctionCaller.*;
 import com.yzchnb.twitter.dao.TableMapper.UserPrivateInfoMapper;
 import com.yzchnb.twitter.dao.TableMapper.UserPublicInfoMapper;
@@ -36,6 +37,8 @@ public class UserServiceImpl implements IUserService {
     @Resource
     private FuncGetCollectionNumCaller funcGetCollectionNumCaller;
     @Resource
+    private FuncCheckUserinfoExistCaller funcCheckUserinfoExistCaller;
+    @Resource
     private Utils utils;
     public Map GetUserPublicInfo(int userId){
         System.out.println(userId);
@@ -46,8 +49,12 @@ public class UserServiceImpl implements IUserService {
         return result;
     }
 
-    public void SignUp(String email, String nickname, String password){
+    public void SignUp(String email, String nickname, String password) throws UserException {
         System.out.println("preparing signUp email:" + email + " nickname: " + nickname + " password: " + password);
+        int exist = funcCheckUserinfoExistCaller.call(email, nickname);
+        if(exist == 1){
+            throw new UserException("userinfo exists");
+        }
         funcUserSignUpCaller.call(email, nickname, password);
     }
 
@@ -57,7 +64,7 @@ public class UserServiceImpl implements IUserService {
     }
 
     public ArrayList GetRecommend(){
-        ArrayList<Map> result=funcRecommendUserCaller.call();
+        ArrayList<Map> result = funcRecommendUserCaller.call();
         for(Map user:result){
             utils.setAvatarUrl(user);
         }
@@ -77,16 +84,16 @@ public class UserServiceImpl implements IUserService {
     @Override
     public void EditInfo(UserInfoEdit userInfoEdit, int userId) {
         int mode = 0;
-        System.out.println("nickname:  " + userInfoEdit.nickname + "  password:  " + userInfoEdit.password
-                            + "  realName: " + userInfoEdit.realName + "  gender:  "+ userInfoEdit.gender
-                            + "   selfIntroduction:  "+ userInfoEdit.selfIntroduction);
-        if(!userInfoEdit.nickname.equals("")) mode |= 1 << 0;
-        if (!userInfoEdit.selfIntroduction.equals("")) mode |= 1 << 1;
-        if (!userInfoEdit.password.equals("")) mode |= 1 << 2;
-        if (!userInfoEdit.realName.equals("")) mode |= 1 << 3;
-        if (!userInfoEdit.gender.equals("")) mode |= 1 << 4;
-        funcSetUserInfoCaller.call(userInfoEdit.nickname,userInfoEdit.selfIntroduction,userInfoEdit.password,
-                userInfoEdit.realName,userInfoEdit.gender,userId,mode);
+        System.out.println("nickname:  " + userInfoEdit.getNickname() + "  password:  " + userInfoEdit.getPassword()
+                            + "  realName: " + userInfoEdit.getRealName() + "  gender:  "+ userInfoEdit.getGender()
+                            + "   selfIntroduction:  "+ userInfoEdit.getSelfIntroduction());
+        if(!userInfoEdit.getNickname().equals("")) mode |= 1 << 0;
+        if (!userInfoEdit.getSelfIntroduction().equals("")) mode |= 1 << 1;
+        if (!userInfoEdit.getPassword().equals("")) mode |= 1 << 2;
+        if (!userInfoEdit.getRealName().equals("")) mode |= 1 << 3;
+        if (!userInfoEdit.getGender().equals("")) mode |= 1 << 4;
+        funcSetUserInfoCaller.call(userInfoEdit.getNickname(),userInfoEdit.getSelfIntroduction(),userInfoEdit.getPassword(),
+                userInfoEdit.getRealName(),userInfoEdit.getGender(),userId,mode);
     }
 
     @Override

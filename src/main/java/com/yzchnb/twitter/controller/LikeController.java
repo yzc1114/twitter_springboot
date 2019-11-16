@@ -64,4 +64,14 @@ public class LikeController {
                                 @RequestBody Range range){
         return iLikeService.QueryLikes(userId,range.startFrom,range.limitation);
     }
+
+    @GetMapping("/checkUserLikesMessage")
+    @ApiOperation("查看是否点赞过推特")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "userId", value = "用户id", required = true),
+            @ApiImplicitParam(name = "message_id", value = "推特id", required = true)
+    })
+    public Integer checkUserLikesMessage(@PathVariable int userId, @PathVariable int message_id){
+        return iLikeService.IfLike(userId, message_id);
+    }
 }

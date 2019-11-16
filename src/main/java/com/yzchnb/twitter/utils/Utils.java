@@ -76,12 +76,12 @@ public class Utils {
     }
 
     public  String getAvatarUrlById(int user_id){
-        return "upload/avatar/"+funcGetUserAvatarCaller.call(user_id).toString();
+        return "/upload/avatar/"+funcGetUserAvatarCaller.call(user_id).toString();
     }
 
 
     public  void setAvatarUrl(Map user){
-        user.put("avatarUrl",getAvatarUrlById(Integer.parseInt(user.get("userId").toString())));
+        user.put("avatarUrl", getAvatarUrlById(Integer.parseInt(user.get("userId").toString())));
     }
 
     public  void setMessageUrl(Map message){
