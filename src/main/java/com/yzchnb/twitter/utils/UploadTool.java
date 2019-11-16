@@ -1,4 +1,4 @@
-package com.yzchnb.twitter.entity.entityforController;
+package com.yzchnb.twitter.utils;
 
 import com.yzchnb.twitter.utils.Utils;
 import org.springframework.beans.factory.annotation.Value;
@@ -29,7 +29,7 @@ public class UploadTool {
 
         String newName = null;
         String oriName = multipartFile.getOriginalFilename();
-        newName = avatarId.toString() + oriName.substring(oriName.lastIndexOf('.'));
+        newName = avatarId.toString() ;
         File file = new File(fileDir.getAbsolutePath() + File.separator + newName);
         multipartFile.transferTo(file);
         //System.out.println("上传成功");
@@ -44,7 +44,7 @@ public class UploadTool {
         int i = 0;
         for (MultipartFile file:arr) {
             String oriName = file.getOriginalFilename();
-            String newName = i + oriName.substring(oriName.lastIndexOf('.'));
+            String newName = String.valueOf(i);
             File newFile = new File(folderPath.getAbsolutePath()+File.separator + newName);
             file.transferTo(newFile);
             i++;

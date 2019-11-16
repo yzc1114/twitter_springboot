@@ -11,6 +11,7 @@ import javax.annotation.Resource;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
+import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -84,12 +85,18 @@ public class Utils {
     }
 
     public  void setMessageUrl(Map message){
+        ArrayList<String> urls = new ArrayList<String>();
         if (!message.get("messageHasImage").toString().equals("0")){
-            ArrayList<String> urls = new ArrayList<String>();
             String messageId = message.get("messageId").toString();
-            
+            String path = "upload/img/" + messageId;
+            File file = new File(path);
+            File[] allFiles = file.listFiles();
+            assert allFiles != null;
+            for (File f:allFiles) {
+                urls.add(f.getName());
+            }
         }
-
+        message.put("messageImageUrls", urls);
 
 
     }

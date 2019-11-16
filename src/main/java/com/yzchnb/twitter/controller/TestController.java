@@ -1,7 +1,7 @@
 package com.yzchnb.twitter.controller;
 
 
-import com.yzchnb.twitter.entity.entityforController.UploadTool;
+import com.yzchnb.twitter.utils.UploadTool;
 import com.yzchnb.twitter.utils.Utils;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -14,10 +14,8 @@ import org.springframework.web.multipart.MultipartFile;
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collections;
 
 @RestController
 @Api(tags = "测试接口")

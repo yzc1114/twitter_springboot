@@ -2,7 +2,7 @@ package com.yzchnb.twitter.controller;
 
 import com.yzchnb.twitter.configs.ExceptionDefinition.UserException;
 import com.yzchnb.twitter.entity.entityforController.Range;
-import com.yzchnb.twitter.entity.entityforController.UploadTool;
+import com.yzchnb.twitter.utils.UploadTool;
 import com.yzchnb.twitter.service.IMessageService;
 import com.yzchnb.twitter.utils.Utils;
 import io.swagger.annotations.Api;
@@ -12,12 +12,12 @@ import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
-import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Map;
 
 @RestController
@@ -101,15 +101,14 @@ public class MessageController {
     @PostMapping("/Send")
     @ApiOperation("发送推特，包括图片、AT、话题等完整信息")
     public void Send(HttpServletRequest request, @RequestBody MessageForSender messageForSender,
-                     @RequestBody ArrayList<MultipartFile> imgs) throws IOException {
+                     @RequestBody MultipartFile imgs) throws IOException {
         int userId = utils.getUserIdFromCookie(request);
         if (userId == 0 ) throw new UserException("用户未登录");
 
 
         int messageId = iMessageService.AddMessage(messageForSender.message_content,messageForSender.message_has_image,
                                                     userId,messageForSender.message_image_count);
-        MultipartHttpServletRequest para = (MultipartHttpServletRequest)request;
-        ArrayList<MultipartFile> fileList = (ArrayList<MultipartFile>) para.getFiles("files");
+        ArrayList<MultipartFile> fileList = (ArrayList<MultipartFile>) Collections.singletonList(imgs);
         uploadTool.uploadMessage(fileList,messageId);
 
     }

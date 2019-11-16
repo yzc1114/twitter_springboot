@@ -1,7 +1,6 @@
 package com.yzchnb.twitter.service.impls;
 
 import com.yzchnb.twitter.dao.FunctionCaller.*;
-import com.yzchnb.twitter.entity.entityforController.UploadTool;
 import com.yzchnb.twitter.service.IMessageService;
 import com.yzchnb.twitter.utils.Utils;
 import org.springframework.beans.factory.annotation.Autowired;
