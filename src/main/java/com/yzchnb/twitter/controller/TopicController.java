@@ -21,19 +21,19 @@ public class TopicController {
     @Resource
     private ITopicService iTopicService;
 
-    @PostMapping("/queryMessageByTopic/{topic_id}")
+    @PostMapping("/queryMessagesByTopic/{topic_id}")
     @ApiOperation("根据话题名字，起始位置和长度限制获取时间最近的几条message_id组成的列表")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "topic_id",value = "话题ID",required = true),
     })
-    ArrayList QueryMessageByTopic(@PathVariable int topic_id,
+    public ArrayList QueryMessageByTopic(@PathVariable int topic_id,
                                   @RequestBody Range range){
         return iTopicService.QueryMessageByTopic(topic_id,range.startFrom,range.limitation);
     }
 
     @PostMapping("/queryTopicsBaseOnHeat")
     @ApiOperation("查找最热的几条话题")
-    ArrayList QueryTopicsBaseOnHeat(@RequestBody Range range){
+    public ArrayList QueryTopicsBaseOnHeat(@RequestBody Range range){
         return iTopicService.QueryTopicsBaseOnHeat(range.startFrom,range.limitation);
     }
 
@@ -43,7 +43,7 @@ public class TopicController {
             @ApiImplicitParam(name = "topic_content",value = "话题内容",required = true),
             @ApiImplicitParam(name = "message_id",value = "messageID",required = true)
     })
-    void AddTopicWithMessage(@RequestParam("topic_content") String topic_content,
+    public void AddTopicWithMessage(@RequestParam("topic_content") String topic_content,
                              @RequestParam("message_id") int message_id){
         iTopicService.AddTopicWithMessage(topic_content,message_id);
     }
@@ -51,7 +51,7 @@ public class TopicController {
     @PostMapping("/getTopicIdByName")
     @ApiOperation("通过话题名字返回ID")
     @ApiImplicitParam(name = "topic_name",value = "话题名字",required = true)
-    Integer GetTopicIdByName(@RequestParam("topic_name") String topic_name){
+    public Integer GetTopicIdByName(@RequestParam("topic_name") String topic_name){
         return iTopicService.GetTopicIdByName(topic_name);
     }
 

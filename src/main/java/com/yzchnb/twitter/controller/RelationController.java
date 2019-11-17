@@ -32,7 +32,7 @@ public class RelationController {
     @ApiImplicitParams({
             @ApiImplicitParam(name = "user_id", value = "用户ID",required = true)
     })
-    ArrayList QueryFollowersFor(@PathVariable() int user_id,
+    public ArrayList QueryFollowersFor(@PathVariable() int user_id,
                                 @RequestBody Range range,
                                 HttpServletRequest request)throws UserException{
         int userId = utils.getUserIdFromCookie(request);
@@ -49,7 +49,7 @@ public class RelationController {
     @ApiImplicitParams({
             @ApiImplicitParam(name = "user_id", value = "用户ID",required = true),
     })
-    ArrayList QueryFollowingFor(@PathVariable() int user_id,
+    public ArrayList QueryFollowingFor(@PathVariable() int user_id,
                                 @RequestBody Range range,
                                 HttpServletRequest request)throws UserException{
         int userId = utils.getUserIdFromCookie(request);
@@ -65,7 +65,7 @@ public class RelationController {
     @GetMapping(value = "/follow/{be_followed_id}")
     @ApiOperation("关注某用户")
     @ApiImplicitParam(name = "be_followed_id", value = "被关注的用户ID", required = true)
-    void FollowUser(@PathVariable() int be_followed_id,
+    public void FollowUser(@PathVariable() int be_followed_id,
                     HttpServletRequest request) throws UserException{
         int follower_id = utils.getUserIdFromCookie(request);
         // 登录验证失败时的返回
@@ -80,7 +80,7 @@ public class RelationController {
     @GetMapping(value = "/cancelFollowingTo/{be_followed_id}")
     @ApiOperation("取消关注某用户")
     @ApiImplicitParam(name = "be_followed_id", value = "被取关的用户ID", required = true)
-    void CancelFollowingTo(@PathVariable() int be_followed_id,
+    public void CancelFollowingTo(@PathVariable() int be_followed_id,
                            HttpServletRequest request)throws UserException{
         int follower_id = utils.getUserIdFromCookie(request);
         // 登录验证失败时的返回
@@ -95,7 +95,7 @@ public class RelationController {
     @GetMapping(value = "/ifFollowingByMe/{be_followed_id}")
     @ApiOperation("用户是否关注be_followed")
     @ApiImplicitParam(name = "be_followed_id", value = "被关注的用户ID", required = true)
-    Integer IfFollowing(@PathVariable() int be_followed_id,HttpServletRequest request) throws UserException{
+    public Integer IfFollowing(@PathVariable() int be_followed_id,HttpServletRequest request) throws UserException{
         int userId = utils.getUserIdFromCookie(request);
         // 登录验证失败时的返回
 
@@ -112,7 +112,7 @@ public class RelationController {
         @ApiImplicitParam(name = "follower_id",value = "发起关注的用户ID",required = true),
         @ApiImplicitParam(name = "be_followed_id",value = "被关注的用户ID",required = true)
     })
-    Integer IfFollowing(@RequestParam("follower_id")int follower_id,
+    public Integer IfFollowing(@RequestParam("follower_id")int follower_id,
                         @RequestParam("be_followed_id") int be_followed_id){
         return iRelationService.IfFollowing(follower_id,be_followed_id);
     }

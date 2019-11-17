@@ -25,8 +25,8 @@ public class CommentServiceImpl implements ICommentService {
         ArrayList<Map> comments= funcQueryCommentByRangeCaller.call(message_id,start_from,limitation);
         for(Map i:comments){
             Map comment_for_show=new HashMap();
-            comment_for_show.put("comment",i);
-            comment_for_show.put("userPublicInfo",userService.GetUserPublicInfo(
+            comment_for_show.putAll(i);
+            comment_for_show.putAll(userService.GetUserPublicInfo(
                     Integer.parseInt(i.get("commentSenderId").toString())));
             result.add(comment_for_show);
         }

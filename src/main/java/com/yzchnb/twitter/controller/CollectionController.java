@@ -76,4 +76,14 @@ public class CollectionController {
     public Integer getCollectionNum(@PathVariable int userId){
         return iCollectionService.GetCollectionNum(userId);
     }
+
+    @PostMapping(value = "/checkUserCollectMessage")
+    @ApiOperation("查看是否收藏过")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "user_id", value = "用户ID", required = true),
+            @ApiImplicitParam(name = "message_id", value = "推特ID", required = true)
+    })
+    public Integer checkUserCollectMessage(@RequestParam("user_id") int userId, @RequestParam("message_id") int messageId){
+        return iCollectionService.IfCollecting(userId, messageId);
+    }
 }

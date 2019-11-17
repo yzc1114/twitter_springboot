@@ -40,7 +40,7 @@ public class ResponseGlobalAdvice implements ResponseBodyAdvice<Object> {
         }
         ResponseFormat res = new ResponseFormat();
         if(body instanceof Boolean) {
-            res.setCode(200);
+            res.setCode(body.equals(true) ? 200 : 500);
             res.setMessage(body.equals(true) ? "success" : "fail");
             return res;
         }
@@ -48,7 +48,7 @@ public class ResponseGlobalAdvice implements ResponseBodyAdvice<Object> {
             System.out.println("Exception Encountered");
             res.setCode(500);
             res.setMessage("fail");
-            res.setData(((Exception)body).getMessage());
+            //res.setData(((Exception)body).getMessage());
             return res;
         }
         res.setCode(200);

@@ -77,9 +77,9 @@ public class MessageController {
         return iMessageService.QueryUserMessage(user_id, range.startFrom, range.limitation);
     }
 
-    @PostMapping("/queryNewest")
+    @PostMapping("/queryNewestMessage")
     @ApiOperation("根据范围返回前几条推荐的推特，按照时间排序")
-    public ArrayList QueryNewest(@RequestBody Range range) {
+    public ArrayList QueryNewestMessage(@RequestBody Range range) {
         return iMessageService.QueryNewest(range.startFrom, range.limitation);
     }
 
@@ -102,15 +102,20 @@ public class MessageController {
     @ApiOperation("发送推特，包括图片、AT、话题等完整信息")
     public void Send(HttpServletRequest request) throws IOException {
         MultipartHttpServletRequest params=((MultipartHttpServletRequest) request);
-        List<MultipartFile> files = ((MultipartHttpServletRequest) request)
-                .getFiles("file");
-
+        List<MultipartFile> files = new ArrayList<>();
         int userId = utils.getUserIdFromCookie(request);
         if (userId == 0 ) throw new UserException("用户未登录");
         MessageForSender messageForSender = new MessageForSender();
         messageForSender.message_content = params.getParameter("message_content");
         messageForSender.message_has_image = Integer.parseInt(params.getParameter("message_has_image"));
         messageForSender.message_image_count = Integer.parseInt(params.getParameter("message_image_count"));
+        for(int i = 0; i < messageForSender.message_image_count; i++){
+            MultipartFile file = params.getFile("file" + i);
+            if(file != null){
+                files.add(file);
+            }
+        }
+        messageForSender.message_image_count = files.size();
 
         int messageId = iMessageService.AddMessage(messageForSender.message_content,messageForSender.message_has_image,
                                                     userId,messageForSender.message_image_count);

@@ -44,8 +44,12 @@ public class UploadTool {
         }
         int i = 0;
         for (MultipartFile file:arr) {
-            String oriName = file.getOriginalFilename();
-            String newName = String.valueOf(i);
+            String newName;
+            if(file.getContentType().split("/")[0].equals("image")){
+                newName = (i) + ".image";
+            }else{
+                newName = (i) + ".video";
+            }
             File newFile = new File(folderPath.getAbsolutePath()+File.separator + newName);
             file.transferTo(newFile);
             i++;

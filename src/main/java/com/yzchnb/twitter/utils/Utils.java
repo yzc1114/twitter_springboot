@@ -68,11 +68,25 @@ public class Utils {
         }
 
     }
-    public  String getAvatarsLocation() throws FileNotFoundException {
-        return ResourceUtils.getURL("classpath:").getPath()+"upload/avatar/";
+    public  String getAvatarsLocation(){
+        try{
+            return ResourceUtils.getURL("classpath:").getPath()+"upload/avatar/";
+        }catch (FileNotFoundException e){
+            e.printStackTrace();
+            System.out.println("静态avatar文件夹没有创建。");
+            assert false;
+            return "";
+        }
     }
-    public  String getImageLocation() throws FileNotFoundException{
-        return ResourceUtils.getURL("classpath:").getPath()+"upload/img/";
+    public  String getImageLocation(){
+        try{
+            return ResourceUtils.getURL("classpath:").getPath()+"upload/img/";
+        }catch (FileNotFoundException e){
+            e.printStackTrace();
+            System.out.println("静态img文件夹没有创建。");
+            assert false;
+            return "";
+        }
     }
 
     public  String getAvatarUrlById(int user_id){
@@ -88,13 +102,16 @@ public class Utils {
         ArrayList<String> urls = new ArrayList<String>();
         if (!message.get("messageHasImage").toString().equals("0")){
             String messageId = message.get("messageId").toString();
-            String path = "/upload/img/" + messageId;
-            File file = new File(path);
-            File[] allFiles = file.listFiles();
-            assert allFiles != null;
-            for (File f:allFiles) {
-                urls.add(f.getName());
+            String imgPath = getImageLocation() + messageId;
+            File filesDir = new File(imgPath);
+            if(!filesDir.exists()){
+                filesDir.mkdir();
             }
+            File[] allFiles = filesDir.listFiles();
+            for (File f: allFiles) {
+                urls.add("/upload/img/" + messageId + "/" + f.getName());
+            }
+            message.put("messageImageCount", urls.size());
         }
         message.put("messageImageUrls", urls);
 

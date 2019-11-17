@@ -33,7 +33,7 @@ public class PrivateLetterController {
             @ApiImplicitParam(name = "receiver_user_id", value = "接收私信的用户ID", required = true),
             @ApiImplicitParam(name = "content", value = "私信内容", required = true)
     })
-    void AddPrivateLetter(@PathVariable()int receiver_user_id,
+    public void AddPrivateLetter(@PathVariable()int receiver_user_id,
                           @RequestParam("content")String content,
                           HttpServletRequest request) throws UserException{
         int sender_user_id = utils.getUserIdFromCookie(request);
@@ -46,7 +46,7 @@ public class PrivateLetterController {
     @GetMapping("/deletePrivateLetter/{private_letter_id}")
     @ApiOperation("删除私信")
     @ApiImplicitParam(name = "private_letter_id",value = "私信ID",required = true)
-    void DeletePrivateLetter(@PathVariable() int private_letter_id,
+    public void DeletePrivateLetter(@PathVariable() int private_letter_id,
                              HttpServletRequest request) throws UserException{
         int userId = utils.getUserIdFromCookie(request);
 
@@ -60,7 +60,7 @@ public class PrivateLetterController {
     @ApiImplicitParams({
             @ApiImplicitParam(name = "user_id",value = "用户ID",required = true)
     })
-    ArrayList QueryPrivateLetters(@PathVariable() int user_id,
+    public ArrayList QueryPrivateLetters(@PathVariable() int user_id,
                                   @RequestBody Range range, HttpServletRequest request) throws UserException{
         int userId = utils.getUserIdFromCookie(request);
 
