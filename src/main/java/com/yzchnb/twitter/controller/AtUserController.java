@@ -39,7 +39,7 @@ public class AtUserController {
             return iAtUserService.Query(user_id,range.startFrom,range.limitation);
         }
         catch (Exception e){
-            System.out.println(e);
+            e.printStackTrace();
         }
 
         return null;
@@ -56,7 +56,7 @@ public class AtUserController {
             return iAtUserService.QueryUnreadAt(user_id);
         }
         catch (Exception e){
-            System.out.println(e);
+            e.printStackTrace();
         }
 
 

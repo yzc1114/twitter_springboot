@@ -1,8 +1,8 @@
 package com.yzchnb.twitter.controller;
 
 import com.yzchnb.twitter.configs.ExceptionDefinition.UserException;
-import com.yzchnb.twitter.entity.TableEntity.UserPublicInfo;
-import com.yzchnb.twitter.entity.entityforController.UploadTool;
+import com.yzchnb.twitter.entity.entityforController.UserEntity.SignUpInfo;
+import com.yzchnb.twitter.utils.UploadTool;
 import com.yzchnb.twitter.entity.entityforController.UserEntity.Account;
 import com.yzchnb.twitter.entity.entityforController.UserEntity.UserInfoEdit;
 import com.yzchnb.twitter.service.IAvatarService;
@@ -13,14 +13,10 @@ import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.http.HttpRequest;
-import org.springframework.http.server.ServerHttpRequest;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.annotation.Resource;
-import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
@@ -57,9 +53,8 @@ public class UserController {
     @ApiImplicitParams({
             @ApiImplicitParam(name = "nickname", value = "昵称", required = true),
     })
-    public void SignUp(@RequestParam("nickname") String nickname,
-                       @RequestBody Account account){
-        iUserService.SignUp(account.email, nickname, account.password);
+    public void SignUp(@RequestBody SignUpInfo signUpInfo){
+        iUserService.SignUp(signUpInfo.getEmail(), signUpInfo.getNickname(), signUpInfo.getPassword());
     }
 
     @PostMapping(value = "/signIn")
@@ -67,7 +62,8 @@ public class UserController {
     public Integer SignIn(HttpServletRequest request,
                           HttpServletResponse response,
                           @RequestBody Account account){
-        Integer userId = iUserService.SignIn(account.email, account.password);
+        Integer userId = iUserService.SignIn(account.getEmail(), account.getPassword());
+        System.out.println("登录userId" + userId);
         if(userId.equals(0)){
             return 0;
         }
@@ -75,6 +71,7 @@ public class UserController {
         System.out.println(cookie.getName()+" "+cookie.getValue());
         //写入cookie的方法
         response.addCookie(cookie);*/
+
         utils.setSession(request,userId);
         return userId;
     }
@@ -131,9 +128,15 @@ public class UserController {
     if (user_id == 0 )throw new UserException("用户未登录");
 
     int avatar_id = iAvatarService.AddAvatar(user_id);
-    String url = uploadTool.uploadAvatar(avatar , avatar_id);
+    uploadTool.uploadAvatar(avatar , avatar_id);
     iAvatarService.SetMainAvatar(user_id,avatar_id);
     }
+
+//    @GetMapping(value = "/getUserId")
+//    public Integer getUserId(HttpServletRequest request){
+//        return 0;
+//        //return utils.getUserIdFromCookie(request);
+//    }
 }
 
 

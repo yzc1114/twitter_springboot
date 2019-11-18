@@ -2,7 +2,7 @@ package com.yzchnb.twitter.controller;
 
 import com.yzchnb.twitter.configs.ExceptionDefinition.UserException;
 import com.yzchnb.twitter.entity.entityforController.Range;
-import com.yzchnb.twitter.entity.entityforController.UploadTool;
+import com.yzchnb.twitter.utils.UploadTool;
 import com.yzchnb.twitter.service.IMessageService;
 import com.yzchnb.twitter.utils.Utils;
 import io.swagger.annotations.Api;
@@ -17,8 +17,8 @@ import org.springframework.web.multipart.MultipartHttpServletRequest;
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Map;
+import java.lang.reflect.Array;
+import java.util.*;
 
 @RestController
 @Api(tags = "推特（动态）控制接口")
@@ -77,9 +77,9 @@ public class MessageController {
         return iMessageService.QueryUserMessage(user_id, range.startFrom, range.limitation);
     }
 
-    @PostMapping("/queryNewest")
+    @PostMapping("/queryNewestMessage")
     @ApiOperation("根据范围返回前几条推荐的推特，按照时间排序")
-    public ArrayList QueryNewest(@RequestBody Range range) {
+    public ArrayList QueryNewestMessage(@RequestBody Range range) {
         return iMessageService.QueryNewest(range.startFrom, range.limitation);
     }
 
@@ -98,18 +98,28 @@ public class MessageController {
     }
 
 
-    @PostMapping("/Send")
+    @PostMapping("/send")
     @ApiOperation("发送推特，包括图片、AT、话题等完整信息")
-    public void Send(HttpServletRequest request, @RequestBody MessageForSender messageForSender) throws IOException {
+    public void Send(HttpServletRequest request) throws IOException {
+        MultipartHttpServletRequest params=((MultipartHttpServletRequest) request);
+        List<MultipartFile> files = new ArrayList<>();
         int userId = utils.getUserIdFromCookie(request);
         if (userId == 0 ) throw new UserException("用户未登录");
-
+        MessageForSender messageForSender = new MessageForSender();
+        messageForSender.message_content = params.getParameter("message_content");
+        messageForSender.message_has_image = Integer.parseInt(params.getParameter("message_has_image"));
+        messageForSender.message_image_count = Integer.parseInt(params.getParameter("message_image_count"));
+        for(int i = 0; i < messageForSender.message_image_count; i++){
+            MultipartFile file = params.getFile("file" + i);
+            if(file != null){
+                files.add(file);
+            }
+        }
+        messageForSender.message_image_count = files.size();
 
         int messageId = iMessageService.AddMessage(messageForSender.message_content,messageForSender.message_has_image,
                                                     userId,messageForSender.message_image_count);
-        MultipartHttpServletRequest para = (MultipartHttpServletRequest)request;
-        ArrayList<MultipartFile> fileList = (ArrayList<MultipartFile>) para.getFiles("files");
-        uploadTool.uploadMessage(fileList,messageId);
+        uploadTool.uploadMessage(files,messageId);
 
     }
 

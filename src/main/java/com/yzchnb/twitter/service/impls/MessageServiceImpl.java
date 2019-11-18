@@ -1,7 +1,6 @@
 package com.yzchnb.twitter.service.impls;
 
 import com.yzchnb.twitter.dao.FunctionCaller.*;
-import com.yzchnb.twitter.entity.entityforController.UploadTool;
 import com.yzchnb.twitter.service.IMessageService;
 import com.yzchnb.twitter.utils.Utils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -44,11 +43,7 @@ public class MessageServiceImpl implements IMessageService {
 
     @Override
     public ArrayList QueryUserMessage(int user_id, int start_from, int limitation) {
-        ArrayList<Map> result=funcShowMessageByRangeCaller.call(user_id,start_from,limitation);
-        for(Map message : result){
-            utils.setMessageUrl(message);
-        }
-        return result;
+        return utils.getMessageFromArray(funcShowMessageByRangeCaller.call(user_id,start_from,limitation));
     }
 
     @Override

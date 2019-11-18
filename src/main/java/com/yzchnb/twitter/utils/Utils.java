@@ -11,6 +11,7 @@ import javax.annotation.Resource;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
+import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -28,9 +29,6 @@ public class Utils {
     @Resource
     private FuncGetUserIdByNameCaller funcGetUserIdByNameCaller;
 
-    @Value("${upload.avatarPath}")
-    public String path;
-
     public  Integer getUserIdFromCookie(HttpServletRequest request) {
         //System.out.println(request);
         /*Cookie[] cookies = request.getCookies();
@@ -44,7 +42,7 @@ public class Utils {
                 }
             }
         }*/
-        Object value=request.getSession().getAttribute("userId");
+        Object value=request.getSession(true).getAttribute("userId");
         if(value==null){
             return 0;
         }else{
@@ -52,7 +50,7 @@ public class Utils {
         }
 
     }
-    public  void setSession(HttpServletRequest request,int user_id){
+    public  void setSession(HttpServletRequest request, int user_id){
         /*Cookie cookie=new Cookie("userId",null);
         cookie.setPath("/");
         //cookie.setSecure(true);
@@ -70,20 +68,56 @@ public class Utils {
         }
 
     }
-    public  String getAvatarsLocation() throws FileNotFoundException {
-        return ResourceUtils.getURL("classpath:").getPath()+"avatar/";
+    public  String getAvatarsLocation(){
+        try{
+            return ResourceUtils.getURL("classpath:").getPath()+"upload/avatar/";
+        }catch (FileNotFoundException e){
+            e.printStackTrace();
+            System.out.println("静态avatar文件夹没有创建。");
+            assert false;
+            return "";
+        }
     }
-    public  String getImageLocation() throws FileNotFoundException{
-        return ResourceUtils.getURL("classpath:").getPath()+"img/";
+    public  String getImageLocation(){
+        try{
+            return ResourceUtils.getURL("classpath:").getPath()+"upload/img/";
+        }catch (FileNotFoundException e){
+            e.printStackTrace();
+            System.out.println("静态img文件夹没有创建。");
+            assert false;
+            return "";
+        }
     }
 
     public  String getAvatarUrlById(int user_id){
-        return path+funcGetUserAvatarCaller.call(user_id).toString();
+        return "/upload/avatar/"+funcGetUserAvatarCaller.call(user_id).toString();
     }
 
+
     public  void setAvatarUrl(Map user){
-        user.put("avatarUrl",getAvatarUrlById(Integer.parseInt(user.get("userId").toString())));
+        user.put("avatarUrl", getAvatarUrlById(Integer.parseInt(user.get("userId").toString())));
     }
+
+    public  void setMessageUrl(Map message){
+        ArrayList<String> urls = new ArrayList<String>();
+        if (!message.get("messageHasImage").toString().equals("0")){
+            String messageId = message.get("messageId").toString();
+            String imgPath = getImageLocation() + messageId;
+            File filesDir = new File(imgPath);
+            if(!filesDir.exists()){
+                filesDir.mkdir();
+            }
+            File[] allFiles = filesDir.listFiles();
+            for (File f: allFiles) {
+                urls.add("/upload/img/" + messageId + "/" + f.getName());
+            }
+            message.put("messageImageCount", urls.size());
+        }
+        message.put("messageImageUrls", urls);
+
+
+    }
+
     public  Map getMessageById(int message_id){
         Map result=(Map)funcShowMessageByIdCaller.call(message_id).get(0);
         setMessageUrl(result);
@@ -91,6 +125,7 @@ public class Utils {
         setMessageTopic(result);
         return result;
     }
+
 
     private void setMessageTopic(Map result) {
         ArrayList<String> names=getTopicContent(result.get("messageContent").toString());
@@ -121,6 +156,7 @@ public class Utils {
     public  Map getMessageById(Object message_id){
         return getMessageById(Integer.parseInt(message_id.toString()));
     }
+
     public  ArrayList<Map> getMessageFromArray(ArrayList<Map> message_ids){
         ArrayList<Map> result=new ArrayList<>();
         for(Map id:message_ids){
@@ -128,8 +164,7 @@ public class Utils {
         }
         return result;
     }
-    public  void setMessageUrl(Map message){
-    }
+
 
     public  ArrayList getTopicContent(String message){
         int start=-1;
