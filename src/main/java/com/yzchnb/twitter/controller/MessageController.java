@@ -67,13 +67,12 @@ public class MessageController {
         return iMessageService.QueryMessage(message_id);
     }
 
-    @PostMapping("/queryUserMessage")
+    @PostMapping("/queryUserMessage/{user_id}")
     @ApiOperation("根据范围返回相应用户的推特信息，按照时间排序")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "user_id", value = "用户ID", required = true)
     })
-    public ArrayList QueryUserMessage(@RequestParam("user_id") int user_id,
-                               @RequestBody Range range) {
+    public ArrayList QueryUserMessage(@RequestBody Range range, @PathVariable Integer user_id) {
         return iMessageService.QueryUserMessage(user_id, range.startFrom, range.limitation);
     }
 
