@@ -29,28 +29,19 @@ public class Utils {
     @Resource
     private FuncGetUserIdByNameCaller funcGetUserIdByNameCaller;
 
-    public  Integer getUserIdFromCookie(HttpServletRequest request) {
-        //System.out.println(request);
-        /*Cookie[] cookies = request.getCookies();
-        for(Cookie i:cookies){
-            System.out.println(i.getName()+" "+i.getValue());
-        }
-        if(cookies != null){
-            for (Cookie cookie: cookies) {
-                if(cookie.getName().equals("userId")&&!cookie.getValue().equals("")){
-                    return Integer.parseInt(cookie.getValue());
-                }
-            }
-        }*/
+    public Integer getUserIdFromCookie(HttpServletRequest request) {
         Object value=request.getSession(true).getAttribute("userId");
-        if(value==null){
+        if(value == null){
             return 0;
         }else{
             return Integer.parseInt(value.toString());
         }
-
     }
-    public  void setSession(HttpServletRequest request, int user_id){
+
+    public Object getObejctFromSession(HttpServletRequest request, String key) {
+        return request.getSession(true).getAttribute(key);
+    }
+    public  void setSession(HttpServletRequest request, String key, Object content){
         /*Cookie cookie=new Cookie("userId",null);
         cookie.setPath("/");
         //cookie.setSecure(true);
@@ -61,10 +52,10 @@ public class Utils {
         }
         System.out.println(cookie.getValue());
         return cookie;*/
-        if(user_id==0){
-            request.getSession().removeAttribute("userId");
+        if(content == null){
+            request.getSession().removeAttribute(key);
         }else{
-            request.getSession(true).setAttribute("userId",user_id);
+            request.getSession(true).setAttribute(key, content);
         }
 
     }

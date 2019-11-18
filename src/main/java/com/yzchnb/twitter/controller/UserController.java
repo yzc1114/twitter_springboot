@@ -72,7 +72,7 @@ public class UserController {
         //写入cookie的方法
         response.addCookie(cookie);*/
 
-        utils.setSession(request,userId);
+        utils.setSession(request,"userId", userId);
         return userId;
     }
 
@@ -80,7 +80,7 @@ public class UserController {
     @ApiOperation("退出登录")
     public void logout(HttpServletRequest request){
         //response.addCookie(utils.createNewCookie(0,0));
-        utils.setSession(request,0);
+        utils.setSession(request,"userId", 0);
     }
 
     @GetMapping(value = "/checkIfSignUp")
@@ -124,19 +124,19 @@ public class UserController {
     public void uploadAvatar(@RequestParam(value = "avatar")MultipartFile avatar,
                              HttpServletRequest request) throws IOException {
 
-    int user_id = utils.getUserIdFromCookie(request);
-    if (user_id == 0 )throw new UserException("用户未登录");
+        int user_id = utils.getUserIdFromCookie(request);
+        if (user_id == 0 )throw new UserException("用户未登录");
 
-    int avatar_id = iAvatarService.AddAvatar(user_id);
-    uploadTool.uploadAvatar(avatar , avatar_id);
-    iAvatarService.SetMainAvatar(user_id,avatar_id);
+        int avatar_id = iAvatarService.AddAvatar(user_id);
+        uploadTool.uploadAvatar(avatar , avatar_id);
+        iAvatarService.SetMainAvatar(user_id,avatar_id);
     }
 
-//    @GetMapping(value = "/getUserId")
-//    public Integer getUserId(HttpServletRequest request){
-//        return 0;
-//        //return utils.getUserIdFromCookie(request);
-//    }
+    @GetMapping(value = "/getCookieContent/{key}")
+    public Object getUserId(@PathVariable("key")String key, HttpServletRequest request){
+        //return 0;
+        return utils.getObejctFromSession(request, key);
+    }
 }
 
 
