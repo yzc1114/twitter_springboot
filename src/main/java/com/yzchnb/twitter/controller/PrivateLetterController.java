@@ -55,8 +55,8 @@ public class PrivateLetterController {
 
     }
 
-    @PostMapping("/queryPrivateLetters/{user_id}")
-    @ApiOperation("查询和某用户的私信")
+    @PostMapping("/queryForMe")
+    @ApiOperation("查询发送给自己的私信列表")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "user_id",value = "用户ID",required = true)
     })
@@ -67,5 +67,27 @@ public class PrivateLetterController {
             if (userId == 0) throw new UserException("用户未登录");
             return iPrivateLetterService.QueryPrivateLetters(user_id,range.startFrom,range.limitation);
 
+    }
+
+    @PostMapping("/queryLatestContact")
+    @ApiOperation("查询最近给自己发过私信的人")
+    public ArrayList QueryLatestContact(@RequestBody Range range,
+                                        HttpServletRequest request) throws UserException{
+        int userId = utils.getUserIdFromCookie(request);
+        if (userId==0) throw new UserException("用户未登录");
+        return iPrivateLetterService.QueryLatestContact(userId,range.startFrom,range.limitation);
+    }
+
+    @PostMapping("/querySpecified/{opposingId}")
+    @ApiOperation("查询自己和某人的所有私信列表")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "opposingId",value = "对方ID",required = true)
+    })
+    public ArrayList QuerySpecified(@RequestBody Range range,
+                                    @PathVariable int opposingId,
+                                    HttpServletRequest request)throws UserException{
+        int userId = utils.getUserIdFromCookie(request);
+        if (userId==0) throw new UserException("用户未登录");
+        return iPrivateLetterService.QuerySpecified(userId,opposingId,range.startFrom,range.limitation);
     }
 }
