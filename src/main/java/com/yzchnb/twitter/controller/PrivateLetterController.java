@@ -34,7 +34,7 @@ public class PrivateLetterController {
             @ApiImplicitParam(name = "content", value = "私信内容", required = true)
     })
     public void AddPrivateLetter(@PathVariable()int receiver_user_id,
-                          @RequestParam("content")String content,
+                          @RequestBody()String content,
                           HttpServletRequest request) throws UserException{
         int sender_user_id = utils.getUserIdFromCookie(request);
 
@@ -58,14 +58,13 @@ public class PrivateLetterController {
     @PostMapping("/queryForMe")
     @ApiOperation("查询发送给自己的私信列表")
     @ApiImplicitParams({
-            @ApiImplicitParam(name = "user_id",value = "用户ID",required = true)
+            @ApiImplicitParam(name = "userId",value = "用户ID",required = true)
     })
-    public ArrayList QueryPrivateLetters(@PathVariable() int user_id,
-                                  @RequestBody Range range, HttpServletRequest request) throws UserException{
+    public ArrayList QueryPrivateLetters(@RequestBody Range range, HttpServletRequest request) throws UserException{
         int userId = utils.getUserIdFromCookie(request);
 
             if (userId == 0) throw new UserException("用户未登录");
-            return iPrivateLetterService.QueryPrivateLetters(user_id,range.startFrom,range.limitation);
+            return iPrivateLetterService.QueryPrivateLetters(userId,range.startFrom,range.limitation);
 
     }
 
@@ -88,6 +87,6 @@ public class PrivateLetterController {
                                     HttpServletRequest request)throws UserException{
         int userId = utils.getUserIdFromCookie(request);
         if (userId==0) throw new UserException("用户未登录");
-        return iPrivateLetterService.QuerySpecified(userId,opposingId,range.startFrom,range.limitation);
+        return iPrivateLetterService.QueryPrivateLetters(opposingId,range.startFrom,range.limitation);
     }
 }
