@@ -8,6 +8,7 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
+import oracle.jdbc.proxy.annotation.Post;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -27,7 +28,7 @@ public class PrivateLetterController {
     private Utils utils;
 
 
-    @PostMapping("/addPrivateLetter/{receiver_user_id}")
+    @PostMapping("/send/{receiver_user_id}")
     @ApiOperation("发送私信")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "receiver_user_id", value = "接收私信的用户ID", required = true),
@@ -43,7 +44,7 @@ public class PrivateLetterController {
 
     }
 
-    @GetMapping("/deletePrivateLetter/{private_letter_id}")
+    @GetMapping("/delete/{private_letter_id}")
     @ApiOperation("删除私信")
     @ApiImplicitParam(name = "private_letter_id",value = "私信ID",required = true)
     public void DeletePrivateLetter(@PathVariable() int private_letter_id,
@@ -55,7 +56,7 @@ public class PrivateLetterController {
 
     }
 
-    @PostMapping("/queryPrivateLetters/{user_id}")
+    @PostMapping("/queryForMe/{user_id}")
     @ApiOperation("查询和某用户的私信")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "user_id",value = "用户ID",required = true)
@@ -67,5 +68,21 @@ public class PrivateLetterController {
             if (userId == 0) throw new UserException("用户未登录");
             return iPrivateLetterService.QueryPrivateLetters(user_id,range.startFrom,range.limitation);
 
+    }
+
+    @PostMapping("/queryLatestContact")
+    @ApiOperation("查询最近联系人")
+    public ArrayList queryLatestContact(@RequestBody Range range, HttpServletRequest request){
+        int userId = utils.getUserIdFromCookie(request);
+        if(userId == 0) throw new UserException("用户为登录");
+        return iPrivateLetterService.QueryLatestContact(userId, range.startFrom, range.limitation);
+    }
+
+    @PostMapping("/querySpecified/{contact_id}")
+    @ApiOperation("查询和某人的聊天")
+    public ArrayList querySpecified(@PathVariable int contact_id, @RequestBody Range range, HttpServletRequest request){
+        int userId = utils.getUserIdFromCookie(request);
+        if(userId == 0) throw new UserException("用户为登录");
+        return iPrivateLetterService.QuerySpecified(userId, contact_id, range.startFrom, range.limitation);
     }
 }

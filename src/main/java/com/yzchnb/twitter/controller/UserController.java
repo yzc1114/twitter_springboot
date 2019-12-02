@@ -133,7 +133,7 @@ public class UserController {
     }
 
     @GetMapping(value = "/getCookieContent/{key}")
-    public Object getUserId(@PathVariable("key")String key, HttpServletRequest request){
+    public Object getCookieContent(@PathVariable("key")String key, HttpServletRequest request){
         //return 0;
         return utils.getObejctFromSession(request, key);
     }
