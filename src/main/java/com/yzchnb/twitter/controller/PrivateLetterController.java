@@ -1,6 +1,7 @@
 package com.yzchnb.twitter.controller;
 
 import com.yzchnb.twitter.configs.ExceptionDefinition.UserException;
+import com.yzchnb.twitter.entity.entityforController.PrivateLetter;
 import com.yzchnb.twitter.entity.entityforController.Range;
 import com.yzchnb.twitter.service.IPrivateLetterService;
 import com.yzchnb.twitter.utils.Utils;
@@ -34,12 +35,12 @@ public class PrivateLetterController {
             @ApiImplicitParam(name = "content", value = "私信内容", required = true)
     })
     public void AddPrivateLetter(@PathVariable()int receiver_user_id,
-                          @RequestBody()String content,
+                          @RequestBody() PrivateLetter content,
                           HttpServletRequest request) throws UserException{
         int sender_user_id = utils.getUserIdFromCookie(request);
 
             if (sender_user_id == 0) throw new UserException("用户未登录");
-            iPrivateLetterService.AddPrivateLetter(sender_user_id,receiver_user_id,content);
+            iPrivateLetterService.AddPrivateLetter(sender_user_id,receiver_user_id,content.getContent());
 
     }
 
@@ -87,6 +88,6 @@ public class PrivateLetterController {
                                     HttpServletRequest request)throws UserException{
         int userId = utils.getUserIdFromCookie(request);
         if (userId==0) throw new UserException("用户未登录");
-        return iPrivateLetterService.QueryPrivateLetters(opposingId,range.startFrom,range.limitation);
+        return iPrivateLetterService.QuerySpecified(userId,opposingId,range.startFrom,range.limitation);
     }
 }
