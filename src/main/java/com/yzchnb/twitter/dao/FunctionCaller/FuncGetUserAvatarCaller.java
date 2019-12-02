@@ -14,9 +14,9 @@ public class FuncGetUserAvatarCaller extends FuncBaseCaller {
 	@Autowired
 	private FuncGetUserAvatarMapper funcGetUserAvatarMapper;
 
-	public java.lang.Integer call(java.lang.Integer userId){
+	public java.lang.Integer call(java.lang.Integer userid){
 		Map map = new HashMap();
-		map.put("userId", userId);
+		map.put("userid", userid);
 		return resolveInteger(funcGetUserAvatarMapper, map);
 	}
 }

@@ -28,6 +28,10 @@ public class Utils {
     private FuncGetTopicIdByNameCaller funcGetTopicIdByNameCaller;
     @Resource
     private FuncGetUserIdByNameCaller funcGetUserIdByNameCaller;
+    @Resource
+    private FuncCheckUserNicknameExistCaller funcCheckUserNicknameExistCaller;
+    @Resource
+    private FuncCheckUserinfoExistCaller funcCheckUserinfoExistCaller;
 
     public Integer getUserIdFromCookie(HttpServletRequest request) {
         Object value=request.getSession(true).getAttribute("userId");
@@ -215,6 +219,7 @@ public class Utils {
                 result.add(message.substring(start));
             }
         }
+        result.removeIf((n) -> 0 == funcCheckUserNicknameExistCaller.call(n));
         return result;
     }
 }

@@ -25,7 +25,7 @@ public class AtUserServiceImpl implements IAtUserService {
     private Utils utils;
     @Override
     public ArrayList Query(int user_id, int start_from, int limitation) {
-        ArrayList<Map> message_ids=funcQueryMessageAtUserCaller.call(user_id,start_from,limitation);
+        ArrayList<Map> message_ids= funcQueryMessageAtUserCaller.call(user_id,start_from,limitation);
         return utils.getMessageFromArray(message_ids);
     }
 

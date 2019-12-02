@@ -122,13 +122,13 @@ public class MessageController {
 
     }
 
-    @PostMapping("/retweet")
+    @PostMapping("/transpond")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "message_content",value = "推特内容",required = true),
-            @ApiImplicitParam(name = "message_source_is_transponder",value = "是否转发",required = true),
+            @ApiImplicitParam(name = "message_source_is_transpond",value = "是否转发",required = true),
             @ApiImplicitParam(name = "message_transpond_message_id",value = "转发推特的ID",required = true)
     })
-    public Integer TransponderMessage( MessageForTransponder message,HttpServletRequest request) throws UserException {
+    public Integer TransponderMessage(@RequestBody MessageForTransponder message,HttpServletRequest request) throws UserException {
         int userId = utils.getUserIdFromCookie(request);
         // 登录验证失败时的返回
 

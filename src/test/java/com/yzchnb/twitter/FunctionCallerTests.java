@@ -263,7 +263,8 @@ public class FunctionCallerTests {
 
     @Test
     public void testFuncQueryMessageAtUserCaller(){
-        funcQueryMessageAtUserCaller.call(64,1,5);
+        ArrayList res = funcQueryMessageAtUserCaller.call(1,0,10);
+        System.out.println(res);
     }
 
     @Test

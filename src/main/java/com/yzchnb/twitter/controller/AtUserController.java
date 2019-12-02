@@ -36,7 +36,7 @@ public class AtUserController {
             if (user_id == 0)
                 throw new UserException("用户未登录！");
 
-            return iAtUserService.Query(user_id,range.startFrom,range.limitation);
+            return iAtUserService.Query(user_id, range.startFrom, range.limitation);
         }
         catch (Exception e){
             e.printStackTrace();
