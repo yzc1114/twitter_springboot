@@ -125,7 +125,7 @@ public class UserController {
                              HttpServletRequest request) throws IOException {
 
         int user_id = utils.getUserIdFromCookie(request);
-        if (user_id == 0 )throw new UserException("用户未登录");
+        if (user_id == 0) throw new UserException("用户未登录");
 
         int avatar_id = iAvatarService.AddAvatar(user_id);
         uploadTool.uploadAvatar(avatar , avatar_id);
